@@ -1,0 +1,2 @@
+# Internal LLM / rebuild artifacts (do not upload to Shopify)
+.rebuild/
