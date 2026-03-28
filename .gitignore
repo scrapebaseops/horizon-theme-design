@@ -1,2 +1,5 @@
 .DS_Store
 .shopify/metafields.json
+
+# Purchased Lexington theme (nested clone). Use submodule or remove inner .git if you want it in this repo.
+lexington-reference/sandstone_v6/

@@ -10,7 +10,7 @@ Read **`docs/PROJECT_CONTEXT.md`** for the full strategy. Summary for every sess
 ## Roles
 
 - **`lexington-reference/`** (when present): **read-only** visual evidence—typography, spacing, density, radii, containers, components. Not a codebase to port.
-- **`horizon-theme/`**: **only** storefront implementation. Horizon-native Liquid, settings, CSS variables, snippets—no transplant of Lexington framework structure.
+- **`horizon-themes/<variant>/`** (`claude`, `openai`, or `gemini`): **only** storefront implementation for that LLM experiment. Horizon-native Liquid, settings, CSS variables, snippets—no transplant of Lexington framework structure. Use **one variant at a time** unless comparing; say which folder you are editing.
 
 ## Goal
 
@@ -19,7 +19,7 @@ Read **`docs/PROJECT_CONTEXT.md`** for the full strategy. Summary for every sess
 ## Required order (do not skip)
 
 1. **Audit / map** reference design system (document in `docs/` as needed).
-2. **Benchmark pages**—same content structure in reference + Horizon.
+2. **Benchmark pages**—same content structure in reference + Horizon (per active `horizon-themes/<variant>/`).
 3. **Screenshot loop**—same viewport, compare, fix highest-impact mismatches on Horizon only; repeat until strong match.
 4. **Tokens** (type, spacing, color roles, radii, shadows, containers).
 5. **Primitives** (buttons, cards, forms, surfaces—Horizon-native).
@@ -38,4 +38,4 @@ If parity conflicts with native architecture, prefer the sound Horizon approach 
 
 ## Edit scope
 
-Change **Horizon only** unless the user explicitly allows reference edits (e.g. adding a benchmark template there).
+Change **Horizon variants only** (`horizon-themes/...`) unless the user explicitly allows reference edits (e.g. benchmark templates there).

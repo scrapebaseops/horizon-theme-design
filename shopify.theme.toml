@@ -1,7 +1,22 @@
 # Shopify CLI theme environments — https://shopify.dev/docs/storefronts/themes/tools/cli/environments
-# Run commands from the repository root. The theme files live in ./horizon-theme only.
+# Run from repo root. Three LLM experiment copies of Horizon; each has its own unpublished theme on the dev store.
 
 [environments.default]
 store = "theme-dev-store-2037.myshopify.com"
 theme = "159526027522"
-path = "horizon-theme"
+path = "horizon-themes/claude"
+
+[environments.claude]
+store = "theme-dev-store-2037.myshopify.com"
+theme = "159526027522"
+path = "horizon-themes/claude"
+
+[environments.openai]
+store = "theme-dev-store-2037.myshopify.com"
+theme = "159526519042"
+path = "horizon-themes/openai"
+
+[environments.gemini]
+store = "theme-dev-store-2037.myshopify.com"
+theme = "159526584578"
+path = "horizon-themes/gemini"

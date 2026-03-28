@@ -6,7 +6,7 @@ This document is the **source of truth** for what this project is trying to achi
 
 | Generic name (docs / mental model) | Location in this repo |
 |-----------------------------------|------------------------|
-| Horizon implementation target     | **`horizon-theme/`** (Shopify theme; only this is edited for the storefront) |
+| Horizon implementation target     | **`horizon-themes/<variant>/`** — `claude`, `openai`, or `gemini`; each is a full theme copy with its own unpublished Shopify theme (see **`docs/horizon-themes.md`**) |
 | Lexington reference (read-only)   | **`lexington-reference/`** — add when available; do not treat as code to port |
 | Project docs, parity logs, plans  | **`docs/`** (this folder) |
 
@@ -138,7 +138,7 @@ The user specifically wants to avoid a workflow where every future element requi
 The user is working with:
 
 - a Shopify **development store**
-- a local copy of a **Horizon theme** (`horizon-theme/`)
+- local copies of a **Horizon theme** under **`horizon-themes/`** (one subdirectory per LLM / experiment)
 - a local copy of a purchased **Lexington reference theme** (`lexington-reference/` when present)
 - agent-assisted coding tools such as **Claude Code** and **Cursor**
 
