@@ -1,0 +1,16 @@
+---
+description: Shopify Horizon theme lives in horizon-theme/; CLI runs from repo root
+alwaysApply: true
+---
+
+# Shopify theme layout (this repo)
+
+- **Theme root:** `horizon-theme/` — all Liquid, `assets/`, `config/`, `layout/`, `locales/`, `sections/`, `snippets/`, `templates/`, `blocks/` live here only. Edits to the storefront belong under this path.
+- **Repo root:** `shopify.theme.toml`, `README.md`, and future non-theme work (docs, design, scripts). Do **not** add ad-hoc theme files at repo root.
+- **Shopify CLI:** Run commands from the **repository root** (parent of `horizon-theme/`), not from inside `horizon-theme/`, so `path` in `shopify.theme.toml` is not doubled.
+  - Prefer: `shopify theme dev`, `shopify theme push`, `shopify theme pull`, `shopify theme list` with **`-e default`** (uses `path = "horizon-theme"` in `shopify.theme.toml`).
+  - Explicit fallback: `--path horizon-theme` plus `-s theme-dev-store-2037.myshopify.com` / `-t 159526027522` as needed.
+- **Password storefront:** If `theme dev` prompts for the storefront password, use `--store-password` or run in an interactive terminal; do not commit passwords.
+- **Ignoring uploads:** Paths to exclude from sync go in **`horizon-theme/.shopifyignore`**, not at repo root (unless CLI docs say otherwise for this layout).
+
+When suggesting terminal commands or file paths, assume this structure unless the user says otherwise.
