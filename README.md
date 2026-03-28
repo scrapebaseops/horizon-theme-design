@@ -2,14 +2,23 @@
 
 This repository holds the **Horizon** Shopify theme plus room for non-theme project files. Only the **`horizon-theme/`** directory is a valid Shopify theme and should be what you sync with Shopify.
 
+## Project goals (Lexington → Horizon)
+
+We are recreating the **visual design language** of a purchased **Lexington** theme inside **Horizon**—without porting Lexington’s framework. The target is **tight visual parity** and a **reusable design system** in Horizon (tokens, primitives, then sections). Full strategy, benchmark workflow, and screenshot loops: **`docs/PROJECT_CONTEXT.md`**.
+
+- **Implementation:** `horizon-theme/`
+- **Visual reference (read-only):** `lexington-reference/` — add the Lexington theme files here
+
 ## Layout
 
 ```text
 .
 ├── horizon-theme/         # Shopify theme (Liquid, assets, config, etc.) — this is what dev/push/pull targets
+├── lexington-reference/   # Purchased Lexington theme for reference (not synced to Shopify)
+├── docs/                  # Plans, audits, parity notes (PROJECT_CONTEXT.md)
 ├── shopify.theme.toml     # Shopify CLI defaults: store, theme id, path
 ├── README.md
-└── …                      # Add sibling folders for docs, design, tooling, etc. (not uploaded unless you misconfigure CLI)
+└── …                      # Other non-theme folders as needed
 ```
 
 - **`horizon-theme/`** — Must keep the [standard Shopify theme structure](https://shopify.dev/docs/storefronts/themes/tools/cli#directory-structure) (`assets`, `blocks`, `config`, `layout`, `locales`, `sections`, `snippets`, `templates`).

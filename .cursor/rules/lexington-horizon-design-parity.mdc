@@ -1,0 +1,41 @@
+---
+description: Lexington reference → Horizon visual parity via benchmarks, tokens, no porting
+alwaysApply: true
+---
+
+# Lexington → Horizon design parity
+
+Read **`docs/PROJECT_CONTEXT.md`** for the full strategy. Summary for every session:
+
+## Roles
+
+- **`lexington-reference/`** (when present): **read-only** visual evidence—typography, spacing, density, radii, containers, components. Not a codebase to port.
+- **`horizon-theme/`**: **only** storefront implementation. Horizon-native Liquid, settings, CSS variables, snippets—no transplant of Lexington framework structure.
+
+## Goal
+
+**True visual parity** (proportions, rhythm, component feel), not “same font and primary color.” Avoid one-off scattered CSS; build toward a **reusable design system**.
+
+## Required order (do not skip)
+
+1. **Audit / map** reference design system (document in `docs/` as needed).
+2. **Benchmark pages**—same content structure in reference + Horizon.
+3. **Screenshot loop**—same viewport, compare, fix highest-impact mismatches on Horizon only; repeat until strong match.
+4. **Tokens** (type, spacing, color roles, radii, shadows, containers).
+5. **Primitives** (buttons, cards, forms, surfaces—Horizon-native).
+6. **Sections / templates**, then QA with screenshots where useful.
+
+Do **not** jump straight to full homepage or broad section rewrites before benchmark parity is proven.
+
+## Priority when tradeoffs appear
+
+1. Visual fidelity to reference  
+2. Horizon / Shopify-native structure  
+3. Reusable system, maintainability, merchant editability  
+4. Low CSS chaos  
+
+If parity conflicts with native architecture, prefer the sound Horizon approach and **document the tradeoff** (e.g. in `docs/`).
+
+## Edit scope
+
+Change **Horizon only** unless the user explicitly allows reference edits (e.g. adding a benchmark template there).
