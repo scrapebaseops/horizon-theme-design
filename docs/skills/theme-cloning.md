@@ -351,3 +351,79 @@ Do not waste time explaining obvious basics.
 
 The goal is not to clone the reference theme’s codebase.
 The goal is to recreate its visual system and UX feel inside Horizon in a way that is clean, reusable, visually verified, and native to Shopify’s theme architecture.
+
+## Parallel execution addendum (v2)
+
+Use this section when running multiple LLMs in parallel against variant folders such as:
+- `horizon-themes/claude/`
+- `horizon-themes/openai/`
+- `horizon-themes/gemini/`
+
+### Required arguments
+
+Pass these arguments in the prompt:
+- `THEME_ROOT` (required): active variant folder (only writable path)
+- `REFERENCE_ROOT` (required): read-only reference path
+- `EXECUTION_MODE` (required): `plan_only` or `full_pipeline`
+
+### Scope and write policy
+
+- Edits are allowed only under `THEME_ROOT`.
+- Treat `REFERENCE_ROOT` as read-only unless explicitly approved.
+- Do not write planning docs to repo-root `docs/` during parallel runs.
+- Store all run artifacts under `THEME_ROOT/.rebuild/`.
+- Add `.rebuild/` to `THEME_ROOT/.shopifyignore`.
+
+### Deliverable path overrides (parallel mode)
+
+When `THEME_ROOT` is set:
+- `docs/theme-mapping.md` -> `THEME_ROOT/.rebuild/theme-mapping.md`
+- `docs/rebuild-plan.md` -> `THEME_ROOT/.rebuild/rebuild-plan.md`
+- `docs/benchmark-spec.md` -> `THEME_ROOT/.rebuild/benchmark-spec.md`
+- `docs/visual-parity-log.md` -> `THEME_ROOT/.rebuild/visual-parity-log.md`
+- Add `THEME_ROOT/.rebuild/STATUS.md`
+- Add `THEME_ROOT/.rebuild/run-manifest.json`
+
+### Run-manifest minimum fields
+
+`run-manifest.json` must contain:
+- `theme_root`
+- `reference_root`
+- `execution_mode`
+- `current_phase`
+- `status`
+- `last_updated_utc`
+- `viewports`
+- `best_loop`
+- `top_mismatches`
+- `blockers`
+
+### Screenshot SOP (required in full_pipeline mode)
+
+- Fixed viewports: `1440x900`, `768x1024`, `390x844`
+- Same content and zoom each loop
+- Save screenshots to `THEME_ROOT/.rebuild/screenshots/loop-XX/`
+- For each loop log:
+  - top mismatches
+  - files edited
+  - improvement notes
+
+### Default behavior by execution mode
+
+- `plan_only`: complete Phase 1 outputs and stop.
+- `full_pipeline`: execute phases 1-7, stopping only on blocker or stop criteria.
+
+### Stop criteria (full_pipeline)
+
+Do not claim completion unless:
+1. Benchmark parity loops were run at all required viewports.
+2. At least 5 loops are documented in `visual-parity-log.md`.
+3. Remaining top mismatches are minor and explicit.
+4. Token layer + shared primitives are implemented and reused.
+5. `STATUS.md` includes done/next/tradeoffs.
+
+### Git policy for parallel runs
+
+- Do not create phase-by-phase commits.
+- Keep checkpoints in `.rebuild` artifacts.
+- Create a single final commit per variant after review.
