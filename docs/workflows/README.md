@@ -194,13 +194,14 @@ Open `workflow-2-design-replication/ENTRY.md` and follow it from start to finish
 
 The agent will autonomously build your design system and replicate the visual design. This is the longest phase and will iteratively refine until visual parity is achieved.
 
-### Step 6: Deploy (Optional)
+### Step 6: Review Locally
 
 Once complete, your variant theme in `horizon-themes/my-project/` is a working Shopify theme. You can:
 
-- Test it locally with `shopify theme dev -e my-project`
-- Push it to a dev store with `shopify theme push -e my-project`
+- Test it locally with `shopify theme dev -e my-project --store-password "reufia"`
 - Use it as a base for further customization
+
+> Deploying to Shopify (`theme push`, `git push`) is a human-only decision — agents never push.
 
 ## The Sub-Skills
 

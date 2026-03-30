@@ -407,7 +407,7 @@ The Shopify CLI will ask for authentication:
 ```bash
 shopify theme dev
 # ↓ Asks for Shopify shop
-# Please enter your shop URL: your-dev-store.myshopify.com
+# Please enter your shop URL: theme-dev-store-2038.myshopify.com
 # ↓ Asks for authentication
 # Opens browser → You log in to Shopify → Returns auth token
 ```

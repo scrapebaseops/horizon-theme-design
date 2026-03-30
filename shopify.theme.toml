@@ -2,33 +2,39 @@
 # Run from repo root. LLM variants (claude/openai/gemini) plus other copies; each maps to a theme on the dev store.
 # `horizon` = pristine upstream Horizon from https://github.com/Shopify/horizon (local path: horizon-themes/default).
 # `lettii-1-1` = copy of pristine Horizon for Lettii 1.1 (local path: horizon-themes/lettii-1.1). CLI: -e lettii-1-1
+#
+# Store: theme-dev-store-2038.myshopify.com  |  Password: reufia
+# NOTE: Theme IDs below are from the OLD store (2037) and need updating.
+#       Run `shopify theme push -e <env> --unpublished` to create themes on the new store,
+#       then update the theme IDs here. Or remove the `theme` key to let `shopify theme dev`
+#       create a temporary dev theme automatically.
 
 [environments.horizon]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159549653250"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # push horizon-themes/default to new store and record ID
 path = "horizon-themes/default"
 
 [environments.default]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159526027522"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # push horizon-themes/claude to new store and record ID
 path = "horizon-themes/claude"
 
 [environments.claude]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159526027522"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # same as default
 path = "horizon-themes/claude"
 
 [environments.openai]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159526519042"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # push horizon-themes/openai to new store and record ID
 path = "horizon-themes/openai"
 
 [environments.gemini]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159526584578"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # push horizon-themes/gemini to new store and record ID
 path = "horizon-themes/gemini"
 
 [environments.lettii-1-1]
-store = "theme-dev-store-2037.myshopify.com"
-theme = "159583928578"
+store = "theme-dev-store-2038.myshopify.com"
+# theme = "TODO" # push horizon-themes/lettii-1.1 to new store and record ID
 path = "horizon-themes/lettii-1.1"

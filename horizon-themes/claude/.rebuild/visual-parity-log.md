@@ -172,7 +172,7 @@ All structural sections match Sandstone's layout patterns. Color scheme, typogra
 
 ### Reference Setup
 - Sandstone v6 running via `npm run dev` on `localhost:4321`
-- Claude theme previewed via `https://theme-dev-store-2037.myshopify.com/?preview_theme_id=159526027522`
+- Claude theme previewed via local `shopify theme dev -e claude` (store: theme-dev-store-2038.myshopify.com)
 
 ### Top Mismatches Identified
 

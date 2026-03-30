@@ -637,7 +637,7 @@ This page is:
 - **A test page for the design system:** All components in one place makes inconsistencies obvious
 - **A merchant reference:** Can be locked/hidden but useful for theme editor understanding
 
-Access it via: `https://your-dev-store.myshopify.com/pages/design-system`
+Access it via: `https://theme-dev-store-2038.myshopify.com/pages/design-system` (password: `reufia`)
 
 ## Process for Building
 
