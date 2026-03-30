@@ -8,7 +8,7 @@
 
 **Planning Date**: [DATE]
 
-**Purpose**: Master reference for all pages, shared components, section reuse patterns, and theme settings across the entire store.
+**Purpose**: Master reference for all pages, shared components, section reuse patterns, and non-visual theme configuration needs across the entire store.
 
 ---
 
@@ -93,16 +93,16 @@
 
 <!-- Show which section types appear on which pages. This identifies reuse opportunities and build priorities. Sections used on many pages should be built first. -->
 
-| Section Type | Home | Product | Collection | Cart | Search | 404 | About | Contact | FAQ | Blog | Article |
-|-------------|------|---------|-----------|------|--------|-----|-------|---------|-----|------|---------|
-| [PLACEHOLDER: e.g., "Hero/Banner"] | X | | | | | | X | | | | |
-| [PLACEHOLDER: e.g., "Featured Collection"] | X | | | | | | | | | | |
-| [PLACEHOLDER: e.g., "Rich Text"] | X | | | | | X | X | X | | | |
-| [PLACEHOLDER: e.g., "Image + Text"] | X | | | | | | X | | | | |
-| [PLACEHOLDER: e.g., "Testimonials"] | X | X | | | | | | | | | |
-| [PLACEHOLDER: e.g., "FAQ Accordion"] | | X | | | | | | | X | | |
-| [PLACEHOLDER: e.g., "Newsletter Signup"] | X | | | | | | | | | X | X |
-| [PLACEHOLDER] | | | | | | | | | | | |
+| Section Type | Home | Product | Collection | Cart | Search | 404 | Password | List-Coll | About | Contact | FAQ | Blog | Article |
+|-------------|------|---------|-----------|------|--------|-----|----------|-----------|-------|---------|-----|------|---------|
+| [PLACEHOLDER: e.g., "Hero/Banner"] | X | | | | | | | | X | | | | |
+| [PLACEHOLDER: e.g., "Featured Collection"] | X | | | | | | | | | | | | |
+| [PLACEHOLDER: e.g., "Rich Text"] | X | | | | | X | | | X | X | | | |
+| [PLACEHOLDER: e.g., "Image + Text"] | X | | | | | | | | X | | | | |
+| [PLACEHOLDER: e.g., "Testimonials"] | X | X | | | | | | | | | | | |
+| [PLACEHOLDER: e.g., "FAQ Accordion"] | | X | | | | | | | | | X | | |
+| [PLACEHOLDER: e.g., "Newsletter Signup"] | X | | | | | | X | | | | | X | X |
+| [PLACEHOLDER] | | | | | | | | | | | | | |
 
 **Legend**: X = Section appears on this page
 
@@ -175,28 +175,27 @@
 
 ---
 
-## Theme Settings Requirements
+## Theme Configuration Needs
 
-### Colors
-- [PLACEHOLDER: E.g., "Primary brand color — buttons, links, accents"]
-- [PLACEHOLDER: E.g., "Secondary color — secondary buttons, subtle accents"]
-- [PLACEHOLDER: E.g., "Text color — body text default"]
-- [PLACEHOLDER: E.g., "Background color — page background"]
-- [PLACEHOLDER: E.g., "Surface color — card/section backgrounds"]
+### Shared Components & Navigation
+- [PLACEHOLDER: E.g., "Header menu selection and dropdown behavior"]
+- [PLACEHOLDER: E.g., "Footer link groups and native policy-link treatment"]
+- [PLACEHOLDER: E.g., "Announcement bar on/off and message rotation"]
 
-### Typography
-- [PLACEHOLDER: E.g., "Heading font family"]
-- [PLACEHOLDER: E.g., "Body font family"]
-- [PLACEHOLDER: E.g., "Base font size"]
-
-### Layout
-- [PLACEHOLDER: E.g., "Container max width"]
-- [PLACEHOLDER: E.g., "Section vertical padding (preset options)"]
-
-### Behavior
-- [PLACEHOLDER: E.g., "Sticky header (on/off)"]
-- [PLACEHOLDER: E.g., "Announcement bar (on/off)"]
+### Commerce Behavior
 - [PLACEHOLDER: E.g., "Cart type (page/drawer)"]
+- [PLACEHOLDER: E.g., "Sticky header on/off"]
+- [PLACEHOLDER: E.g., "Search behavior (predictive search, overlay, inline)"]
+
+### Content & Data Requirements
+- [PLACEHOLDER: E.g., "Product metafields needed for ingredients, size guide, or trust badges"]
+- [PLACEHOLDER: E.g., "Collection metadata or badges needed for navigation/product cards"]
+- [PLACEHOLDER: E.g., "FAQ, testimonials, or review data source expectations"]
+
+### Feature Toggles & Integrations
+- [PLACEHOLDER: E.g., "Newsletter popup enabled/disabled"]
+- [PLACEHOLDER: E.g., "Reviews integration expected"]
+- [PLACEHOLDER: E.g., "Localization / account features / app dependencies"]
 
 ---
 
@@ -216,7 +215,7 @@
 ## Implementation Priority
 
 ### Phase 1: Foundation
-[PLACEHOLDER: Shared components (header, footer), design tokens, homepage]
+[PLACEHOLDER: Shared components (header, footer), navigation, homepage foundation]
 
 ### Phase 2: Core Commerce
 [PLACEHOLDER: Product page, collection page, cart page]

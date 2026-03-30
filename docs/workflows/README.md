@@ -38,6 +38,7 @@ Workflow 1 answers the question: *What should each page contain and why?* The an
 - CRO/UX research findings for each trait that needs a specialized approach
 - A site structure plan (all pages, templates, navigation)
 - Detailed page content specifications with section-by-section structure and draft copy
+- A consistency review ensuring naming, voice, and cross-references are aligned
 - A site-wide content map showing component reuse and build priorities
 - A gap analysis against the Horizon theme (including page completeness verification)
 - Reusable micro-skills documenting trait-specific patterns for future projects
@@ -55,6 +56,7 @@ Workflow 1 answers the question: *What should each page contain and why?* The an
 - `research-findings.md` (best practices per trait)
 - `site-structure.md` (all pages, templates, navigation)
 - `pages/index.md`, `pages/product.md`, `pages/collection.md`, etc. (one per page, with draft copy)
+- `consistency-review.md` (cross-spec alignment report)
 - `site-content-map.md` (overview with section reuse matrix)
 - `gap-analysis.md` (what Horizon has vs. what needs building)
 - Templates in `workflow-1-content-planning/templates/` to ensure consistency
@@ -107,8 +109,9 @@ workflows/
 ├── workflow-1-content-planning/
 │   ├── ENTRY.md                       # Start here for content planning
 │   └── templates/
-│       ├── page-content-spec-template.md       # Template for single page docs
-│       └── site-content-map-template.md        # Template for overview
+│       ├── brand-brief-template.md            # Template for the brand brief input
+│       ├── page-content-spec-template.md      # Template for single page docs
+│       └── site-content-map-template.md       # Template for overview
 │
 ├── workflow-2-design-replication/
 │   ├── ENTRY.md                       # Start here for design replication
@@ -136,12 +139,8 @@ workflows/
     │   └── SKILL.md                   # Linting, theme-check, standards
     └── store-traits/                  # CRO/UX patterns by brand trait
         ├── README.md                  # How trait-based skills work
-        ├── subscription-model/        # Created on demand per trait
-        │   └── SKILL.md
-        ├── single-hero-product/
-        │   └── SKILL.md
-        └── [trait-slug]/              # Added as Workflow 1 encounters them
-            └── SKILL.md
+        └── [trait-slug]/              # Created on demand as Workflow 1 encounters traits
+            └── SKILL.md              # E.g., subscription-model/, single-hero-product/, etc.
 ```
 
 ## How to Get Started
@@ -174,7 +173,7 @@ Have the reference accessible during both workflows.
 
 ### Step 3: Fill Out the Brand Brief
 
-Fill out `workflow-1-content-planning/templates/brand-brief-template.md` thoroughly. This is the **sole source of context** — there's no live website to fall back on. The template covers brand identity, products, audience, competitors, conversion strategy, messaging, policies, and creative direction. The more detail you provide, the better the output.
+Fill out `workflow-1-content-planning/templates/brand-brief-template.md` thoroughly. This is the **sole source of context** — there's no live website to fall back on. The template covers brand identity, products, audience, competitors, conversion strategy, messaging, and policies. The more detail you provide, the better the output.
 
 ### Step 4: Run Workflow 1 (Content Planning)
 
@@ -287,7 +286,7 @@ Workflow 1 ensures that content and structure decisions are driven by the brand,
 
 ## Typical Timeline
 
-- **Workflow 1 (Content Planning):** 1–2 hours (depends on site complexity)
+- **Workflow 1 (Content Planning):** 2–4 hours (1–2 hours for simple stores with few traits; 3–5 hours for complex stores with many traits and 15+ pages)
 - **Workflow 2 (Design Replication):** 4–8 hours (iterative refinement takes time)
 - **Testing & adjustment:** 1–2 hours
 

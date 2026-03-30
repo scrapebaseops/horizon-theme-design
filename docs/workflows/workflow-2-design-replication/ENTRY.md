@@ -78,17 +78,23 @@ This is the output directory from Workflow 1.
 
 **Format:** Absolute path to the directory containing content plan markdown files
 
-**Expected contents:**
-- `site-content-map.md` (overview of all pages and components)
-- `site-structure.md` (pages, templates, navigation plan)
-- `brand-analysis.md` (brand traits and CRO priorities)
-- `_handoff-brief.md` (distilled brand context — compact reference for sub-agents)
-- `gap-analysis.md` (what exists vs. needs building in Horizon)
-- `pages/` subdirectory containing per-page specs (e.g., `pages/index.md`, `pages/product.md`, `pages/collection.md`)
+**Workflow 1 → Workflow 2 artifact contract:**
+
+| Artifact | Status for Workflow 2 | Purpose |
+|----------|------------------------|---------|
+| `site-content-map.md` | Required | Shared components, reuse matrix, and implementation priority |
+| `site-structure.md` | Required | Page inventory, templates, navigation plan, and policy/explainer decisions |
+| `gap-analysis.md` | Required | Horizon keep/modify/create decisions and page-inventory reconciliation |
+| `pages/` | Required | Per-page structure, content, and section mapping |
+| `brand-analysis.md` | Optional | Brand/trait context when the reference leaves gaps |
+| `research-findings.md` | Optional | CRO rationale for layout, hierarchy, and content ordering |
+| `_handoff-brief.md` | Optional | Compact brand context for sub-agents working in Workflow 2 |
+| `consistency-review.md` | Optional | Naming and voice decisions established during Workflow 1 |
+| `_status.md` | Internal | Execution metadata and staleness tracking; not needed to run Workflow 2 |
 
 **Requirements:**
-- All files must be readable
-- Must contain `site-content-map.md` and at least one page spec in `pages/`
+- All required artifacts must be readable
+- Must contain `site-content-map.md`, `site-structure.md`, `gap-analysis.md`, and at least one page spec in `pages/`
 
 **If you don't have this:**
 → Run Workflow 1 first. See `workflow-1-content-planning/ENTRY.md`.
@@ -98,6 +104,8 @@ This is the output directory from Workflow 1.
 ls -la $CONTENT_PLANS_PATH/*.md
 ls -la $CONTENT_PLANS_PATH/pages/*.md
 cat $CONTENT_PLANS_PATH/site-content-map.md | head -30
+cat $CONTENT_PLANS_PATH/site-structure.md | head -30
+cat $CONTENT_PLANS_PATH/gap-analysis.md | head -30
 ```
 
 ### 4. `REFERENCE_SERVER_URL` (Optional)
@@ -163,7 +171,7 @@ Before you begin, verify all inputs and environment:
 
 - [ ] `THEME_ROOT` points to a valid Horizon theme copy (not the default)
 - [ ] `REFERENCE_PATH` points to a valid reference (codebase, screenshots, or URL)
-- [ ] `CONTENT_PLANS_PATH` contains `site-content-map.md` and page specs in `pages/` from Workflow 1
+- [ ] `CONTENT_PLANS_PATH` contains all required Workflow 1 artifacts (`site-content-map.md`, `site-structure.md`, `gap-analysis.md`, and page specs in `pages/`)
 - [ ] You have write access to `$THEME_ROOT`
 - [ ] You have the Shopify CLI installed (`shopify --version`)
 - [ ] You have Node.js installed (`node --version`)
@@ -209,8 +217,17 @@ fi
 echo "Validating CONTENT_PLANS_PATH: $CONTENT_PLANS_PATH"
 test -d "$CONTENT_PLANS_PATH" || { echo "FAIL: Directory doesn't exist"; exit 1; }
 test -f "$CONTENT_PLANS_PATH/site-content-map.md" || { echo "FAIL: site-content-map.md not found"; exit 1; }
+test -f "$CONTENT_PLANS_PATH/site-structure.md" || { echo "FAIL: site-structure.md not found"; exit 1; }
+test -f "$CONTENT_PLANS_PATH/gap-analysis.md" || { echo "FAIL: gap-analysis.md not found"; exit 1; }
 test -d "$CONTENT_PLANS_PATH/pages" || { echo "FAIL: pages/ subdirectory not found"; exit 1; }
 ls "$CONTENT_PLANS_PATH/pages/"*.md > /dev/null 2>&1 || { echo "FAIL: No .md files found in pages/"; exit 1; }
+for optional_file in brand-analysis.md research-findings.md _handoff-brief.md consistency-review.md _status.md; do
+  if test -f "$CONTENT_PLANS_PATH/$optional_file"; then
+    echo "✓ Optional artifact present: $optional_file"
+  else
+    echo "• Optional artifact missing: $optional_file"
+  fi
+done
 echo "✓ CONTENT_PLANS_PATH is valid"
 
 echo ""

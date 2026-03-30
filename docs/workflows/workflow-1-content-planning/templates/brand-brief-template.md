@@ -68,9 +68,6 @@ Fields marked **(required)** must be filled in. Fields marked **(recommended)** 
 **Subscription / recurring purchase** (if applicable):
 [Is there a subscribe-and-save option? How does it work? What's the discount? What's the frequency? Can customers manage/pause/cancel? Is subscription the primary business model or an add-on?]
 
-**Gift cards** (if applicable):
-[Does the store sell gift cards? What denominations?]
-
 ---
 
 ## 3. The Customer

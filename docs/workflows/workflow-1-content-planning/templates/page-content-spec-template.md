@@ -26,6 +26,25 @@
 
 ---
 
+## Dynamic Data (for product, collection, blog, and article pages only)
+
+<!-- Skip this section for static content pages (about, contact, FAQ, etc.) -->
+
+**Shopify Data Objects Used**: [PLACEHOLDER: E.g., "product", "collection", "article" — list the primary Shopify objects this page depends on]
+
+**Key Dynamic Fields**:
+- [PLACEHOLDER: E.g., "product.title, product.description, product.images, product.price, product.variants"]
+- [PLACEHOLDER: E.g., "product.metafields.custom.ingredients (if applicable)"]
+
+**Variant/Filter Behavior** (if applicable):
+- [PLACEHOLDER: E.g., "Color swatches update product image; size dropdown shows availability per size"]
+
+**Conditional Sections** (if applicable):
+- [PLACEHOLDER: E.g., "Size guide section only appears for products tagged 'apparel'"]
+- [PLACEHOLDER: E.g., "Ingredient breakdown only appears if product.metafields.custom.ingredients exists"]
+
+---
+
 ## Sections (Top to Bottom)
 
 <!-- Duplicate this section block for each distinct content area on the page. Order matters — list sections exactly as they should appear from top to bottom. -->
@@ -69,6 +88,12 @@
 **Interactive Elements**:
 - [PLACEHOLDER: E.g., "CTA button hover state", "Image lightbox on click", "Video play button"]
 
+**Media Requirements**:
+- [PLACEHOLDER: E.g., "Hero image: 1920x800px lifestyle photo, must work with text overlay"]
+- [PLACEHOLDER: E.g., "3 product lifestyle photos, minimum 800x800px"]
+- [PLACEHOLDER: E.g., "Background video: 15–30s loop, no audio needed"]
+- [MERCHANT: Describe any media the merchant must provide]
+
 ---
 
 ### Section 2: [Section Name]
@@ -91,6 +116,9 @@
 **Responsive Notes**:
 - **Desktop**: [PLACEHOLDER]
 - **Mobile**: [PLACEHOLDER]
+
+**Media Requirements**:
+- [PLACEHOLDER]
 
 ---
 
