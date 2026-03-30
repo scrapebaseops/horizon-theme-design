@@ -630,7 +630,7 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
    - `$THEME_ROOT/.workflow/deviations.md` documents any intentional departures from the reference/design system
    - All phase deliverables documented
    - `.shopifyignore` includes `.workflow/`
-   - Theme is ready to push to Shopify (but not automatically pushed)
+   - Theme files are complete and verified locally (deployment is a human-only decision)
 
 ---
 
@@ -638,13 +638,17 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
 
 Follow these rules throughout the entire workflow. They are non-negotiable.
 
-### Rule 1: Never Push to Shopify
+### Rule 1: Local Only — Never Push to Shopify
 
-All work happens locally. The workflows never automatically `git push` or `shopify theme push`. You always make that decision manually.
+**You must NEVER run `shopify theme push`, `shopify theme publish`, or any command that writes to the remote Shopify store.** You must also never run `git push`. These are human-only actions performed outside this workflow.
 
-**Why:** This gives you full control. You can review changes, test locally, and decide when to sync.
+The only Shopify CLI commands you are allowed to run:
+- `shopify theme dev -e <variant>` — local preview (connects to the store read-only for assets/data)
+- `shopify theme check -e <variant>` — static analysis / linting
 
-**How to verify:** After completing the workflow, manually review the theme changes before pushing.
+Everything else (`push`, `publish`, `pull --force`, Admin API writes, etc.) is **strictly forbidden**.
+
+**Why:** The human operator reviews all changes locally and decides if/when to deploy. No agent may make that decision.
 
 ### Rule 2: Follow Code Architecture Skill
 
@@ -1010,13 +1014,14 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 ## Next Steps After Completion
 
-When the workflow is complete:
+When the workflow is complete, the **human operator** (not the agent) decides what to do next:
 
 1. **Review locally:** Run `shopify theme dev -e <variant>` from the **repo root** and manually test the store
-2. **Push to dev store (optional):** `shopify theme push -e <variant>` from the **repo root** (after reviewing changes)
-3. **Document any customizations:** If you made changes not covered by the workflow, document them
-4. **Archive the workflow files:** Consider moving `$THEME_ROOT/.workflow/` to a safe location for reference
-5. **Share the design system:** The design system files (`assets/design-system-*.css` and reference page) can be reused in future projects
+2. **Document any customizations:** If you made changes not covered by the workflow, document them
+3. **Archive the workflow files:** Consider moving `$THEME_ROOT/.workflow/` to a safe location for reference
+4. **Share the design system:** The design system files (`assets/design-system-*.css` and reference page) can be reused in future projects
+
+> **Deploying to Shopify is a human-only action.** The agent's job ends when local files are complete and verified. The human may then choose to run `shopify theme push` or `git push` at their discretion — those commands are never part of this workflow.
 
 ---
 
