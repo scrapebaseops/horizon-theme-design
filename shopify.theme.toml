@@ -1,6 +1,7 @@
 # Shopify CLI theme environments — https://shopify.dev/docs/storefronts/themes/tools/cli/environments
-# Run from repo root. Three LLM experiment copies of Horizon; each has its own unpublished theme on the dev store.
+# Run from repo root. LLM variants (claude/openai/gemini) plus other copies; each maps to a theme on the dev store.
 # `horizon` = pristine upstream Horizon from https://github.com/Shopify/horizon (local path: horizon-themes/default).
+# `lettii-1-1` = copy of pristine Horizon for Lettii 1.1 (local path: horizon-themes/lettii-1.1). CLI: -e lettii-1-1
 
 [environments.horizon]
 store = "theme-dev-store-2037.myshopify.com"
@@ -26,3 +27,8 @@ path = "horizon-themes/openai"
 store = "theme-dev-store-2037.myshopify.com"
 theme = "159526584578"
 path = "horizon-themes/gemini"
+
+[environments.lettii-1-1]
+store = "theme-dev-store-2037.myshopify.com"
+theme = "159583928578"
+path = "horizon-themes/lettii-1.1"
