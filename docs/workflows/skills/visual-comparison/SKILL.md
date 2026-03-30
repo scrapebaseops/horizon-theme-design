@@ -8,16 +8,36 @@ The feedback loop is iterative and methodical. Do not attempt to match an entire
 
 ## Available Tools
 
-Detect and use what's available in your environment:
+Detect and use what's available in your environment. **Prefer built-in browser tooling first** — it requires no installation and the agent can visually verify results directly. Only fall back to external tools if built-in tooling is unavailable.
 
-### Option 1: Playwright/Puppeteer (Recommended)
+### Option 1: Agent's Built-In Browser Tooling (Preferred)
 
-Install locally for CLI-based screenshot capture:
+If you have access to built-in browser tools (e.g., computer use, MCP browser tools, or similar internal capabilities), use them first. These are preferred because:
+
+- **Zero setup** — no installation required
+- **Direct visual verification** — the agent sees the rendered page, not just pixel data
+- **Interactive** — can hover, click, scroll, and verify states in real time
+- **Already available** — if the agent has browser access, it works immediately
+
+**Common built-in browser tool patterns:**
+```
+- Navigate to a URL
+- Resize the viewport to a target width/height
+- Take a screenshot (full page or region)
+- Scroll to a specific section
+- Interact with elements (hover, click) to verify states
+- Zoom into a region for detailed inspection
+```
+
+The exact tool names vary by agent environment (e.g., `mcp__browser__navigate`, `mcp__Claude_in_Chrome__navigate`, `computer` tool, etc.). At the start of the workflow, discover which browser tools are available by listing your tools or attempting a navigation.
+
+### Option 2: Playwright/Puppeteer (Fallback)
+
+If no built-in browser tools are available, install Playwright for CLI-based screenshot capture:
 
 ```bash
 npm install -g playwright
-# or
-npx playwright install
+npx playwright install chromium
 ```
 
 **Advantages:**
@@ -25,15 +45,15 @@ npx playwright install
 - Capture full-page screenshots
 - Element-specific screenshots via CSS selectors
 - Control viewport size precisely
-- Easy to compare programmatically
+- Automated pixel-diff comparison possible
 
 **Usage:**
 ```bash
 # Create a simple script to capture a page
 cat > screenshot.js << 'EOF'
-const { webkit } = require('playwright');
+const { chromium } = require('playwright');
 (async () => {
-  const browser = await webkit.launch();
+  const browser = await chromium.launch();
   const page = await browser.newPage();
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('http://127.0.0.1:9292', { waitUntil: 'networkidle' });
@@ -44,30 +64,23 @@ EOF
 node screenshot.js
 ```
 
-### Option 2: Claude in Chrome Browser Tools
+### Option 3: ImageMagick (Minimal Fallback)
 
-If browser access is available and Playwright is not:
-
-**Advantages:**
-- Visual verification in real-time
-- Can interact with the page before capturing
-- Can take cropped screenshots of specific regions
-
-**Usage:**
+If neither built-in browser tools nor Playwright are available, use ImageMagick for comparing pre-captured screenshots:
+```bash
+compare reference.png implementation.png -compose src diff.png
 ```
-1. Use mcp__Claude_in_Chrome__navigate to go to the URL
-2. Use mcp__Claude_in_Chrome__screenshot to capture
-3. Use mcp__Claude_in_Chrome__resize_window to set viewport
-4. Use mcp__Claude_in_Chrome__zoom to inspect details
-```
+This requires screenshots to be captured manually or by another means.
 
 ### Determine What's Available
 
-At the start of any visual comparison task:
+At the start of any visual comparison task, probe for tools in this order:
 
-1. Check if Playwright/Node is available: `which node && npm list -g playwright`
-2. If not available, check if browser tools are available: attempt `mcp__Claude_in_Chrome__tabs_context_mcp`
-3. Use whichever is available; prefer Playwright for speed
+1. **Check for built-in browser tooling first:** List available tools or attempt a browser navigation. If the agent has any built-in browser/screenshot capability, use it.
+2. **If no built-in browser:** Check if Playwright/Node is available: `which node && npx playwright --version`
+3. **If neither:** Check for ImageMagick (`convert --version`) and plan to capture screenshots manually or receive them from the user.
+
+Use whichever is available, following the preference order above. If multiple are available, prefer built-in browser tools for interactive verification and Playwright for batch/automated screenshots.
 
 ## Automated Screenshot & Comparison Tooling
 
@@ -541,27 +554,18 @@ async function captureScreenshot(url, outputFile, viewport = { width: 1440, heig
 node capture.js http://reference-url.com http://127.0.0.1:9292
 ```
 
-### Using Claude in Chrome
+### Using Built-In Browser Tools
 
-1. Navigate to the URL:
-   ```
-   use mcp__Claude_in_Chrome__navigate with the URL
-   ```
+The exact tool names vary by environment. The general pattern is:
 
-2. Resize the browser window to the target viewport:
-   ```
-   use mcp__Claude_in_Chrome__resize_window with width: 1440, height: 900 (or other viewport)
-   ```
+1. **Navigate** to the URL (reference or implementation)
+2. **Resize** the viewport to the target size (1440x900, 768x1024, or 390x844)
+3. **Wait** for the page to fully load (fonts, images, animations)
+4. **Screenshot** the full page or a specific region
+5. **Interact** with elements to verify hover/focus/active states
+6. **Zoom** into specific areas for detailed element-level comparison
 
-3. Wait for the page to fully load:
-   ```
-   use mcp__Claude_in_Chrome__screenshot (this captures once page loads)
-   ```
-
-4. For element-specific screenshots, use the zoom tool:
-   ```
-   use mcp__Claude_in_Chrome__zoom with the region coordinates to capture a specific area
-   ```
+For each comparison, capture both the reference and implementation at the same viewport size, then visually compare them. The agent can directly observe differences without needing automated pixel-diff tools.
 
 ### Cropping Screenshots
 

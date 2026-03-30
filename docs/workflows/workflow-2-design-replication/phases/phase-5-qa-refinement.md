@@ -828,7 +828,6 @@ This report documents the completion of Workflow 2: Design Replication. The proj
 - [x] FAQ Page
 - [x] Search Results
 - [x] 404 Error Page
-- [x] 500 Error Page
 - [x] Password/Maintenance Page
 
 ### Clone Pages (Reference)

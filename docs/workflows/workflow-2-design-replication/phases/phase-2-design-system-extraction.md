@@ -69,13 +69,15 @@ All files and CSS classes created in this phase use the project prefix from `THE
     },
     {
       "type": "font_picker",
-      "id": "type_heading_family",
-      "label": "Heading Font"
+      "id": "type_heading_font",
+      "label": "Heading Font",
+      "default": "assistant_n6"
     },
     {
       "type": "font_picker",
-      "id": "type_body_family",
-      "label": "Body Font"
+      "id": "type_body_font",
+      "label": "Body Font",
+      "default": "assistant_n4"
     },
     {
       "type": "range",
@@ -88,52 +90,25 @@ All files and CSS classes created in this phase use the project prefix from `THE
     },
     {
       "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "color_primary",
-      "label": "Primary Color"
-    },
-    {
-      "type": "color",
-      "id": "color_secondary",
-      "label": "Secondary Color"
-    },
-    {
-      "type": "color",
-      "id": "color_text_primary",
-      "label": "Text Primary"
-    },
-    {
-      "type": "color",
-      "id": "color_text_secondary",
-      "label": "Text Secondary"
-    },
-    {
-      "type": "color",
-      "id": "color_background",
-      "label": "Background"
-    },
-    {
-      "type": "color",
-      "id": "color_border",
-      "label": "Border Color"
+      "content": "Status Colors (not covered by Horizon color schemes)"
     },
     {
       "type": "color",
       "id": "color_success",
-      "label": "Success Color"
+      "label": "Success Color",
+      "default": "#16A34A"
     },
     {
       "type": "color",
       "id": "color_error",
-      "label": "Error Color"
+      "label": "Error Color",
+      "default": "#DC2626"
     },
     {
       "type": "color",
       "id": "color_warning",
-      "label": "Warning Color"
+      "label": "Warning Color",
+      "default": "#D97706"
     },
     {
       "type": "header",
@@ -172,8 +147,8 @@ All files and CSS classes created in this phase use the project prefix from `THE
    ```
 
 4. **Use the token categories from Phase 1's design-tokens-map.md:**
-   - Add settings for all typography values (heading fonts, body font, sizes)
-   - Add settings for all color values (primary, secondary, text, backgrounds, status colors)
+   - Add settings for typography values not already covered by Horizon (heading fonts, body font, sizes)
+   - **Do NOT add flat color settings** — use Horizon's `color_scheme_group` system for primary, secondary, text, background, and border colors. Only add settings for status colors (success, error, warning) which Horizon schemes do not cover.
    - Add settings for spacing scale values
    - Add settings for border radius values
    - Add settings for shadow options
@@ -193,23 +168,36 @@ All files and CSS classes created in this phase use the project prefix from `THE
 ```liquid
 <!-- In snippets/{prefix}tokens.liquid -->
 
+{%- comment -%}
+  Font Loading — @font-face declarations must come before :root.
+  The font_face filter generates the @font-face CSS rule that loads the font
+  from Shopify's CDN. The .family property gives the font-family name string.
+  See Horizon's snippets/theme-styles-variables.liquid for a production example.
+{%- endcomment -%}
+
+{%- assign heading_font = settings.type_heading_font -%}
+{%- assign body_font = settings.type_body_font -%}
+
+{{ heading_font | font_face: font_display: 'swap' }}
+{{ heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+{{ body_font | font_face: font_display: 'swap' }}
+{{ body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+
 :root {
   {%- comment -%}
   Typography Tokens
   {%- endcomment -%}
-  --type-heading-family: {{ settings.type_heading_family | font_url | split: "/" | first }};
-  --type-body-family: {{ settings.type_body_family | font_url | split: "/" | first }};
+  --type-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+  --type-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
   --type-base-size: {{ settings.type_base_size }}px;
 
   {%- comment -%}
-  Color Tokens
+  Status Color Tokens (not covered by Horizon color schemes)
+  Primary, secondary, text, background, and border colors are provided by
+  Horizon's color scheme system — access them via Horizon's existing CSS
+  custom properties (--color-foreground, --color-background, etc.).
+  Only define custom properties for tokens Horizon does not cover.
   {%- endcomment -%}
-  --color-primary: {{ settings.color_primary }};
-  --color-secondary: {{ settings.color_secondary }};
-  --color-text-primary: {{ settings.color_text_primary }};
-  --color-text-secondary: {{ settings.color_text_secondary }};
-  --color-background: {{ settings.color_background }};
-  --color-border: {{ settings.color_border }};
   --color-success: {{ settings.color_success }};
   --color-error: {{ settings.color_error }};
   --color-warning: {{ settings.color_warning }};
@@ -276,52 +264,34 @@ All files and CSS classes created in this phase use the project prefix from `THE
 
 4. **Ensure load order:** This design-tokens snippet must load before any CSS that uses the variables.
 
-### 1.3 Wire Settings → Liquid Variables → CSS
+### 1.3 Wire Settings → CSS Custom Properties
 
-**Objective:** Create a system for accessing tokens throughout the theme.
+**Objective:** Ensure all tokens are available as CSS custom properties throughout the theme.
 
 **Instructions:**
 
-1. Update `theme.liquid` to expose token values to Liquid:
+The `{prefix}tokens.liquid` snippet (created in Step 1.2) already handles this — it reads from Shopify settings and outputs CSS custom properties inside a `:root` block. No separate Liquid variable assignments are needed.
 
+1. In `layout/theme.liquid`, render the tokens snippet inline before `{% render 'stylesheets' %}`:
 ```liquid
-{% assign token_color_primary = settings.color_primary %}
-{% assign token_color_secondary = settings.color_secondary %}
-{% assign token_spacing_base = settings.spacing_base %}
-{%- comment -%} etc. {%- endcomment -%}
+<style>{% render '{prefix}tokens' %}</style>
+{%- render 'stylesheets' -%}
 ```
 
-2. Alternatively, create a snippet `snippets/{prefix}tokens.liquid` that centralizes all token assignments:
-
-```liquid
-{%- comment -%}
-Design Tokens
-This snippet makes all design tokens available as Liquid variables
-Include this at the top of theme.liquid
-{%- endcomment -%}
-
-{%- assign token_color_primary = settings.color_primary -%}
-{%- assign token_color_secondary = settings.color_secondary -%}
-{%- assign token_color_text_primary = settings.color_text_primary -%}
-{%- assign token_spacing_base = settings.spacing_base -%}
-{%- assign token_border_radius = settings.border_radius_base -%}
-
-{%- comment -%}
-Typography tokens are accessed via settings directly
-{%- endcomment -%}
+2. Sections access tokens via CSS custom properties (not Liquid variables):
+```css
+/* In section CSS or primitives.css */
+.{prefix}hero { padding: var(--spacing-xl); }
 ```
 
-3. In `theme.liquid`, render this snippet:
+3. For the rare case where you need a token value in Liquid (e.g., inline styles for dynamic values), access settings directly:
 ```liquid
-{% render '{prefix}tokens' %}
-```
-
-4. Now sections can use tokens like:
-```liquid
-<div style="color: {{ token_color_primary }}; padding: var(--spacing-base);">
-  <!-- content -->
+<div style="background-color: {{ settings.color_success }};">
+  <!-- Only use inline styles for truly dynamic values that can't be CSS variables -->
 </div>
 ```
+
+4. **Color tokens from Horizon schemes** are available automatically via Horizon's existing CSS custom properties (e.g., `--color-foreground`, `--color-background`). Do not re-declare them in your tokens snippet.
 
 ### 1.4 Verify Token Application
 
@@ -352,21 +322,52 @@ Typography tokens are accessed via settings directly
 
 1. Open `config/settings_data.json`
 
-2. For every design token setting you added or mapped in Step 1.1, set the default value to match the extracted design tokens from Phase 1:
+2. For every design token setting you added or mapped in Step 1.1, set the default value to match the extracted design tokens from Phase 1. **Critically, this includes Horizon's color schemes** — map your reference design's palette into Horizon's scheme structure:
 
    ```json
    {
      "current": {
-       "color_primary": "#2563EB",
-       "color_secondary": "#6366F1",
-       "color_text_primary": "#111827",
+       "color_schemes": {
+         "scheme-1": {
+           "settings": {
+             "background": "#FFFFFF",
+             "text": "#374151",
+             "heading": "#111827",
+             "button": "#2563EB",
+             "button_text": "#FFFFFF",
+             "accent": "#2563EB",
+             "border": "#E5E7EB"
+           }
+         },
+         "scheme-2": {
+           "settings": {
+             "background": "#111827",
+             "text": "#D1D5DB",
+             "heading": "#F9FAFB",
+             "button": "#60A5FA",
+             "button_text": "#111827",
+             "accent": "#60A5FA",
+             "border": "#374151"
+           }
+         }
+       },
+       "type_heading_font": "assistant_n6",
+       "type_body_font": "assistant_n4",
        "type_base_size": 16,
+       "color_success": "#16A34A",
+       "color_error": "#DC2626",
+       "color_warning": "#D97706",
        "spacing_base": 8,
        "border_radius_base": 8,
        "enable_shadows": true
      }
    }
    ```
+
+   **Key points:**
+   - The `color_schemes` structure must mirror Horizon's `definition` array in `settings_schema.json`. Read Horizon's existing scheme definitions to discover the exact setting keys (they vary by Horizon version).
+   - Map your reference's light-mode palette into `scheme-1` and dark-mode (if any) into `scheme-2`.
+   - Only the non-scheme settings (`color_success`, `color_error`, `color_warning`, typography, spacing, etc.) appear as flat keys.
 
 3. **Critical:** The values in `settings_data.json` must match the design tokens extracted in Phase 1's `design-tokens-map.md`. This is what makes the theme look correct out of the box.
 
@@ -937,6 +938,90 @@ section.{prefix}section-large {
    - Mobile navigation open
    - Transparent header on homepage (if applicable)
 
+### 3.5 Translation Keys for Custom Sections
+
+**Objective:** Ensure custom sections use locale files for user-facing strings, matching Horizon's own pattern.
+
+**Instructions:**
+
+1. Horizon uses `t:` translation keys throughout its section schemas (e.g., `"label": "t:settings.background"`). Custom sections should follow the same pattern for production readiness and `theme check` compliance.
+
+2. **For section schema labels and settings**, use `t:` keys:
+   ```json
+   {
+     "name": "t:sections.{prefix}hero.name",
+     "settings": [
+       {
+         "type": "text",
+         "id": "heading",
+         "label": "t:sections.{prefix}hero.settings.heading.label",
+         "default": "t:sections.{prefix}hero.settings.heading.default"
+       }
+     ]
+   }
+   ```
+
+3. **Add corresponding entries** in `locales/en.default.schema.json`:
+   ```json
+   {
+     "sections": {
+       "{prefix}hero": {
+         "name": "Hero",
+         "settings": {
+           "heading": {
+             "label": "Heading",
+             "default": "Welcome"
+           }
+         }
+       }
+     }
+   }
+   ```
+
+4. **For rendered text** that isn't configurable via settings (e.g., "Page Not Found" on the 404 page), use `{{ 'general.404.title' | t }}` and add the key to `locales/en.default.json`.
+
+5. **When to skip:** Clone sections (Phase 1) are temporary and do not need translation keys. Apply this to all production sections built in Phases 2–4.
+
+### 3.6 Image and Asset Strategy
+
+**Objective:** Establish how images and media are handled during development and in production.
+
+**Instructions:**
+
+1. **`shopify://` URLs** (e.g., `shopify://shop_images/hero.jpg`) only resolve on a connected Shopify store. During local `shopify theme dev`, they resolve against your connected dev store's Files.
+
+2. **For placeholder images during development:**
+   - Use Shopify's built-in SVG placeholders: `{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}`
+   - Available placeholder types: `product-1` through `product-6`, `collection-1` through `collection-6`, `lifestyle-1`, `lifestyle-2`, `image`
+   - Or place static placeholder images in `assets/` and reference via `{{ 'placeholder-hero.jpg' | asset_url }}`
+
+3. **For production images:**
+   - All merchant-facing images should use `image_picker` settings so merchants can swap them in the theme customizer
+   - Hero backgrounds, logos, and feature images are configured via section settings, not hardcoded
+   - Product and collection images come from Shopify's product data automatically
+
+4. **In section schemas**, always use `image_picker` for images:
+   ```json
+   {
+     "type": "image_picker",
+     "id": "image",
+     "label": "Image"
+   }
+   ```
+   Then in Liquid, render with responsive `srcset`:
+   ```liquid
+   {%- if section.settings.image -%}
+     {{ section.settings.image | image_url: width: 1440 | image_tag:
+        loading: 'lazy',
+        widths: '375, 750, 1100, 1440',
+        sizes: '100vw' }}
+   {%- else -%}
+     {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+   {%- endif -%}
+   ```
+
+5. **Clone sections (Phase 1)** can use whatever image approach matches the reference visually — static assets or placeholder SVGs. Production sections (Phase 4) must use `image_picker` settings.
+
 ---
 
 ## Step 4: Build Design System Reference Page
@@ -949,37 +1034,39 @@ section.{prefix}section-large {
 
 1. Create file: `templates/page.design-system.json`
 
-2. Structure it with multiple section types:
+2. **Important:** Replace `{prefix}` with your actual project prefix (e.g., `lxn-`) in the template JSON — Shopify requires literal section type names, not placeholders.
+
+3. Structure it with multiple section types. Example using `lxn-` prefix:
 
 ```json
 {
   "sections": {
     "hero": {
-      "type": "{prefix}ds-hero",
+      "type": "lxn-ds-hero",
       "settings": {}
     },
     "typography": {
-      "type": "{prefix}ds-typography",
+      "type": "lxn-ds-typography",
       "settings": {}
     },
     "colors": {
-      "type": "{prefix}ds-colors",
+      "type": "lxn-ds-colors",
       "settings": {}
     },
     "buttons": {
-      "type": "{prefix}ds-buttons",
+      "type": "lxn-ds-buttons",
       "settings": {}
     },
     "cards": {
-      "type": "{prefix}ds-cards",
+      "type": "lxn-ds-cards",
       "settings": {}
     },
     "forms": {
-      "type": "{prefix}ds-forms",
+      "type": "lxn-ds-forms",
       "settings": {}
     },
     "components": {
-      "type": "{prefix}ds-components",
+      "type": "lxn-ds-components",
       "settings": {}
     }
   },
@@ -993,6 +1080,32 @@ section.{prefix}section-large {
     "components"
   ]
 }
+```
+
+4. **Create the intro/hero section first** (`sections/{prefix}ds-hero.liquid`). This serves as a table of contents and introduction:
+
+```liquid
+<section class="{prefix}ds-section" id="ds-top">
+  <div class="{prefix}container">
+    <h1>Design System Reference</h1>
+    <p>This page showcases all design tokens and component primitives. Use it to verify visual consistency after changes and as a regression test.</p>
+    <nav style="display: flex; flex-wrap: wrap; gap: var(--spacing-base); margin-top: var(--spacing-lg);">
+      <a href="#typography" class="{prefix}btn {prefix}btn--outline">Typography</a>
+      <a href="#colors" class="{prefix}btn {prefix}btn--outline">Colors</a>
+      <a href="#buttons" class="{prefix}btn {prefix}btn--outline">Buttons</a>
+      <a href="#cards" class="{prefix}btn {prefix}btn--outline">Cards</a>
+      <a href="#forms" class="{prefix}btn {prefix}btn--outline">Forms</a>
+    </nav>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS: Overview",
+  "tag": "section"
+}
+{% endschema %}
+```
 ```
 
 ### 4.2 Build Design System Sections

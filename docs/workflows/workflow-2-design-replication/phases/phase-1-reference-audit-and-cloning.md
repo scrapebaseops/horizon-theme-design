@@ -110,7 +110,7 @@ This prefix carries forward into all subsequent phases.
    - Mobile navigation open state: `header-mobile-nav-390.png`
    - Footer: `footer-{viewport}.png`
 
-**Note:** If the reference is a live website, use a screenshot tool (Playwright, Puppeteer) or manual browser screenshots. If it's a Figma file or images, ensure you have exports at each breakpoint.
+**Note:** If the reference is a live website, use your available screenshot tooling — prefer built-in browser tools if available, otherwise use Playwright/Puppeteer (see `docs/workflows/skills/visual-comparison/SKILL.md` for setup). If the reference is a Figma file or images, ensure you have exports at each breakpoint.
 
 ### Step 3: Extract Design Tokens
 
@@ -355,6 +355,14 @@ This prefix carries forward into all subsequent phases.
 **Objective:** Style the global header and footer to match the reference, without forking Horizon's native sections.
 
 **Instructions:**
+
+0. **Read Horizon's header and footer section schemas first:**
+   - Open Horizon's header section file (e.g., `sections/header.liquid` or the file referenced in `sections/header-group.json`) and read its `{% schema %}` block
+   - Document available settings (logo, menu, sticky, transparent, announcement bar, etc.)
+   - Document available blocks and their types
+   - This tells you what can be configured via JSON settings vs. what requires CSS overrides
+   - Repeat for the footer section
+   - Save your findings to `THEME_ROOT/.workflow/horizon-section-schemas.md`
 
 1. **Do NOT create clone header/footer sections.** Horizon's header and footer are section groups (`header-group.json`, `footer-group.json`) with complex JavaScript for mobile navigation, search, cart functionality, etc. Forking these would break that functionality.
 

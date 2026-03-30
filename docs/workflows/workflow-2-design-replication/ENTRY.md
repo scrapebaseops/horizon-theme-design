@@ -176,6 +176,7 @@ Before you begin, verify all inputs and environment:
 - [ ] You have the Shopify CLI installed (`shopify --version`)
 - [ ] You have Node.js installed (`node --version`)
 - [ ] You have `git` installed (`git --version`)
+- [ ] Screenshot tooling available: Check for built-in browser tools first (preferred — zero setup). If none available, install Playwright as fallback: `npm install -D playwright && npx playwright install chromium`. The visual comparison loop in Phases 1–5 requires some form of browser screenshot capability. See `docs/workflows/skills/visual-comparison/SKILL.md` for the full tool detection sequence.
 - [ ] Disk space: At least 500 MB free (for screenshots, build artifacts, node_modules)
 - [ ] Network: Can access `REFERENCE_PATH` (if a URL)
 
@@ -258,31 +259,42 @@ echo "lxn-" > "$THEME_ROOT/.workflow/prefix.txt"
 
 **Why:** The code-architecture skill mandates a consistent prefix. It scopes your design system cleanly away from Horizon's native styles and any future apps or integrations.
 
+**Section Naming Convention (all phases):**
+
+| Lifecycle | File pattern | Example | When to use |
+|-----------|-------------|---------|-------------|
+| Clone (Phase 1 only) | `sections/clone-{prefix}{name}.liquid` | `clone-lxn-hero.liquid` | Temporary 1:1 copies of reference design |
+| Production custom | `sections/{prefix}{name}.liquid` | `lxn-hero.liquid` | All custom sections built in Phases 2–4 |
+| Design system | `sections/{prefix}ds-{name}.liquid` | `lxn-ds-typography.liquid` | Design system reference page sections |
+| Horizon override | _(no new file)_ | CSS in `{prefix}primitives.css` | Restyling native Horizon sections |
+
+Do **not** use a `custom-` prefix. All custom sections use `{prefix}` as the sole namespace.
+
 ### Step 2: Read Required Skills
 
 Before the phases begin, read these skill documents in full. These are the rules that govern all work in this workflow.
 
-1. **`skills/code-architecture/SKILL.md`**
+1. **`docs/workflows/skills/code-architecture/SKILL.md`**
    - Governs how CSS, Liquid, and JSON are organized
    - Defines naming conventions and file structure
    - ALL code changes must follow these rules
 
-2. **`skills/visual-comparison/SKILL.md`**
+2. **`docs/workflows/skills/visual-comparison/SKILL.md`**
    - Defines the methodology for screenshot comparison
    - Specifies viewport sizes and zoom levels
    - Defines "pixel-perfect" criteria
 
-3. **`skills/design-system-build/SKILL.md`**
+3. **`docs/workflows/skills/design-system-build/SKILL.md`**
    - Governs how to extract and document design tokens
    - Defines the component layer architecture
    - Specifies design system reference page structure
 
-4. **`skills/code-quality/SKILL.md`**
+4. **`docs/workflows/skills/code-quality/SKILL.md`**
    - Defines linting rules and code quality standards
    - Specifies theme-check configuration
    - Governs CSS and Liquid formatting
 
-5. **`skills/dev-server-management/SKILL.md`**
+5. **`docs/workflows/skills/dev-server-management/SKILL.md`**
    - Explains how to start and manage dev servers
    - Covers both Horizon theme server and reference server setup
    - Provides troubleshooting guidance
@@ -348,7 +360,7 @@ Ready to begin Phase 1.
    - NO: Continue to decision 2
 
 2. **Do you want this workflow to manage the dev server?**
-   - YES: Execute `shopify theme dev` for `THEME_ROOT` now (see `skills/dev-server-management/SKILL.md`)
+   - YES: Execute `shopify theme dev` for `THEME_ROOT` now (see `docs/workflows/skills/dev-server-management/SKILL.md`)
    - NO: Start it manually before proceeding, then provide the URL
 
 3. **Do you have `REFERENCE_SERVER_URL` provided?**
@@ -358,7 +370,7 @@ Ready to begin Phase 1.
 4. **Is your reference a URL or running site?**
    - YES: You already have a server, record the URL
    - NO: Is it a codebase that can be run locally (contains `package.json`, Dockerfile, etc.)?
-     - YES: Start its dev server now (see `skills/dev-server-management/SKILL.md`)
+     - YES: Start its dev server now (see `docs/workflows/skills/dev-server-management/SKILL.md`)
      - NO: Reference is static screenshots, proceed without a reference server
 
 **Action:** Based on above, either:
@@ -537,7 +549,7 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 - No console errors in browser
 - All interactive states work correctly
 - All theme settings customize the design correctly
-- Code follows `skills/code-architecture/SKILL.md` standards
+- Code follows `docs/workflows/skills/code-architecture/SKILL.md` standards
 
 ---
 
@@ -571,7 +583,7 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
 
 6. **Code Quality**
    - `shopify theme check` passes with zero errors
-   - CSS organized according to `skills/code-architecture/SKILL.md`
+   - CSS organized according to `docs/workflows/skills/code-architecture/SKILL.md`
    - No unused CSS or JavaScript
 
 7. **Functionality**
@@ -601,7 +613,7 @@ All work happens locally. The workflows never automatically `git push` or `shopi
 
 ### Rule 2: Follow Code Architecture Skill
 
-Every file edit must follow the rules in `skills/code-architecture/SKILL.md`. This includes:
+Every file edit must follow the rules in `docs/workflows/skills/code-architecture/SKILL.md`. This includes:
 - CSS organization (tokens, base, components, utilities, page-specific)
 - Naming conventions for CSS classes
 - Liquid component structure
@@ -614,7 +626,7 @@ Every file edit must follow the rules in `skills/code-architecture/SKILL.md`. Th
 
 ### Rule 3: Use Visual Comparison Methodology
 
-All screenshot comparisons must follow the approach in `skills/visual-comparison/SKILL.md`. This includes:
+All screenshot comparisons must follow the approach in `docs/workflows/skills/visual-comparison/SKILL.md`. This includes:
 - Specific viewport sizes (1440px, 768px, 390px)
 - Granular zoom levels for detailed inspection
 - Decision criteria for "close enough" vs. needs more work
@@ -900,7 +912,7 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 1. Check Shopify CLI is installed: `shopify --version`
 2. Check you're in the correct directory: `pwd` should be theme root
 3. Check port is available: `lsof -i :9000` (if port 9000 is in use, specify a different one)
-4. Refer to `skills/dev-server-management/SKILL.md` for detailed troubleshooting
+4. Refer to `docs/workflows/skills/dev-server-management/SKILL.md` for detailed troubleshooting
 
 ### Problem: Screenshots Look Blurry or Incorrect Size
 
@@ -908,7 +920,7 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 **Solution:**
 1. Verify viewport sizes in visual-comparison skill match yours: should be 1440px, 768px, 390px
-2. Ensure you're using a consistent screenshot tool (Chrome DevTools, Playwright, Puppeteer)
+2. Ensure you're using a consistent screenshot tool (built-in browser tools, Playwright, or Puppeteer)
 3. Zoom to 100% in the browser before taking screenshots
 4. Use the granular zoom methodology in visual-comparison skill (screenshot, then zoom in)
 
@@ -918,7 +930,7 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 **Solution:**
 1. Read the error message carefully
-2. Check `skills/code-quality/SKILL.md` for the relevant rule
+2. Check `docs/workflows/skills/code-quality/SKILL.md` for the relevant rule
 3. Fix the offending code
 4. Re-run `shopify theme check`
 5. Common errors: missing required template fields, invalid JSON, undefined Liquid variables

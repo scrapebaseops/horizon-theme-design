@@ -17,7 +17,8 @@ node --version  # Should be 18+
 # Check Shopify CLI is available
 shopify version
 
-# Install Playwright for automated screenshots
+# Screenshot tooling: check for built-in browser tools first (preferred).
+# Only install Playwright if no built-in browser tooling is available:
 npm install -g playwright
 npx playwright install chromium
 

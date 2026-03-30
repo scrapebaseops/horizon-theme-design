@@ -69,6 +69,27 @@ All custom files and CSS classes use the project prefix from `THEME_ROOT/.workfl
    - Mobile: [layout]
    ```
 
+### 1.1b Read Native Section Schemas
+
+**Objective:** Understand what Horizon's native sections actually support before writing template JSON.
+
+**Instructions:**
+
+For every Horizon native section you plan to use or override (product, collection, cart, blog, article, search, etc.):
+
+1. **Read the section's `.liquid` file** and locate its `{% schema %}` block
+2. **Document:**
+   - Section type name (the filename without `.liquid`)
+   - Available settings and their types
+   - Available block types and their settings
+   - Any `presets` or `templates` constraints
+3. **Compare against what the content plan requires** — which settings do you need, which blocks are available?
+4. **The template JSON you write in Step 1.2 MUST use block types that exist in the section's schema.** If you write a block type that doesn't exist, Shopify will silently ignore it.
+
+**Example:** Before writing `templates/product.json`, read `sections/main-product.liquid` (or `sections/product-information.liquid` — the name varies by Horizon version). Also check `horizon-themes/default/templates/product.json` for a working starting point.
+
+Save your findings to: `THEME_ROOT/.workflow/horizon-section-schemas.md`
+
 ### 1.2 Map Sections to Design System
 
 **Objective:** Determine which design system components or clone sections to use for each page section.
@@ -79,20 +100,20 @@ All custom files and CSS classes use the project prefix from `THEME_ROOT/.workfl
 
    **Option 1: Reuse Clone Section**
    - If this section was built as a clone, you can reuse it
-   - Assign a block type name: `clone-section-name`
+   - Assign a block type name: `clone-{prefix}{section-name}`
    - Note: "This is a reused clone section"
 
    **Option 2: Override Horizon Native Section**
    - If Horizon provides the section (product, collection, etc.)
    - You'll override its CSS via `assets/{prefix}primitives.css`
    - Only override styling, keep functionality
-   - Assign block type: The Horizon section name
+   - Assign block type: The Horizon section name (from Step 1.1b schema audit)
    - Note: "Using Horizon native section with style overrides"
 
    **Option 3: Build New Section**
    - If neither clone nor Horizon covers this
    - Build a new section using design system primitives
-   - Assign a block type: `custom-section-name`
+   - Assign a block type: `{prefix}{section-name}`
    - Note: "Building new section from design system"
 
 2. **Example mapping:**
@@ -110,7 +131,7 @@ All custom files and CSS classes use the project prefix from `THEME_ROOT/.workfl
    - Build status: Reuse (but will customize content per real products)
 
    ### Newsletter
-   - Assigned: custom-newsletter
+   - Assigned: {prefix}newsletter
    - Reason: No clone exists; will build from design system
    - Build status: New (build in Phase 4)
 
@@ -140,7 +161,7 @@ Build pages in this order:
 4. **Cart Page** (critical for checkout)
 5. **Blog/Article Pages** (content pages)
 6. **Generic Pages** (About, Contact, FAQ)
-7. **Error Pages** (404, 500, etc.)
+7. **Error Pages** (404, etc.)
 8. **Password/Maintenance Page** (if applicable)
 9. **Search Results Page** (if applicable)
 
@@ -176,7 +197,7 @@ Build pages in this order:
          }
        },
        "feature_highlights": {
-         "type": "custom-features",
+         "type": "{prefix}features",
          "blocks": [
            {
              "type": "feature",
@@ -205,7 +226,7 @@ Build pages in this order:
          ]
        },
        "newsletter": {
-         "type": "custom-newsletter",
+         "type": "{prefix}newsletter",
          "settings": {
            "heading": "Subscribe to our newsletter",
            "description": "Get updates on new products and offers"
@@ -222,8 +243,8 @@ Build pages in this order:
    ```
 
 4. **Build any new sections** used by homepage:
-   - Create `sections/custom-features.liquid` if needed
-   - Create `sections/custom-newsletter.liquid` if needed
+   - Create `sections/{prefix}features.liquid` if needed
+   - Create `sections/{prefix}newsletter.liquid` if needed
    - Follow code-architecture skill for file organization
    - Use design system primitives (buttons, cards, typography)
 
@@ -255,6 +276,9 @@ Build pages in this order:
 2. **Edit the product template**: `templates/product.json`
 
 3. **Product page structure:**
+
+   **Warning:** The section type, setting names, and block types below are **illustrative**. Horizon's actual product section may use different names (e.g., `product-information` instead of `product`, `variant-picker` instead of `variant_selector`). You **must** read the section's `{% schema %}` block first (see Step 1.1b) and use the actual block types from the schema. Also check `horizon-themes/default/templates/product.json` for a known-working starting point.
+
    ```json
    {
      "sections": {
@@ -304,7 +328,7 @@ Build pages in this order:
          ]
        },
        "related_products": {
-         "type": "custom-related-products",
+         "type": "{prefix}related-products",
          "settings": {
            "heading": "Related Products",
            "products_count": 4
@@ -377,7 +401,7 @@ Build pages in this order:
    {
      "sections": {
        "collection_header": {
-         "type": "custom-collection-header",
+         "type": "{prefix}collection-header",
          "settings": {
            "show_description": true,
            "show_image": true
@@ -406,7 +430,7 @@ Build pages in this order:
    - Configure layout/columns per design spec
 
 5. **Build custom collection header** if needed:
-   - Create `sections/custom-collection-header.liquid`
+   - Create `sections/{prefix}collection-header.liquid`
    - Include collection title, description, image
    - Use design system components
 
@@ -564,7 +588,7 @@ Build pages in this order:
          }
        },
        "related_articles": {
-         "type": "custom-related-articles",
+         "type": "{prefix}related-articles",
          "settings": {
            "heading": "Related Articles",
            "articles_count": 3
@@ -712,7 +736,7 @@ Build pages in this order:
 
 ### 2.8 Build Error & Special Pages
 
-**Objective:** Create 404, 500, and maintenance page templates.
+**Objective:** Create 404 and maintenance page templates.
 
 **Instructions:**
 
@@ -731,7 +755,7 @@ Build pages in this order:
    }
    ```
 
-2. **Note:** Shopify does not support custom 500 error page templates. Server errors are handled by Shopify's infrastructure. Skip 500 pages entirely.
+2. **Note:** Shopify handles 500 server errors at the infrastructure level — there is no `templates/500.json`. Only 404 and password templates can be customized.
 
 3. **Password Page**: `templates/password.json`
 
@@ -937,6 +961,23 @@ For stores with ≤6 pages, skip sub-agents — the main agent builds all pages 
 - **Batch D:** Custom pages (About, Contact, FAQ, etc.)
 - **Batch E:** 404 + Password
 
+**Conflict Avoidance — Per-Batch CSS Files:**
+
+Since multiple sub-agents run in parallel, they must NOT write to the same CSS file simultaneously. Each batch writes Horizon overrides to its own batch-specific file:
+
+- **Batch A:** `assets/{prefix}overrides-product-cart.css`
+- **Batch B:** `assets/{prefix}overrides-collection-search.css`
+- **Batch C:** `assets/{prefix}overrides-blog-article.css`
+- **Batch D:** `assets/{prefix}overrides-pages.css`
+- **Batch E:** `assets/{prefix}overrides-error.css`
+
+Each sub-agent registers its batch CSS file in `snippets/stylesheets.liquid` by appending one line (append only — never modify existing lines). The main agent consolidates these into `{prefix}primitives.css` during the Post-Stage 2 merge.
+
+If a sub-agent discovers that a shared primitive or token in `{prefix}primitives.css` or `{prefix}tokens.liquid` needs fixing, it should **not** directly edit those files. Instead:
+1. Write a workaround in its batch override file (with a comment explaining the issue)
+2. Flag it clearly in "SHARED FIXES" in its completion report
+3. The main agent applies the real fix during merge
+
 **Provide each Sub-Agent with:**
    - `THEME_ROOT/.workflow/design-system-handoff.md` (**updated** with homepage learnings — this is the primary styling guide)
    - The actual CSS source files to read (not just the brief):
@@ -946,18 +987,20 @@ For stores with ≤6 pages, skip sub-agents — the main agent builds all pages 
      - `THEME_ROOT/snippets/stylesheets.liquid`
    - Content spec for the assigned page(s) from Workflow 1
    - `CONTENT_PLANS_PATH/site-content-map.md` (for shared component awareness)
-   - Code-architecture skill reference (`skills/code-architecture/SKILL.md`)
-   - Visual comparison skill reference (`skills/visual-comparison/SKILL.md`)
+   - Code-architecture skill reference (`docs/workflows/skills/code-architecture/SKILL.md`)
+   - Visual comparison skill reference (`docs/workflows/skills/visual-comparison/SKILL.md`)
    - Theme root path
    - The completed homepage implementation (as a pattern to follow: `templates/index.json` and its sections)
+   - The batch-specific CSS file name to write overrides to (e.g., `{prefix}overrides-product-cart.css`)
 
 **Sub-Agent Tasks:**
    - Build the page template JSON
    - Build any new sections needed
-   - Override Horizon section styling
+   - Write Horizon overrides to the assigned **batch-specific CSS file** (not `{prefix}primitives.css`)
+   - Register the batch CSS file in `snippets/stylesheets.liquid` (append only)
    - Run visual QA
    - Fix issues
-   - If a shared primitive or token needs fixing, make the fix and flag it under "SHARED FIXES"
+   - If a shared primitive or token needs fixing, write a workaround in the batch file and flag it under "SHARED FIXES"
    - Report: template created, sections created/modified, shared fixes (if any), issues found
 
 **Sub-Agent Reporting Template:**
@@ -973,10 +1016,10 @@ For stores with ≤6 pages, skip sub-agents — the main agent builds all pages 
    - [existing-section].liquid
 
    CSS Overrides Added to:
-   - assets/{prefix}primitives.css (Horizon overrides scoped under #MainContent)
+   - assets/{prefix}overrides-[batch].css (batch-specific — Horizon overrides scoped under #MainContent)
 
-   SHARED FIXES (primitives/tokens changed that affect other pages):
-   - [describe fix and why it was needed, or "None"]
+   SHARED FIXES (issues found in shared primitives/tokens — workaround in batch file):
+   - [describe fix needed, the workaround applied, and why, or "None"]
 
    Visual QA Result:
    - [ ] Passed all checks
@@ -993,9 +1036,10 @@ For stores with ≤6 pages, skip sub-agents — the main agent builds all pages 
 
 After all sub-agents complete, the main agent:
 1. Reviews all "SHARED FIXES" from sub-agent reports
-2. Reconciles any conflicting changes to shared files (primitives, tokens, base)
-3. Loads the design system reference page — verifies everything still works together
-4. Screenshots every completed page at all breakpoints for Phase 5 QA baseline
+2. Applies shared fixes to `{prefix}primitives.css` and `{prefix}tokens.liquid`
+3. **Consolidates batch CSS files:** Merge all `assets/{prefix}overrides-*.css` rules into `assets/{prefix}primitives.css`, resolving any duplicate selectors or conflicting declarations. Then delete the batch-specific files and remove their entries from `snippets/stylesheets.liquid`.
+4. Loads the design system reference page — verifies everything still works together
+5. Screenshots every completed page at all breakpoints for Phase 5 QA baseline
 
 ---
 
@@ -1054,7 +1098,7 @@ After all sub-agents complete, the main agent:
 1. Clone pages should NOT be modified in Phase 4.
 
 2. If you need a variation of a clone section:
-   - Create a new section (`custom-*`)
+   - Create a new section (`{prefix}*`)
    - Don't modify the clone section
 
 3. Clone pages remain in templates as:
@@ -1135,7 +1179,7 @@ After all sub-agents complete, the main agent:
 - [ ] Cart page is complete and passes visual QA
 - [ ] Blog/Article pages are complete and pass visual QA
 - [ ] Generic pages (About, Contact, FAQ) are complete and pass visual QA
-- [ ] Error pages (404, 500, password) are complete and pass visual QA
+- [ ] Error pages (404, password) are complete and pass visual QA
 - [ ] Search page is complete and passes visual QA
 - [ ] List-collections page is complete and passes visual QA
 - [ ] Contact page is complete and passes visual QA
