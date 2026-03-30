@@ -3,6 +3,8 @@
 ## Overview
 Phase 2 builds a formalized, reusable design system from the proven clone pages. This design system will serve as the foundation for all real pages in Phase 4.
 
+> **Key reference:** The **design-system-build skill** (`docs/workflows/skills/design-system-build/SKILL.md`) defines the complete specification for tokens, base styles, primitives, and section patterns. Consult it for detailed guidance on color systems, typography scales, spacing logic, and component construction.
+
 By the end of this phase, you will have:
 - Formalized design tokens in Shopify settings and CSS
 - Base styles (typography, spacing, layout)
@@ -14,7 +16,7 @@ By the end of this phase, you will have:
 
 All files and CSS classes created in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. Examples below use `{prefix}` as a placeholder — replace with your actual prefix (e.g., `lxn-`).
 
-- Token file: `assets/{prefix}tokens.css`
+- Token snippet: `snippets/{prefix}tokens.liquid`
 - Base styles: `assets/{prefix}base.css`
 - Primitives: `assets/{prefix}primitives.css`
 - CSS classes: `.{prefix}btn`, `.{prefix}card`, `.{prefix}container`
@@ -195,8 +197,19 @@ All files and CSS classes created in this phase use the project prefix from `THE
   Status Color Tokens (not covered by Horizon color schemes)
   Primary, secondary, text, background, and border colors are provided by
   Horizon's color scheme system — access them via Horizon's existing CSS
-  custom properties (--color-foreground, --color-background, etc.).
-  Only define custom properties for tokens Horizon does not cover.
+  custom properties. Only define custom properties for tokens Horizon does
+  not cover.
+
+  Horizon scheme variable reference (DO NOT redefine — use these directly):
+    --color-foreground           (body text)
+    --color-foreground-heading   (heading text)
+    --color-background           (section/page background)
+    --color-primary              (primary accent / link color)
+    --color-primary-hover        (primary hover state)
+    --color-border               (default border color)
+    --color-primary-button-background / --color-primary-button-text  (CTA buttons)
+    --color-secondary-button-background / --color-secondary-button-text
+    --color-input-background / --color-input-text / --color-input-border
   {%- endcomment -%}
   --color-success: {{ settings.color_success }};
   --color-error: {{ settings.color_error }};
@@ -369,13 +382,22 @@ The `{prefix}tokens.liquid` snippet (created in Step 1.2) already handles this �
    - Map your reference's light-mode palette into `scheme-1` and dark-mode (if any) into `scheme-2`.
    - Only the non-scheme settings (`color_success`, `color_error`, `color_warning`, typography, spacing, etc.) appear as flat keys.
 
-3. **Critical:** The values in `settings_data.json` must match the design tokens extracted in Phase 1's `design-tokens-map.md`. This is what makes the theme look correct out of the box.
+3. **Merge strategy — do not clobber Horizon defaults:**
+   - `settings_data.json` already contains values for Horizon's built-in settings. **Read the file first** and only update keys that relate to your design tokens.
+   - For `color_schemes`, overwrite only the scheme entries you are mapping (typically `scheme-1` for light, `scheme-2` for dark). Leave other schemes intact.
+   - For flat keys (typography, spacing, radius, etc.), update them in-place. Do **not** delete unrelated keys you do not recognize — they may control Horizon features you haven't audited yet.
+   - If `settings_data.json` has a `"presets"` key, you generally don't need to touch it — `"current"` is what the live theme reads.
+   - After editing, validate the JSON (e.g. `python3 -m json.tool config/settings_data.json > /dev/null`) to catch syntax errors before previewing.
 
-4. **Verify:** After updating, refresh the theme preview. The design should match the reference without any manual setting changes.
+4. **Critical:** The values in `settings_data.json` must match the design tokens extracted in Phase 1's `design-tokens-map.md`. This is what makes the theme look correct out of the box.
+
+5. **Verify:** After updating, refresh the theme preview. The design should match the reference without any manual setting changes.
 
 ---
 
 ## Step 2: Build Base Styles
+
+> See the design-system-build skill (`docs/workflows/skills/design-system-build/SKILL.md`) sections on **Typography**, **Spacing**, and **Layout** for the complete specification.
 
 ### 2.1 Create Base Styles File
 
@@ -409,7 +431,7 @@ html {
 
 body {
   font-family: var(--type-body-family);
-  color: var(--color-text-primary);
+  color: var(--color-foreground);
   background-color: var(--color-background);
   line-height: 1.6;
 }
@@ -461,11 +483,11 @@ small, .small {
 
 /* Text Colors */
 .{prefix}text-primary {
-  color: var(--color-text-primary);
+  color: var(--color-foreground);
 }
 
 .{prefix}text-secondary {
-  color: var(--color-text-secondary);
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
 }
 
 a {
@@ -632,6 +654,8 @@ section.{prefix}section-large {
 
 ## Step 3: Build Component Primitives
 
+> See the design-system-build skill (`docs/workflows/skills/design-system-build/SKILL.md`) sections on **Buttons**, **Cards**, **Forms**, and **Surfaces** for the complete component specifications.
+
 ### 3.1 Create Primitives CSS File
 
 **Objective:** Build reusable component styles from the design system.
@@ -706,12 +730,14 @@ section.{prefix}section-large {
 }
 
 .{prefix}btn--secondary {
-  background-color: var(--color-secondary);
-  color: white;
+  background-color: var(--color-secondary-button-background);
+  color: var(--color-secondary-button-text);
+  border-color: var(--color-secondary-button-border);
 }
 
 .{prefix}btn--secondary:hover {
-  opacity: 0.9;
+  background-color: var(--color-secondary-button-hover-background);
+  color: var(--color-secondary-button-hover-text);
 }
 
 .{prefix}btn--outline {
@@ -727,7 +753,7 @@ section.{prefix}section-large {
 
 .{prefix}btn--ghost {
   background-color: transparent;
-  color: var(--color-text-primary);
+  color: var(--color-foreground);
   border-color: var(--color-border);
 }
 
@@ -786,7 +812,7 @@ section.{prefix}section-large {
 /* Card Primitives */
 
 .{prefix}card {
-  background-color: white;
+  background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-base);
   padding: var(--spacing-base);
@@ -820,7 +846,7 @@ section.{prefix}section-large {
 
 .{prefix}card__desc {
   font-size: var(--type-small);
-  color: var(--color-text-secondary);
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
   margin-bottom: var(--spacing-base);
 }
 
@@ -860,7 +886,7 @@ section.{prefix}section-large {
 #MainContent .section-product h1 {
   font-family: var(--type-heading-family);
   font-size: var(--type-h1);
-  color: var(--color-text-primary);
+  color: var(--color-foreground-heading);
 }
 
 #MainContent .product-form .btn {
@@ -883,7 +909,7 @@ section.{prefix}section-large {
    ```css
    /* Header Overrides */
    .header {
-     font-family: var(--font-heading);
+     font-family: var(--type-heading-family);
    }
 
    .header__logo img {
@@ -891,17 +917,17 @@ section.{prefix}section-large {
    }
 
    .header-nav__link {
-     font-size: var(--font-size-sm);
-     font-weight: var(--font-weight-semibold);
+     font-size: var(--type-small);
+     font-weight: 600;
      letter-spacing: 0.05em;
      text-transform: uppercase;
    }
 
    .announcement-bar {
      background-color: var(--color-primary);
-     color: white;
-     font-size: var(--font-size-xs);
-     padding: var(--space-xs) 0;
+     color: var(--color-primary-button-text);
+     font-size: var(--type-small);
+     padding: var(--spacing-xs) 0;
    }
    ```
 
@@ -915,9 +941,9 @@ section.{prefix}section-large {
    }
 
    .footer h3, .footer h4 {
-     font-family: var(--font-heading);
-     font-size: var(--font-size-base);
-     font-weight: var(--font-weight-bold);
+     font-family: var(--type-heading-family);
+     font-size: var(--type-body);
+     font-weight: 700;
    }
 
    .footer a {
@@ -1106,7 +1132,6 @@ section.{prefix}section-large {
 }
 {% endschema %}
 ```
-```
 
 ### 4.2 Build Design System Sections
 
@@ -1117,39 +1142,39 @@ section.{prefix}section-large {
 1. **Typography Showcase Section** (`sections/{prefix}ds-typography.liquid`):
 
 ```liquid
-<section class="design-system-section">
-  <div class="container-default">
+<section class="{prefix}ds-section">
+  <div class="{prefix}container">
     <h2>Typography</h2>
 
-    <div class="type-samples">
-      <div class="type-sample">
+    <div class="{prefix}type-samples">
+      <div class="{prefix}type-sample">
         <h1 class="h1">Heading 1</h1>
-        <p class="type-info">h1 or .h1</p>
+        <p class="{prefix}type-info">h1 or .h1</p>
       </div>
 
-      <div class="type-sample">
+      <div class="{prefix}type-sample">
         <h2 class="h2">Heading 2</h2>
-        <p class="type-info">h2 or .h2</p>
+        <p class="{prefix}type-info">h2 or .h2</p>
       </div>
 
-      <div class="type-sample">
+      <div class="{prefix}type-sample">
         <h3 class="h3">Heading 3</h3>
-        <p class="type-info">h3 or .h3</p>
+        <p class="{prefix}type-info">h3 or .h3</p>
       </div>
 
-      <div class="type-sample">
+      <div class="{prefix}type-sample">
         <h4 class="h4">Heading 4</h4>
-        <p class="type-info">h4 or .h4</p>
+        <p class="{prefix}type-info">h4 or .h4</p>
       </div>
 
-      <div class="type-sample">
+      <div class="{prefix}type-sample">
         <p class="body">This is body text. It should be readable and comfortable at the default size.</p>
         <p class="type-info">p or .body</p>
       </div>
 
-      <div class="type-sample">
+      <div class="{prefix}type-sample">
         <p class="small">This is small text for captions and supplementary information.</p>
-        <p class="type-info">small or .small</p>
+        <p class="{prefix}type-info">small or .small</p>
       </div>
     </div>
   </div>
@@ -1177,7 +1202,7 @@ section.{prefix}section-large {
 
   .{prefix}type-info {
     font-size: var(--type-small);
-    color: var(--color-text-secondary);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
     margin-top: var(--spacing-sm);
   }
 </style>
@@ -1240,7 +1265,7 @@ section.{prefix}section-large {
 
   .{prefix}color-code {
     font-size: var(--type-small);
-    color: var(--color-text-secondary);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
     font-family: monospace;
   }
 </style>
@@ -1379,10 +1404,10 @@ section.{prefix}section-large {
 
 2. Go through each section in the clone page and:
    - Replace any hardcoded colors with CSS variables
-   - Replace button styles with `.btn` and variant classes
-   - Replace card styles with `.card` and related classes
-   - Replace spacing with utility classes (`.m-base`, `.p-lg`, etc.)
-   - Replace layout containers with `.container-default`, `.container-wide`, etc.
+   - Replace button styles with `.{prefix}btn` and variant classes
+   - Replace card styles with `.{prefix}card` and related classes
+   - Replace spacing with design token variables
+   - Replace layout containers with `.{prefix}container`, `.{prefix}container--wide`, etc.
 
 3. **Example refactoring:**
 
@@ -1395,7 +1420,7 @@ section.{prefix}section-large {
 
    **After:**
    ```liquid
-   <button class="btn btn-primary">Add to Cart</button>
+   <button class="{prefix}btn {prefix}btn--primary">Add to Cart</button>
    ```
 
 4. **For each refactored section:**
@@ -1420,27 +1445,25 @@ section.{prefix}section-large {
 
 2. For each pattern, create a snippet:
 
-   **Example: Product Card Snippet** (`snippets/product-card.liquid`):
+   **Example: Product Card Snippet** (`snippets/{prefix}product-card.liquid`):
    ```liquid
-   {%- assign product = include.product -%}
-
-   <div class="card">
-     <div class="card-image">
+   <div class="{prefix}card">
+     <div class="{prefix}card__image">
        <img src="{{ product.image | img_url: '300x' }}" alt="{{ product.title }}">
      </div>
-     <h4 class="card-title">{{ product.title }}</h4>
-     <p class="card-description">{{ product.description | strip_html | truncatewords: 15 }}</p>
-     <div class="card-footer">
-       <span class="card-price">{{ product.price | money }}</span>
-       <a href="{{ product.url }}" class="btn btn-primary btn-sm">Shop</a>
+     <h4 class="{prefix}card__title">{{ product.title }}</h4>
+     <p class="{prefix}card__desc">{{ product.description | strip_html | truncatewords: 15 }}</p>
+     <div class="{prefix}card__footer">
+       <span class="{prefix}card__price">{{ product.price | money }}</span>
+       <a href="{{ product.url }}" class="{prefix}btn {prefix}btn--primary {prefix}btn--sm">Shop</a>
      </div>
    </div>
    ```
 
-3. Use it in sections:
+3. Use it in sections (note: pass `product` as a parameter to `{% render %}`):
    ```liquid
    {%- for product in collection.products -%}
-     {%- render 'product-card', product: product -%}
+     {%- render '{prefix}product-card', product: product -%}
    {%- endfor -%}
    ```
 
@@ -1508,10 +1531,10 @@ section.{prefix}section-large {
 
 - [ ] All design tokens are in `config/settings_schema.json`
 - [ ] All tokens have default values matching the extracted design
-- [ ] `snippets/design-tokens.liquid` loads and applies tokens correctly
+- [ ] `snippets/{prefix}tokens.liquid` loads and applies tokens correctly
 - [ ] Changing a theme setting (color, font, etc.) updates the page
-- [ ] `assets/base.css` includes typography, spacing, and layout utilities
-- [ ] `assets/primitives.css` includes all needed components (buttons, cards, forms, etc.)
+- [ ] `assets/{prefix}base.css` includes typography, spacing, and layout utilities
+- [ ] `assets/{prefix}primitives.css` includes all needed components (buttons, cards, forms, etc.)
 - [ ] All primitives have been tested by refactoring clone sections
 - [ ] `templates/page.design-system.json` and sections exist
 - [ ] Design system reference page displays all components correctly

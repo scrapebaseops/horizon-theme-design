@@ -1,0 +1,14 @@
+---
+description: Coordinated edits for astro.config.mjs and src/content.config.ts only when necessary
+globs:
+  - "astro.config.*"
+  - "src/content.config.ts"
+alwaysApply: false
+---
+
+# Astro & content config (Brightlight)
+
+- **`astro.config.mjs`:** Sets `site`, Vite plugin `@tailwindcss/vite`, and integrations `@astrojs/sitemap`, `@astrojs/mdx`. Changing `site` affects sitemaps and `context.site`; keep it aligned with real production domain and SEO URLs in `src/components/fundations/head/Seo.astro`.
+- **`src/content.config.ts`:** Defines all collections and Zod shapes. Editing this file **always** implies checking **every** consumer in `src/pages/` and `src/layouts/` that imports from `astro:content`.
+- **Pairing rule:** Prefer fixing pages/layouts to match the schema instead of loosening Zod unless the product goal is a deliberate schema evolution across the whole theme.
+- **Markdown/MDX:** `@astrojs/mdx` is enabled; markdown options (Shiki, `drafts`) live in `astro.config.mjs` — keep them in sync with how templates render code blocks.

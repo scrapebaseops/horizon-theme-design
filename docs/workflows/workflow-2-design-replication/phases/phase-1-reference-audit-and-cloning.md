@@ -119,6 +119,7 @@ This prefix carries forward into all subsequent phases.
 **Instructions:**
 
 1. Create file: `THEME_ROOT/.workflow/design-tokens-map.md`
+   - Use the template at **`docs/workflows/workflow-2-design-replication/templates/design-tokens-map-template.md`** as your starting structure.
 
 2. **Extract Tokens by Category:**
 
@@ -234,6 +235,7 @@ This prefix carries forward into all subsequent phases.
    - **Templates/Layouts** (page structures)
 
 2. Create file: `THEME_ROOT/.workflow/component-inventory.md`
+   - Use the template at **`docs/workflows/workflow-2-design-replication/templates/component-inventory-template.md`** as your starting structure.
 
 3. For each component/pattern, document:
    - **Name:** Clear, descriptive name (e.g., "Primary Button", "Product Card")
@@ -279,11 +281,18 @@ This prefix carries forward into all subsequent phases.
 
 **Instructions:**
 
-1. For each page type in your reference catalog, create a Shopify template JSON:
-   - `templates/page.clone-homepage.json`
-   - `templates/page.clone-product.json`
-   - `templates/page.clone-collection.json`
-   - etc.
+1. For each page type in your reference catalog, create a Shopify template JSON. **Choose the correct template type** based on the data the page needs:
+
+   | Reference page | Template file | Why |
+   |---|---|---|
+   | Homepage | `templates/page.clone-homepage.json` | Static content — no Shopify object required |
+   | Product page | `templates/product.clone-{prefix}product.json` | Needs the `product` Liquid object |
+   | Collection page | `templates/collection.clone-{prefix}collection.json` | Needs the `collection` Liquid object |
+   | Blog / article | `templates/article.clone-{prefix}article.json` | Needs `article` object |
+   | Cart | `templates/cart.clone-{prefix}cart.json` | Needs `cart` object |
+   | Generic / about / landing | `templates/page.clone-{name}.json` | No special Shopify object needed |
+
+   > **Rule of thumb:** If the reference page displays data from a Shopify resource (product, collection, article, cart, etc.), use that resource's template type. Otherwise, use `page.*`.
 
 2. **Template structure** follows code-architecture skill:
    - Use `settings`, `blocks`, and `order` fields
@@ -295,19 +304,19 @@ This prefix carries forward into all subsequent phases.
    {
      "sections": {
        "hero": {
-         "type": "clone-hero",
+         "type": "clone-{prefix}hero",
          "settings": {}
        },
        "features": {
-         "type": "clone-features",
+         "type": "clone-{prefix}features",
          "settings": {}
        },
        "products": {
-         "type": "clone-products",
+         "type": "clone-{prefix}products",
          "settings": {}
        },
        "newsletter": {
-         "type": "clone-newsletter",
+         "type": "clone-{prefix}newsletter",
          "settings": {}
        }
      },
@@ -329,9 +338,9 @@ This prefix carries forward into all subsequent phases.
 **Instructions:**
 
 1. For each section type, create:
-   - `sections/clone-{section-name}.liquid` (structure)
-   - CSS within the section's `<style>` tag or in `assets/clone-{section-name}.css` if substantial
-   - Schema with settings in `sections/clone-{section-name}.liquid`
+   - `sections/clone-{prefix}{section-name}.liquid` (structure)
+   - CSS within the section's `<style>` tag or in `assets/clone-{prefix}{section-name}.css` if substantial
+   - Schema with settings in `sections/clone-{prefix}{section-name}.liquid`
 
 2. **Follow the code-architecture skill:**
    - Keep CSS organized
@@ -471,6 +480,8 @@ This prefix carries forward into all subsequent phases.
    - [ ] All three viewports verified (1440px, 768px, 390px)
    - [ ] Hover/focus states match (where applicable)
 
+10. **Log results** for each comparison round using the template at **`docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`**. Save each entry to `THEME_ROOT/.workflow/visual-parity-log.md`.
+
 ### Step 8: Sub-Agent Strategy for Scaling
 
 **Objective:** Parallelize page cloning using sub-agents.
@@ -607,7 +618,7 @@ By the end of Phase 1, you should have:
 - [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — Complete design tokens extracted
 - [ ] `THEME_ROOT/.workflow/component-inventory.md` — All components documented
 - [ ] `templates/page.clone-*.json` — Clone page templates created
-- [ ] `sections/clone-*.liquid` — All clone sections built and styled
+- [ ] `sections/clone-{prefix}*.liquid` — All clone sections built and styled
 - [ ] `THEME_ROOT/.workflow/clone-screenshots/` — Clone pages at all 3 viewports
 - [ ] All clone pages pass visual parity at all viewports
 - [ ] All code follows code-architecture skill conventions

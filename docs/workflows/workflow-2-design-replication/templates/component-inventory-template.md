@@ -233,7 +233,7 @@ This inventory drives development prioritization and ensures consistency. -->
 - **Liquid File**: [PLACEHOLDER: e.g., "snippets/button.liquid"]]
 - **CSS File**: [PLACEHOLDER: e.g., "assets/buttons.css"]]
 - **CSS Classes**: `.button`, `.button--primary`, `.button--small`, `.button--medium`, `.button--large`, `.button--full-width`
-- **Liquid Snippet Usage**: `{% include 'button', label: 'Add to Cart', size: 'medium', url: '#' %}`
+- **Liquid Snippet Usage**: `{% render 'button', label: 'Add to Cart', size: 'medium', url: '#' %}`
 
 **CSS Location**: `primitives` layer (foundational UI element)
 
@@ -710,33 +710,32 @@ This inventory drives development prioritization and ensures consistency. -->
 
 ---
 
-## Implementation Roadmap
+## Implementation Priority
 
-**Phase 1: Foundation (Weeks 1-2)** — Colors, Typography, Spacing
-- [ ] Color Palette
-- [ ] Typography (Body, Headings)
-- [ ] Design Tokens
-- [ ] Button Components
+Order components by dependency and page coverage. Foundations first, then composites.
 
-**Phase 2: Form & Input (Weeks 3-4)**
-- [ ] Text Input
-- [ ] Form Layouts
-- [ ] Validation states
+**Tier 1 — Foundations** (build before any page sections)
+- [ ] Design tokens (color, type, spacing)
+- [ ] Buttons
+- [ ] Typography system
+- [ ] Container / grid utilities
 
-**Phase 3: Content Components (Weeks 5-6)**
-- [ ] Hero Section
-- [ ] Product Card
-- [ ] Layout Patterns
+**Tier 2 — Core Components** (needed by most pages)
+- [ ] Product card
+- [ ] Hero / banner
+- [ ] Navigation (header, footer)
+- [ ] Form inputs & validation
 
-**Phase 4: Navigation & Interactive (Weeks 7-8)**
-- [ ] Main Navigation
-- [ ] Modal/Dialog
-- [ ] Dropdowns
+**Tier 3 — Supporting Components** (needed by specific pages)
+- [ ] Modal / dialog
+- [ ] Dropdown / accordion
+- [ ] Pagination / breadcrumbs
+- [ ] Alert / notification
 
-**Phase 5: Polish & Testing (Weeks 9+)**
+**Tier 4 — Polish**
 - [ ] Accessibility audit
-- [ ] Performance optimization
-- [ ] Cross-browser testing
+- [ ] Performance review
+- [ ] Cross-browser verification
 
 ---
 

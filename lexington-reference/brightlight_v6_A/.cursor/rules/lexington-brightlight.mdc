@@ -1,0 +1,14 @@
+---
+description: Global conventions for Lexington Brightlight Astro theme — imports, fundations folder, minimal diffs
+alwaysApply: true
+---
+
+# Brightlight (Lexington) — global rules
+
+- **Publisher context:** This repo is the **Brightlight** theme (`@lexington/brightlight`). Prefer Lexington’s published docs at https://lexingtonthemes.com/documentation and template page https://lexingtonthemes.com/templates/brightlight when behavior is theme-specific.
+- **Imports:** Use the project alias `@/` → `src/` (see `tsconfig.json`). Example: `@/layouts/BaseLayout.astro`, `@/components/fundations/elements/Text.astro`.
+- **`fundations` spelling:** The design-system folder is `src/components/fundations/` (not “foundations”). Never rename it; update paths only if the tree actually moves.
+- **Layouts:** Most marketing pages wrap content in `BaseLayout` from `src/layouts/BaseLayout.astro`. Dedicated sections use named layouts in `src/layouts/` (`BlogLayout`, `LegalLayout`, etc.) — follow the existing page you are editing.
+- **UI primitives:** Reuse `Wrapper`, `Text`, `Button`, and icons from `src/components/fundations/` instead of duplicating markup patterns.
+- **Dependencies:** Do not add npm packages unless the user asks; stick to what `package.json` already declares.
+- **Change style:** Keep diffs small and consistent with surrounding files — no drive-by refactors or unrelated formatting.

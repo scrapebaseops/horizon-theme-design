@@ -50,7 +50,7 @@ Keep one log per major component or page for clarity. -->
 **Viewport(s) Tested**:
 - [ ] Desktop (1440px)
 - [ ] Tablet (768px)
-- [ ] Mobile (375px)
+- [ ] Mobile (390px)
 
 ---
 
@@ -154,7 +154,7 @@ Keep one log per major component or page for clarity. -->
 **Viewport(s) Tested**:
 - [ ] Desktop (1440px) — carry forward from loop 1
 - [ ] Tablet (768px) — NEW THIS LOOP
-- [ ] Mobile (375px)
+- [ ] Mobile (390px)
 
 ---
 
@@ -233,12 +233,12 @@ Keep one log per major component or page for clarity. -->
 
 **Loop Number**: 3
 
-**Target Component**: [PLACEHOLDER: e.g., "Product Card - mobile layout (375px)"]
+**Target Component**: [PLACEHOLDER: e.g., "Product Card - mobile layout (390px)"]
 
 **Viewport(s) Tested**:
 - [ ] Desktop (1440px) — carry forward from loop 1
 - [ ] Tablet (768px) — carry forward from loop 2
-- [ ] Mobile (375px) — NEW THIS LOOP
+- [ ] Mobile (390px) — NEW THIS LOOP
 
 ---
 
@@ -246,7 +246,7 @@ Keep one log per major component or page for clarity. -->
 
 | Aspect | Reference | Implementation | Notes |
 |--------|-----------|-----------------|-------|
-| **Screenshot Path** | [PLACEHOLDER: e.g., "reference-screenshots/product-card-mobile.png"] | [PLACEHOLDER: e.g., "implementation-screenshots/product-card-loop3-mobile.png"] | Mobile viewport: 375px width |
+| **Screenshot Path** | [PLACEHOLDER: e.g., "reference-screenshots/product-card-mobile.png"] | [PLACEHOLDER: e.g., "implementation-screenshots/product-card-loop3-mobile.png"] | Mobile viewport: 390px width |
 | **Zoom Level** | 100% | 100% | Document zoom level |
 
 ---
@@ -314,7 +314,7 @@ Keep one log per major component or page for clarity. -->
 **Viewport(s) Tested**:
 - [x] Desktop (1440px) — testing all states
 - [ ] Tablet (768px)
-- [ ] Mobile (375px)
+- [ ] Mobile (390px)
 
 ---
 

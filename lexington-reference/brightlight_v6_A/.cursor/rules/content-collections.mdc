@@ -1,0 +1,14 @@
+---
+description: Brightlight content collections — Zod schemas in content.config.ts, frontmatter shapes, Markdown under src/content
+globs:
+  - "src/content/**/*"
+alwaysApply: false
+---
+
+# Content collections (Brightlight)
+
+- **Authority:** `src/content.config.ts` defines every collection (`posts`, `team`, `customers`, `integrations`, `helpcenter`, `changelog`, `legal`) with **Zod** (`astro/zod`) and `glob` loaders pointing at `src/content/<collection>/**/*.md`.
+- **Do not widen schemas** (new required fields, type changes) without updating **every** page/layout that calls `getCollection(...)` and reads `entry.data`.
+- **Images:** Frontmatter uses plain objects `{ url: string, alt: string }` for `image`, `logo`, `avatar`, etc. Existing entries use paths like `/src/images/...`. Do not assume Astro `image()`-optimized schemas unless you migrate the whole theme.
+- **Blog ↔ team:** `posts` entries include `team: "<slug>"` where the slug matches a `src/content/team/<slug>.md` file basename (e.g. `david-lee`).
+- **New entry workflow:** Copy an existing `.md` in the **same** folder (see `AGENTS.md` for a per-collection template path), keep required keys complete, and preserve YAML structure for nested arrays/objects.

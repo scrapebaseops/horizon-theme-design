@@ -46,6 +46,7 @@ This is what you're replicating from.
 
 **Can be one of:**
 - **Directory path:** `/path/to/lexington-reference/` or `/path/to/design-files/` (a codebase or screenshot directory)
+- **File path:** `/path/to/homepage.png` or `/path/to/reference.pdf` (a single exported screenshot/PDF reference)
 - **URL:** `http://localhost:3000` or `https://example.com/` (a running website)
 
 **For codebase (directory):**
@@ -58,6 +59,11 @@ This is what you're replicating from.
 - Should have a clear naming convention (e.g., `homepage.png`, `product-page.png`, `collection.png`)
 - Organize by page/section for clarity during comparison
 
+**For single-file references:**
+- Exported screenshots or PDFs are acceptable
+- If the source is Figma or another design tool, export the relevant frames before starting
+- Make sure the file covers the page/section states you need to inspect
+
 **For URL (running site):**
 - Must be accessible from your machine (respond to `curl` or browser)
 - Should allow taking screenshots without authentication
@@ -65,7 +71,7 @@ This is what you're replicating from.
 
 **Verification:**
 ```bash
-# For directory:
+# For directory or file:
 ls -la $REFERENCE_PATH
 
 # For URL (running site):
@@ -170,13 +176,15 @@ Enable detailed logging during the workflow.
 Before you begin, verify all inputs and environment:
 
 - [ ] `THEME_ROOT` points to a valid Horizon theme copy (not the default)
-- [ ] `REFERENCE_PATH` points to a valid reference (codebase, screenshots, or URL)
+- [ ] `REFERENCE_PATH` points to a valid reference (codebase directory, screenshot/PDF file, screenshot directory, or URL)
 - [ ] `CONTENT_PLANS_PATH` contains all required Workflow 1 artifacts (`site-content-map.md`, `site-structure.md`, `gap-analysis.md`, and page specs in `pages/`)
 - [ ] You have write access to `$THEME_ROOT`
 - [ ] You have the Shopify CLI installed (`shopify --version`)
 - [ ] You have Node.js installed (`node --version`)
 - [ ] You have `git` installed (`git --version`)
+- [ ] You can authenticate Shopify CLI and open a theme preview/customizer for `THEME_ROOT`
 - [ ] Screenshot tooling available: Check for built-in browser tools first (preferred — zero setup). If none available, install Playwright as fallback: `npm install -D playwright && npx playwright install chromium`. The visual comparison loop in Phases 1–5 requires some form of browser screenshot capability. See `docs/workflows/skills/visual-comparison/SKILL.md` for the full tool detection sequence.
+- [ ] If you plan to execute Phases 4–5 now, your connected dev store has representative products, collections, pages, blogs/articles, menus, policies, and any required metafields/metaobjects — or you have documented blockers in `THEME_ROOT/.workflow/store-readiness.md`
 - [ ] Disk space: At least 500 MB free (for screenshots, build artifacts, node_modules)
 - [ ] Network: Can access `REFERENCE_PATH` (if a URL)
 
@@ -211,8 +219,8 @@ if [[ "$REFERENCE_PATH" =~ ^http ]]; then
   curl -s "$REFERENCE_PATH" | head -1 > /dev/null || { echo "FAIL: URL not accessible"; exit 1; }
   echo "✓ REFERENCE_PATH is accessible"
 else
-  test -d "$REFERENCE_PATH" || { echo "FAIL: Directory doesn't exist"; exit 1; }
-  echo "✓ REFERENCE_PATH directory exists"
+  test -d "$REFERENCE_PATH" || test -f "$REFERENCE_PATH" || { echo "FAIL: Path doesn't exist"; exit 1; }
+  echo "✓ REFERENCE_PATH path exists"
 fi
 
 echo "Validating CONTENT_PLANS_PATH: $CONTENT_PLANS_PATH"
@@ -251,7 +259,8 @@ echo "lxn-" > "$THEME_ROOT/.workflow/prefix.txt"
 ```
 
 **This prefix is used everywhere:**
-- CSS files: `assets/{prefix}tokens.css`, `assets/{prefix}base.css`, `assets/{prefix}primitives.css`
+- Token snippet: `snippets/{prefix}tokens.liquid`
+- CSS files: `assets/{prefix}base.css`, `assets/{prefix}primitives.css`
 - CSS classes: `.{prefix}btn`, `.{prefix}card`, `.{prefix}heading`
 - Section files: `sections/{prefix}hero.liquid`, `sections/{prefix}features.liquid`
 - Snippet files: `snippets/{prefix}product-card.liquid`
@@ -360,7 +369,7 @@ Ready to begin Phase 1.
    - NO: Continue to decision 2
 
 2. **Do you want this workflow to manage the dev server?**
-   - YES: Execute `shopify theme dev` for `THEME_ROOT` now (see `docs/workflows/skills/dev-server-management/SKILL.md`)
+   - YES: Execute `shopify theme dev -e <variant>` from the **repo root** (see `docs/workflows/skills/dev-server-management/SKILL.md`)
    - NO: Start it manually before proceeding, then provide the URL
 
 3. **Do you have `REFERENCE_SERVER_URL` provided?**
@@ -376,6 +385,26 @@ Ready to begin Phase 1.
 **Action:** Based on above, either:
 - Note down `THEME_SERVER_URL` and `REFERENCE_SERVER_URL`
 - OR start servers and record the URLs when ready
+
+### Step 5b: Verify Store Preview & Data Readiness
+
+**Why:** Theme files alone are not enough to execute Phases 4–5. Real-page QA depends on a Shopify preview backed by actual store resources.
+
+**Action:** Create `THEME_ROOT/.workflow/store-readiness.md` and document:
+
+- The connected dev store / preview URL used for testing
+- The actual handles/routes you will use for QA:
+  - product
+  - collection
+  - blog
+  - article
+  - page(s) such as About, FAQ, Contact
+  - policies
+- Which menus must exist in Shopify admin
+- Any required metafields or metaobjects
+- Any missing resources/blockers that would prevent Phase 4 or Phase 5 from being fully verified
+
+**Decision:** If critical resources are missing, either seed/create them before Phase 4 or clearly mark Phase 4/5 QA as blocked for those routes.
 
 ### Step 6: Verify Design Token Extraction Prerequisites
 
@@ -479,6 +508,7 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 - All styling comes from the design system layers
 - Every section and block should have appropriate theme settings
 - Header and footer styled via CSS overrides and configured with correct navigation menus
+- Real store resources (products, collections, pages, blogs/articles, policies, menus, metafields/metaobjects) must be mapped or created and recorded in `THEME_ROOT/.workflow/store-readiness.md`
 
 **Completion criteria:**
 - All required Shopify pages built and functional
@@ -501,7 +531,7 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 1. **Visual consistency**
    - Take screenshots of every page at all 3 viewports (1440px, 768px, 390px)
    - Compare clone pages against reference—do they still match?
-   - Compare real pages against clone pages—do they match?
+   - Compare real pages against clone pages and the design system—are shared patterns visually consistent?
    - Are there any visual regressions?
 
 2. **Responsive behavior**
@@ -539,12 +569,14 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
    - Verify no unused CSS is being loaded
 
 **Deliverables:**
-- `$THEME_ROOT/.workflow/final-qa-report.md` — Detailed QA results
-- `$THEME_ROOT/.workflow/screenshots/final-*.png` — Final screenshots at all viewports
+- `$THEME_ROOT/.workflow/final-screenshots/` — Final screenshots at all viewports plus index
+- `$THEME_ROOT/.workflow/qa-*.md` — Detailed QA documents
+- `$THEME_ROOT/.workflow/final-report.md` — Final summary report
 - `$THEME_ROOT/.workflow/deviations.md` — Any intentional deviations from the reference and why
 
 **Completion criteria:**
-- All pages match the reference design at desktop, tablet, and mobile
+- Clone pages still match the reference design at desktop, tablet, and mobile
+- Real pages match the design system and Workflow 1 content specs, with any intentional deviations documented
 - theme-check passes with zero errors
 - No console errors in browser
 - All interactive states work correctly
@@ -580,6 +612,7 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
    - All main Shopify templates (index, product, collection, etc.) built
    - All pages visually match design system
    - All content from Workflow 1 integrated
+   - Store resources and preview routes documented in `store-readiness.md`
 
 6. **Code Quality**
    - `shopify theme check` passes with zero errors
@@ -593,6 +626,8 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
 
 8. **Documentation & Artifacts**
    - `$THEME_ROOT/.workflow/progress.md` shows all phases complete
+   - `$THEME_ROOT/.workflow/store-readiness.md` documents preview routes and dependencies
+   - `$THEME_ROOT/.workflow/deviations.md` documents any intentional departures from the reference/design system
    - All phase deliverables documented
    - `.shopifyignore` includes `.workflow/`
    - Theme is ready to push to Shopify (but not automatically pushed)
@@ -640,7 +675,8 @@ All screenshot comparisons must follow the approach in `docs/workflows/skills/vi
 
 After each major phase (and certainly before completion), run:
 ```bash
-shopify theme check $THEME_ROOT
+# Run from the repository root, targeting your variant:
+shopify theme check -e <variant>
 ```
 
 Zero errors required for completion. (Warnings are OK.)
@@ -675,11 +711,11 @@ After completing each phase, update `$THEME_ROOT/.workflow/progress.md`:
 
 ### Rule 7: Keep Clone Pages as Reference
 
-Do NOT delete or modify clone pages (e.g., `page.clone-homepage.json`) after Phase 1. Use them as a reference during later phases to verify your design system implementation matches the original design.
+Do NOT delete or repurpose clone pages (e.g., `page.clone-homepage.json`). Phase 2 is allowed to refactor their internals to adopt the design system, but that refactor must preserve visual parity. After Phase 2, treat clone pages as locked regression fixtures.
 
 **Why:** Clone pages prove the design can be replicated and serve as a visual regression test.
 
-**How to verify:** Clone pages should still exist at the end of the workflow.
+**How to verify:** Clone pages should still exist and still match the reference at the end of the workflow.
 
 ---
 
@@ -693,9 +729,9 @@ Before diving into phases, understand the logic that connects them.
 
 **Fill the gaps.** The reference won't cover every Shopify need (empty cart, search results, error states). Phase 3 identifies what's missing and builds new components that feel native to the extracted design language.
 
-**Build real pages on top of the system.** Phase 4 uses content plans from Workflow 1 (what to build) and the design system from Phase 2 (how to style it) to build actual Shopify pages. The clone pages stay intact as regression tests.
+**Build real pages on top of the system.** Phase 4 uses content plans from Workflow 1 (what to build) and the design system from Phase 2 (how to style it) to build actual Shopify pages. The clone templates stay present as regression tests. If a clone pattern is promoted for production use, copy/extract it into a non-clone section or snippet and keep the clone version reserved for regression.
 
-**QA everything against everything.** Phase 5 compares clone pages against reference (still match?), real pages against clone pages (consistent?), and the design system reference page against itself (coherent?).
+**QA everything against everything.** Phase 5 compares clone pages against reference (still match?), real pages against clone pages/design system (consistent where patterns overlap?), and the design system reference page against itself (coherent?).
 
 **Header and footer are global.** Unlike page content, the header and footer appear on every page. They're Horizon section groups (`header-group.json`, `footer-group.json`). The workflow audits them in Phase 1, overrides their CSS in Phase 2, and configures navigation menus in Phase 4. They are NOT rebuilt from scratch — Horizon's header/footer functionality (mobile nav, search, cart icon) is preserved and only restyled.
 
@@ -910,7 +946,7 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 **Solution:**
 1. Check Shopify CLI is installed: `shopify --version`
-2. Check you're in the correct directory: `pwd` should be theme root
+2. Check you're in the **repository root** (not inside a variant folder): `pwd` should show the repo root containing `shopify.theme.toml`
 3. Check port is available: `lsof -i :9000` (if port 9000 is in use, specify a different one)
 4. Refer to `docs/workflows/skills/dev-server-management/SKILL.md` for detailed troubleshooting
 
@@ -964,10 +1000,10 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 1. Check `$THEME_ROOT/.workflow/progress.md` — it should have a complete record
 2. Check for phase deliverables:
    - Phase 1: `design-tokens-map.md`, `component-inventory.md`, `reference-pages-catalog.md`, `page.clone-*.json` templates
-   - Phase 2: `design-system-*.css` files, updated `settings_schema.json`, `page.design-system.json` template, `design-system-handoff.md`
+   - Phase 2: `snippets/{prefix}tokens.liquid`, `assets/{prefix}base.css`, `assets/{prefix}primitives.css`, updated `settings_schema.json`, `page.design-system.json` template, `design-system-handoff.md`
    - Phase 3: gap analysis documents, updated component inventory
-   - Phase 4: real page templates, implementation screenshots
-   - Phase 5: QA reports, final screenshots, final report
+   - Phase 4: real page templates, `store-readiness.md`, `navigation-config.md`, implementation screenshots
+   - Phase 5: `qa-*.md` reports, `final-screenshots/`, `deviations.md`, `final-report.md`
 3. If a phase is missing deliverables, go back and complete it
 
 ---
@@ -976,8 +1012,8 @@ Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 When the workflow is complete:
 
-1. **Review locally:** Run `shopify theme dev $THEME_ROOT` and manually test the store
-2. **Push to dev store (optional):** `shopify theme push -e my-variant` (after reviewing changes)
+1. **Review locally:** Run `shopify theme dev -e <variant>` from the **repo root** and manually test the store
+2. **Push to dev store (optional):** `shopify theme push -e <variant>` from the **repo root** (after reviewing changes)
 3. **Document any customizations:** If you made changes not covered by the workflow, document them
 4. **Archive the workflow files:** Consider moving `$THEME_ROOT/.workflow/` to a safe location for reference
 5. **Share the design system:** The design system files (`assets/design-system-*.css` and reference page) can be reused in future projects

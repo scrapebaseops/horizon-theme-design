@@ -373,34 +373,34 @@ For each missing component (starting with critical/high priority):
    **Example: Loading Spinner**
    ```css
    /* Loading Spinner */
-   .spinner {
+   .{prefix}spinner {
      width: 24px;
      height: 24px;
      border: 3px solid var(--color-border);
      border-top-color: var(--color-primary);
      border-radius: 50%;
-     animation: spin 0.8s linear infinite;
+     animation: {prefix}spin 0.8s linear infinite;
    }
 
-   @keyframes spin {
+   @keyframes {prefix}spin {
      to {
        transform: rotate(360deg);
      }
    }
 
-   .spinner-lg {
+   .{prefix}spinner--lg {
      width: 32px;
      height: 32px;
      border-width: 4px;
    }
 
    /* Loading state on buttons */
-   .btn.is-loading {
+   .{prefix}btn.is-loading {
      pointer-events: none;
      opacity: 0.7;
    }
 
-   .btn.is-loading::after {
+   .{prefix}btn.is-loading::after {
      content: '';
      display: inline-block;
      width: 14px;
@@ -409,7 +409,7 @@ For each missing component (starting with critical/high priority):
      border-top-color: currentColor;
      border-radius: 50%;
      margin-left: var(--spacing-sm);
-     animation: spin 0.8s linear infinite;
+     animation: {prefix}spin 0.8s linear infinite;
    }
    ```
 
@@ -424,15 +424,13 @@ For each missing component (starting with critical/high priority):
    - Type: Atom
    - Variants: default, large
    - Usage: Product pages, forms, async operations
-   - CSS Classes: .spinner, .spinner-lg
+   - CSS Classes: .{prefix}spinner, .{prefix}spinner--lg
    - Status: Built
    ```
 
 ### 3.3 Build Common Gaps Systematically
 
 **Objective:** Implement the most critical missing components.
-
-**Note:** All CSS classes below should use your project prefix. For example, if your prefix is `lxn-`, then `.spinner` becomes `.lxn-spinner`, `.option-selector` becomes `.lxn-option-selector`, etc. The examples below omit the prefix for readability, but you must include it in your actual code.
 
 **Instructions:**
 
@@ -443,13 +441,13 @@ Follow this order (critical first):
    **Variant Selector:**
    ```css
    /* Variant selector options */
-   .option-selector {
+   .{prefix}option-selector {
      display: flex;
      flex-wrap: wrap;
      gap: var(--spacing-base);
    }
 
-   .option-item {
+   .{prefix}option-item {
      padding: var(--spacing-sm) var(--spacing-base);
      border: 2px solid var(--color-border);
      border-radius: var(--border-radius-base);
@@ -457,17 +455,17 @@ Follow this order (critical first):
      transition: all var(--transition-base);
    }
 
-   .option-item:hover {
+   .{prefix}option-item:hover {
      border-color: var(--color-primary);
    }
 
-   .option-item.active {
+   .{prefix}option-item.is-active {
      background-color: var(--color-primary);
-     color: white;
+     color: var(--color-primary-button-text);
      border-color: var(--color-primary);
    }
 
-   .option-item:disabled {
+   .{prefix}option-item:disabled {
      opacity: 0.5;
      cursor: not-allowed;
    }
@@ -476,7 +474,7 @@ Follow this order (critical first):
    **Quantity Selector:**
    ```css
    /* Quantity selector */
-   .quantity-selector {
+   .{prefix}quantity-selector {
      display: inline-flex;
      align-items: center;
      border: 1px solid var(--color-border);
@@ -484,7 +482,7 @@ Follow this order (critical first):
      width: fit-content;
    }
 
-   .quantity-btn {
+   .{prefix}quantity-btn {
      background: none;
      border: none;
      width: 40px;
@@ -497,11 +495,11 @@ Follow this order (critical first):
      transition: background-color var(--transition-base);
    }
 
-   .quantity-btn:hover {
+   .{prefix}quantity-btn:hover {
      background-color: var(--color-border);
    }
 
-   .quantity-input {
+   .{prefix}quantity-input {
      border: none;
      width: 50px;
      text-align: center;
@@ -512,31 +510,31 @@ Follow this order (critical first):
    **Price Display with Sale:**
    ```css
    /* Price display */
-   .price-group {
+   .{prefix}price-group {
      display: flex;
      align-items: center;
      gap: var(--spacing-sm);
    }
 
-   .price-regular {
+   .{prefix}price-regular {
      font-size: var(--type-h4);
      font-weight: 700;
-     color: var(--color-text-primary);
+     color: var(--color-foreground);
    }
 
-   .price-sale {
+   .{prefix}price-sale {
      font-size: var(--type-h4);
      font-weight: 700;
      color: var(--color-primary);
    }
 
-   .price-original {
+   .{prefix}price-original {
      font-size: var(--type-small);
-     color: var(--color-text-secondary);
+     color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
      text-decoration: line-through;
    }
 
-   .price-badge {
+   .{prefix}price-badge {
      background-color: var(--color-error);
      color: white;
      padding: var(--spacing-xs) var(--spacing-sm);
@@ -549,28 +547,28 @@ Follow this order (critical first):
    **Stock Status:**
    ```css
    /* Stock status */
-   .stock-status {
+   .{prefix}stock-status {
      display: flex;
      align-items: center;
      gap: var(--spacing-sm);
      font-size: var(--type-small);
    }
 
-   .stock-badge {
+   .{prefix}stock-badge {
      width: 8px;
      height: 8px;
      border-radius: 50%;
    }
 
-   .stock-badge.in-stock {
+   .{prefix}stock-badge--in-stock {
      background-color: var(--color-success);
    }
 
-   .stock-badge.low-stock {
+   .{prefix}stock-badge--low-stock {
      background-color: var(--color-warning);
    }
 
-   .stock-badge.out-of-stock {
+   .{prefix}stock-badge--out-of-stock {
      background-color: var(--color-error);
    }
    ```
@@ -580,20 +578,20 @@ Follow this order (critical first):
    **Form Error/Success States:**
    ```css
    /* Form group with states */
-   .form-group {
+   .{prefix}form-group {
      margin-bottom: var(--spacing-base);
    }
 
-   .form-group label {
+   .{prefix}form-group label {
      display: block;
      font-weight: 600;
      margin-bottom: var(--spacing-sm);
      font-size: var(--type-small);
    }
 
-   .form-group input,
-   .form-group textarea,
-   .form-group select {
+   .{prefix}form-group input,
+   .{prefix}form-group textarea,
+   .{prefix}form-group select {
      width: 100%;
      padding: var(--spacing-sm) var(--spacing-base);
      border: 1px solid var(--color-border);
@@ -603,26 +601,26 @@ Follow this order (critical first):
      transition: border-color var(--transition-base), box-shadow var(--transition-base);
    }
 
-   .form-group input:focus,
-   .form-group textarea:focus,
-   .form-group select:focus {
+   .{prefix}form-group input:focus,
+   .{prefix}form-group textarea:focus,
+   .{prefix}form-group select:focus {
      outline: none;
      border-color: var(--color-primary);
      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
    }
 
    /* Error state */
-   .form-group.has-error input,
-   .form-group.has-error textarea {
+   .{prefix}form-group.has-error input,
+   .{prefix}form-group.has-error textarea {
      border-color: var(--color-error);
    }
 
-   .form-group.has-error input:focus,
-   .form-group.has-error textarea:focus {
+   .{prefix}form-group.has-error input:focus,
+   .{prefix}form-group.has-error textarea:focus {
      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 10%, transparent);
    }
 
-   .form-error {
+   .{prefix}form-error {
      display: block;
      color: var(--color-error);
      font-size: var(--type-small);
@@ -630,17 +628,17 @@ Follow this order (critical first):
    }
 
    /* Success state */
-   .form-group.has-success input,
-   .form-group.has-success textarea {
+   .{prefix}form-group.has-success input,
+   .{prefix}form-group.has-success textarea {
      border-color: var(--color-success);
    }
 
-   .form-group.has-success input:focus,
-   .form-group.has-success textarea:focus {
+   .{prefix}form-group.has-success input:focus,
+   .{prefix}form-group.has-success textarea:focus {
      box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 10%, transparent);
    }
 
-   .form-success {
+   .{prefix}form-success {
      display: block;
      color: var(--color-success);
      font-size: var(--type-small);
@@ -651,27 +649,27 @@ Follow this order (critical first):
    **Empty States:**
    ```css
    /* Empty state */
-   .empty-state {
+   .{prefix}empty-state {
      text-align: center;
      padding: var(--spacing-2xl) var(--spacing-lg);
    }
 
-   .empty-state-icon {
+   .{prefix}empty-state__icon {
      font-size: 48px;
      margin-bottom: var(--spacing-lg);
      opacity: 0.5;
    }
 
-   .empty-state h3 {
+   .{prefix}empty-state h3 {
      margin-bottom: var(--spacing-sm);
    }
 
-   .empty-state p {
-     color: var(--color-text-secondary);
+   .{prefix}empty-state p {
+     color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
      margin-bottom: var(--spacing-lg);
    }
 
-   .empty-state .btn {
+   .{prefix}empty-state .{prefix}btn {
      margin-top: var(--spacing-base);
    }
    ```
@@ -679,7 +677,7 @@ Follow this order (critical first):
    **Skeleton Loader:**
    ```css
    /* Skeleton loader */
-   .skeleton {
+   .{prefix}skeleton {
      background: linear-gradient(
        90deg,
        var(--color-border) 0%,
@@ -687,10 +685,10 @@ Follow this order (critical first):
        var(--color-border) 100%
      );
      background-size: 200% 100%;
-     animation: loading 1.5s infinite;
+     animation: {prefix}loading 1.5s infinite;
    }
 
-   @keyframes loading {
+   @keyframes {prefix}loading {
      0% {
        background-position: 200% 0;
      }
@@ -699,19 +697,19 @@ Follow this order (critical first):
      }
    }
 
-   .skeleton-text {
+   .{prefix}skeleton--text {
      height: 16px;
      margin-bottom: var(--spacing-sm);
      border-radius: var(--border-radius-sm);
    }
 
-   .skeleton-heading {
+   .{prefix}skeleton--heading {
      height: 24px;
      margin-bottom: var(--spacing-base);
      border-radius: var(--border-radius-sm);
    }
 
-   .skeleton-image {
+   .{prefix}skeleton--image {
      width: 100%;
      aspect-ratio: 1;
      border-radius: var(--border-radius-base);
@@ -723,41 +721,41 @@ Follow this order (critical first):
    **Breadcrumbs:**
    ```css
    /* Breadcrumbs */
-   .breadcrumbs {
+   .{prefix}breadcrumbs {
      display: flex;
      align-items: center;
      gap: var(--spacing-sm);
      margin-bottom: var(--spacing-lg);
    }
 
-   .breadcrumb-item {
+   .{prefix}breadcrumb__item {
      display: flex;
      align-items: center;
    }
 
-   .breadcrumb-link {
+   .{prefix}breadcrumb__link {
      color: var(--color-primary);
      text-decoration: none;
    }
 
-   .breadcrumb-link:hover {
+   .{prefix}breadcrumb__link:hover {
      text-decoration: underline;
    }
 
-   .breadcrumb-separator {
-     color: var(--color-text-secondary);
+   .{prefix}breadcrumb__separator {
+     color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
      margin: 0 var(--spacing-sm);
    }
 
-   .breadcrumb-current {
-     color: var(--color-text-secondary);
+   .{prefix}breadcrumb__current {
+     color: rgb(var(--color-foreground-rgb) / var(--opacity-40-60));
    }
    ```
 
    **Pagination:**
    ```css
    /* Pagination */
-   .pagination {
+   .{prefix}pagination {
      display: flex;
      align-items: center;
      justify-content: center;
@@ -765,7 +763,7 @@ Follow this order (critical first):
      margin-top: var(--spacing-lg);
    }
 
-   .pagination-item {
+   .{prefix}pagination__item {
      width: 40px;
      height: 40px;
      display: flex;
@@ -778,20 +776,20 @@ Follow this order (critical first):
      text-decoration: none;
    }
 
-   .pagination-item:hover {
+   .{prefix}pagination__item:hover {
      border-color: var(--color-primary);
      background-color: var(--color-primary);
      color: white;
    }
 
-   .pagination-item.active {
+   .{prefix}pagination__item.is-active {
      background-color: var(--color-primary);
      color: white;
      border-color: var(--color-primary);
    }
 
-   .pagination-item:disabled,
-   .pagination-item.disabled {
+   .{prefix}pagination__item:disabled,
+   .{prefix}pagination__item.is-disabled {
      opacity: 0.5;
      cursor: not-allowed;
    }
@@ -802,7 +800,7 @@ Follow this order (critical first):
    **Alert/Toast:**
    ```css
    /* Alert / Toast */
-   .alert {
+   .{prefix}alert {
      padding: var(--spacing-base);
      border-radius: var(--border-radius-base);
      margin-bottom: var(--spacing-base);
@@ -811,31 +809,31 @@ Follow this order (critical first):
      gap: var(--spacing-base);
    }
 
-   .alert-success {
+   .{prefix}alert--success {
      background-color: color-mix(in srgb, var(--color-success) 10%, transparent);
      border-left: 4px solid var(--color-success);
      color: var(--color-success);
    }
 
-   .alert-error {
+   .{prefix}alert--error {
      background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
      border-left: 4px solid var(--color-error);
      color: var(--color-error);
    }
 
-   .alert-warning {
+   .{prefix}alert--warning {
      background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
      border-left: 4px solid var(--color-warning);
      color: var(--color-warning);
    }
 
-   .alert-info {
+   .{prefix}alert--info {
      background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
      border-left: 4px solid var(--color-primary);
      color: var(--color-primary);
    }
 
-   .alert-close {
+   .{prefix}alert__close {
      margin-left: auto;
      background: none;
      border: none;
@@ -845,7 +843,7 @@ Follow this order (critical first):
      transition: opacity var(--transition-base);
    }
 
-   .alert-close:hover {
+   .{prefix}alert__close:hover {
      opacity: 1;
    }
    ```
@@ -987,7 +985,7 @@ Follow this order (critical first):
    - Type: Molecule
    - Variants: color, size, dropdown
    - States: available, selected, unavailable
-   - CSS Classes: .option-selector, .option-item, .option-item.active
+   - CSS Classes: .{prefix}option-selector, .{prefix}option-item, .{prefix}option-item.is-active
    - Snippets: snippets/variant-selector.liquid
    - Pages Used: Product page
    - Status: Built
@@ -997,7 +995,7 @@ Follow this order (critical first):
    - Type: Molecule
    - Variants: standard (default separator), arrow, slash
    - States: default, hover on links
-   - CSS Classes: .breadcrumbs, .breadcrumb-item, .breadcrumb-link
+   - CSS Classes: .{prefix}breadcrumbs, .{prefix}breadcrumb__item, .{prefix}breadcrumb__link
    - Pages Used: Product page, collection page, article page
    - Status: Built
    - Notes: Separators can be customized per theme settings if needed

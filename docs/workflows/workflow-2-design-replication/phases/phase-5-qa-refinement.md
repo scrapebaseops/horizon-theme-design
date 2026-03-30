@@ -32,6 +32,8 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
    - 390px viewport screenshot
 
 3. **Pages to screenshot:**
+   Use the actual preview routes documented in `THEME_ROOT/.workflow/store-readiness.md`. The handles below are examples only.
+
    - Real pages:
      - Homepage (`/`)
      - Product page (`/products/example-product`)
@@ -66,7 +68,7 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
      - `design-system-1440.png`
 
 5. **Screenshot technique:**
-   - Use Shopify admin preview or local development preview
+   - Use Shopify admin preview or local development preview for the exact routes listed in `store-readiness.md`
    - Ensure no admin UI in screenshots (just the storefront)
    - Full page screenshots (scroll to capture entire page)
    - Consistent viewport dimensions
@@ -131,7 +133,7 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
    - [ ] Hover states visible/correct (if applicable)
    - [ ] No regressions from refactoring
 
-   **Note on clone section naming:** Clone sections use the `clone-` prefix (e.g., `clone-hero.liquid`). If any real pages reuse clone sections directly, consider whether the naming is appropriate for the production theme. Renaming is optional but recommended for clarity — a section named `hero.liquid` is clearer than `clone-hero.liquid` in the final theme.
+   **Note on clone section naming:** Clone sections should remain reserved for clone/regression templates. If any real page still points directly at `clone-{prefix}*.liquid`, promote/copy that section into a production `{prefix}*.liquid` file and keep the clone version unchanged. Document any exception in `THEME_ROOT/.workflow/deviations.md`.
 
 3. **Document findings**: `THEME_ROOT/.workflow/qa-clone-verification.md`
    ```markdown
@@ -366,14 +368,14 @@ For each real page (homepage, product, collection, cart, etc.):
 
 **Instructions:**
 
-1. In terminal, navigate to theme directory:
+1. In terminal, navigate to the **repository root** (not the variant subfolder):
    ```bash
-   cd /path/to/theme
+   cd /path/to/repo-root
    ```
 
-2. Run theme check (if installed):
+2. Run theme check targeting your variant:
    ```bash
-   shopify theme check
+   shopify theme check -e <variant>
    ```
 
 3. Review output for:
@@ -398,21 +400,20 @@ For each real page (homepage, product, collection, cart, etc.):
    ## Infos: 0
 
    ### Warnings
-   1. File: sections/clone-hero.liquid
+   1. File: sections/clone-{prefix}hero.liquid
       Line: 45
       Issue: Missing alt text on image
       Fix: Added alt="{{ section.settings.image.alt }}"
       Status: ✅ FIXED
 
-   2. File: assets/primitives.css
+   2. File: assets/{prefix}primitives.css
       Line: 120
-      Issue: Unused CSS rule: .button-hover
-      Fix: Removed unused rule
-      Status: ✅ FIXED
+      Issue: Unused CSS rule
+      Status: ⚠️ Documented — non-blocking (warnings are acceptable per ENTRY.md Rule 4)
 
    ## Final Status
-   - [ ] All errors resolved
-   - [ ] All critical warnings resolved
+   - [ ] All errors resolved (zero errors required)
+   - [ ] Warnings reviewed and documented (warnings are OK per ENTRY.md Rule 4)
    - [ ] Code quality check PASS
    ```
 
@@ -477,8 +478,7 @@ Verify Liquid code quality:
 
 - [ ] No hardcoded values (use settings)
 - [ ] All user inputs are filtered/escaped
-- [ ] No SQL injection vulnerabilities
-- [ ] No XSS vulnerabilities
+- [ ] No XSS vulnerabilities (Liquid auto-escapes by default; verify no `| raw` or unfiltered output)
 - [ ] All images have alt text
 - [ ] All links have descriptive text
 - [ ] Comments present for complex logic
@@ -522,7 +522,7 @@ Status: ✅ PASS
 1. Check all template JSON files are valid JSON:
    - `templates/*.json`
    - `config/settings_schema.json`
-   - `config/locales/*.json`
+   - `locales/*.json`
 
 2. Verify schema definitions:
    - [ ] All blocks have unique IDs
@@ -781,7 +781,7 @@ Update `THEME_ROOT/.workflow/progress.md`:
 
 ### 8.2 Create Final Report
 
-**Objective:** Summarize what was built.
+**Objective:** Summarize what was built and record any intentional deviations.
 
 **Instructions:**
 
@@ -949,6 +949,18 @@ This theme is ready for:
 **Ready for next phase**
 ```
 
+Also create `THEME_ROOT/.workflow/deviations.md`:
+
+```markdown
+# Workflow 2 Deviations
+
+Document any intentional departures from the reference design or from the ideal design-system implementation.
+
+If there are no intentional deviations, write:
+
+- None. Clone pages match the reference and real pages align with the design system/content specs.
+```
+
 ### 8.3 Update Component Inventory
 
 **Objective:** Document final status of all components.
@@ -1075,6 +1087,7 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
 - [ ] All code quality checks passing
 - [ ] `THEME_ROOT/.workflow/progress.md` updated
 - [ ] `THEME_ROOT/.workflow/final-report.md` created
+- [ ] `THEME_ROOT/.workflow/deviations.md` created or explicitly states none
 - [ ] `THEME_ROOT/.workflow/qa-*.md` documents completed
 - [ ] Component inventory finalized
 - [ ] Executive summary created

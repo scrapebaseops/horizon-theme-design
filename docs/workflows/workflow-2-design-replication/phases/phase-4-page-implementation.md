@@ -90,18 +90,36 @@ For every Horizon native section you plan to use or override (product, collectio
 
 Save your findings to: `THEME_ROOT/.workflow/horizon-section-schemas.md`
 
+### 1.1c Verify Real Store Resources
+
+**Objective:** Make sure the real pages you build can actually be previewed against live Shopify resources, not just template JSON.
+
+**Instructions:**
+
+1. Open `THEME_ROOT/.workflow/store-readiness.md` from Pre-Flight.
+2. For each page in your implementation plan, record the actual preview route/handle you will test:
+   - Product page: `/products/<handle>`
+   - Collection page: `/collections/<handle>`
+   - Blog/article: `/blogs/<blog-handle>` and `/blogs/<blog-handle>/<article-handle>`
+   - Static pages: `/pages/<handle>`
+   - Policies: `/policies/<handle>`
+3. Record which resources already exist, which must be created/assigned in Shopify admin, and which are blocked.
+4. Note any required metafields or metaobjects for the page to render correctly.
+5. Use this document as the source of truth for Phase 5 screenshot routes. Do not rely on placeholder handles like `example-product` unless that is the real handle in your dev store.
+
 ### 1.2 Map Sections to Design System
 
-**Objective:** Determine which design system components or clone sections to use for each page section.
+**Objective:** Determine which design system components or production sections to use for each page section.
 
 **Instructions:**
 
 1. For each section required by a page:
 
-   **Option 1: Reuse Clone Section**
-   - If this section was built as a clone, you can reuse it
-   - Assign a block type name: `clone-{prefix}{section-name}`
-   - Note: "This is a reused clone section"
+   **Option 1: Promote Clone Pattern Into Production Section**
+   - If this section was built as a clone and is suitable for real pages, copy/extract the reusable parts into a production section or snippet
+   - Assign a production section type name: `{prefix}{section-name}`
+   - Keep the original `clone-{prefix}{section-name}` section reserved for clone/regression templates
+   - Note: "Promoted from clone pattern for production use"
 
    **Option 2: Override Horizon Native Section**
    - If Horizon provides the section (product, collection, etc.)
@@ -121,13 +139,13 @@ Save your findings to: `THEME_ROOT/.workflow/horizon-section-schemas.md`
    ## Homepage Sections
 
    ### Hero
-   - Assigned: clone-hero
-   - Reason: Exact match to reference design
-   - Build status: Reuse
+   - Assigned: {prefix}hero
+   - Reason: Promoted from clone pattern; exact match to reference design
+   - Build status: Reuse in production form
 
    ### Product Grid
-   - Assigned: clone-product-grid
-   - Reason: Exact match to reference design
+   - Assigned: {prefix}product-grid
+   - Reason: Promoted from clone pattern; exact match to reference design
    - Build status: Reuse (but will customize content per real products)
 
    ### Newsletter
@@ -179,21 +197,21 @@ Build pages in this order:
    ```json
    {
      "sections": {
-       "hero": {
-         "type": "clone-hero",
-         "settings": {
-           "heading": "Welcome to [Store]",
-           "subheading": "Shop our collections",
+      "hero": {
+        "type": "{prefix}hero",
+        "settings": {
+          "heading": "Welcome to [Store]",
+          "subheading": "Shop our collections",
            "image": "shopify://shop_images/...",
            "cta_text": "Shop Now",
            "cta_link": "/collections/all"
          }
-       },
-       "featured_products": {
-         "type": "clone-product-grid",
-         "settings": {
-           "heading": "Featured Products",
-           "products_count": 4
+      },
+      "featured_products": {
+        "type": "{prefix}product-grid",
+        "settings": {
+          "heading": "Featured Products",
+          "products_count": 4
          }
        },
        "feature_highlights": {
@@ -283,7 +301,7 @@ Build pages in this order:
    {
      "sections": {
        "main": {
-         "type": "product",
+         "type": "product-information",
          "settings": {
            "enable_sticky_info": true,
            "gallery_layout": "thumbnail",
@@ -496,7 +514,7 @@ Build pages in this order:
    ```css
    /* Cart page overrides */
    #MainContent .cart {
-     max-width: var(--container-default-width);
+     max-width: var(--page-width);
    }
 
    #MainContent .cart-item {
@@ -625,9 +643,9 @@ Build pages in this order:
    ```css
    /* Search page overrides */
    #MainContent .search__input {
-     border-radius: var(--border-radius-md);
-     font-family: var(--font-body);
-     padding: var(--space-sm) var(--space-md);
+     border-radius: var(--border-radius-base);
+     font-family: var(--type-body-family);
+     padding: var(--spacing-sm) var(--spacing-base);
    }
 
    #MainContent .search-results .product-card {
@@ -653,11 +671,11 @@ Build pages in this order:
    ```css
    /* List-Collections overrides */
    #MainContent .collection-list .collection-card {
-     border-radius: var(--border-radius-md);
+     border-radius: var(--border-radius-base);
    }
 
    #MainContent .collection-list .collection-card__title {
-     font-family: var(--font-heading);
+     font-family: var(--type-heading-family);
    }
    ```
 
@@ -761,19 +779,40 @@ Build pages in this order:
 
 4. **Create sections** that display error messages using design system:
    ```liquid
-   <section class="page-404">
-     <div class="container-narrow">
-       <div class="empty-state">
-         <div class="empty-state-icon">😕</div>
+   <section class="{prefix}page-404">
+     <div class="{prefix}container">
+       <div class="{prefix}empty-state">
+         <div class="{prefix}empty-state__icon">
+           {%- render 'icon', icon: 'search', size: 48 -%}
+         </div>
          <h1>Page Not Found</h1>
          <p>The page you're looking for doesn't exist.</p>
-         <a href="/" class="btn btn-primary">Return Home</a>
+         <a href="/" class="{prefix}btn {prefix}btn--primary">Return Home</a>
        </div>
      </div>
    </section>
    ```
 
 5. **Screenshot at all 3 viewports**.
+
+---
+
+## Step 2a: Connect Templates to Real Store Resources
+
+**Objective:** Ensure the templates built in Step 2 are attached to real Shopify resources so Phase 5 can be completed without guesswork.
+
+**Instructions:**
+
+1. Update `THEME_ROOT/.workflow/store-readiness.md` with the actual handles and assignments for every page you built.
+2. For each template, document how it is reached:
+   - `templates/index.json` serves `/`
+   - `templates/product.json` requires at least one previewable product
+   - `templates/collection.json` requires at least one previewable collection
+   - `templates/blog.json` / `templates/article.json` require a real blog and article
+   - `templates/page.json` / `templates/page.contact.json` require Shopify pages assigned as needed
+   - Policies and menus require store-side admin configuration
+3. If working with a dev store, create/assign any missing resources now and record the final handles.
+4. If working locally only, document the missing resources as blockers. Do not mark Phase 5 as fully complete for routes that cannot be previewed.
 
 ---
 
@@ -1076,7 +1115,7 @@ After all sub-agents complete, the main agent:
 
 6. **Refactor Up When Patterns Emerge:**
    - If 2 or more sections need the same custom CSS, don't duplicate it
-   - Move the shared styles up to `assets/primitives.css` as a new primitive class
+   - Move the shared styles up to `assets/{prefix}primitives.css` as a new primitive class
    - Section-specific CSS should be under 20 lines per section
    - If a section's custom CSS exceeds 20 lines, evaluate which parts can be promoted to primitives
    - This keeps the cascade clean: tokens → base → primitives handle 90%+ of styling
@@ -1183,6 +1222,8 @@ After all sub-agents complete, the main agent:
 - [ ] Search page is complete and passes visual QA
 - [ ] List-collections page is complete and passes visual QA
 - [ ] Contact page is complete and passes visual QA
+- [ ] `store-readiness.md` documents the actual preview routes, handles, and dependencies used for QA
+- [ ] All required store resources are created/assigned or explicitly documented as blockers
 - [ ] Navigation menus documented in navigation-config.md
 - [ ] Header configured and matching reference at all viewports
 - [ ] Footer configured and matching reference at all viewports

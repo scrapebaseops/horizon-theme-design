@@ -1,0 +1,15 @@
+---
+description: Brightlight pages — Astro routes under src/pages, layouts, dynamic [...slug] and tag routes
+globs:
+  - "src/pages/**/*"
+alwaysApply: false
+---
+
+# Pages & routing (Brightlight)
+
+- **File-based routing:** Each `src/pages/**/*.astro` file maps to a URL path; `src/pages/rss.xml.js` exposes `/rss.xml`.
+- **Base shell:** Use `BaseLayout` from `@/layouts/BaseLayout.astro` for standard pages unless the file already uses a section layout (`BlogLayout`, `CustomersLayout`, etc.).
+- **Dynamic routes:** Several sections use `[...slug].astro` with `getCollection` and `params: { slug: entry.id }`. Slugs are **collection entry ids** (Markdown file stems / loader ids), not arbitrary strings.
+- **Blog:** List/index lives under `src/pages/blog/`; individual posts are `blog/posts/[...slug].astro` (collection `posts`). Tag pages: `blog/tags/[tag].astro` — `tag` is a literal tag string from post frontmatter.
+- **Trailing slashes:** Some `getStaticPaths` return `trailingSlash: false`; keep that consistent when adding similar routes.
+- **Design system previews:** `src/pages/system/*` are internal overview screens; don’t remove them without an explicit request.
