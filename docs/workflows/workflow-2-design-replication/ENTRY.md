@@ -10,7 +10,7 @@ This is the main autonomous workflow for replicating a reference website's desig
 - Autonomous: Designed to run with minimal human intervention once configured
 - Iterative: Uses screenshot comparison loops for gradual refinement
 - Comprehensive: Produces not just code, but a documented design system
-- Structured: Broken into 7 phases with clear completion criteria for each
+- Structured: Broken into 5 phases with clear completion criteria for each
 
 ---
 
@@ -185,7 +185,7 @@ If any check fails, resolve it before proceeding.
 
 ## Pre-Flight Phase (Setup & Validation)
 
-Before the 7 phases begin, perform these setup steps.
+Before the 5 phases begin, perform these setup steps.
 
 ### Step 1: Validate All Inputs
 
@@ -236,6 +236,28 @@ echo "All inputs validated successfully."
 
 **Decision:** If any validation fails, stop and fix the input before proceeding. Do not skip validation.
 
+### Step 1b: Choose CSS Prefix
+
+**Action:** Choose a unique 3-letter prefix string for all custom CSS files, classes, sections, and snippets. This prevents collisions with Horizon's native styles and third-party apps.
+
+**Format:** 3 lowercase letters, followed by a hyphen. Example: `abc-`, `lxn-`, `brv-`.
+
+**How to choose:** Derive from the brand name (e.g., "Lexington" → `lxn-`, "Bravado" → `brv-`), or generate a random string.
+
+**Record it:** Create a file `THEME_ROOT/.workflow/prefix.txt` containing just the prefix string:
+```bash
+echo "lxn-" > "$THEME_ROOT/.workflow/prefix.txt"
+```
+
+**This prefix is used everywhere:**
+- CSS files: `assets/{prefix}tokens.css`, `assets/{prefix}base.css`, `assets/{prefix}primitives.css`
+- CSS classes: `.{prefix}btn`, `.{prefix}card`, `.{prefix}heading`
+- Section files: `sections/{prefix}hero.liquid`, `sections/{prefix}features.liquid`
+- Snippet files: `snippets/{prefix}product-card.liquid`
+- Clone sections during Phase 1: `sections/clone-{prefix}hero.liquid`
+
+**Why:** The code-architecture skill mandates a consistent prefix. It scopes your design system cleanly away from Horizon's native styles and any future apps or integrations.
+
 ### Step 2: Read Required Skills
 
 Before the phases begin, read these skill documents in full. These are the rules that govern all work in this workflow.
@@ -283,6 +305,7 @@ mkdir -p "$THEME_ROOT/.workflow/comparisons"
 
 ```bash
 echo ".workflow/" >> "$THEME_ROOT/.shopifyignore"
+echo ".workflow/" >> "$THEME_ROOT/.gitignore"
 ```
 
 **Verify:**
@@ -371,12 +394,14 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 - Complete design token extraction (colors, typography, spacing, borders, shadows)
 - Clone pages for every page in the reference design
 - Component inventory documenting all components found in reference
+- Header and footer audit (layout, navigation, announcement bar)
 
 **Completion criteria:**
 - Design tokens comprehensively documented
 - Clone pages created for all reference pages
 - Visual parity achieved at all viewports (desktop 1440px, tablet 768px, mobile 390px)
 - All components identified and cataloged
+- Header and footer documented and included in clone pages
 
 **If you run out of context:**
 → Spawn a sub-agent to continue. Provide the reference path and list of pages already completed.
@@ -396,6 +421,7 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 - Base styles (typography, spacing, layout)
 - Component primitives (buttons, cards, forms, etc.)
 - Design system reference page showcasing all components
+- Header and footer CSS overrides
 
 **Completion criteria:**
 - All design tokens from Phase 1 are in theme settings or CSS variables
@@ -440,6 +466,7 @@ After pre-flight, the workflow proceeds through 5 phases. Each phase has:
 - Build using design system sections and components
 - All styling comes from the design system layers
 - Every section and block should have appropriate theme settings
+- Header and footer styled via CSS overrides and configured with correct navigation menus
 
 **Completion criteria:**
 - All required Shopify pages built and functional
@@ -608,7 +635,7 @@ Zero errors required for completion. (Warnings are OK.)
 
 **Why:** theme-check catches Liquid errors, missing required files, and best practice violations.
 
-**How to verify:** Check Phase 7 QA report includes theme-check output.
+**How to verify:** Check Phase 5 QA report includes theme-check output.
 
 ### Rule 5: Use Sub-Agents for Complexity Management
 
@@ -636,7 +663,7 @@ After completing each phase, update `$THEME_ROOT/.workflow/progress.md`:
 
 ### Rule 7: Keep Clone Pages as Reference
 
-Do NOT delete or modify clone pages (e.g., `page.clone-homepage.json`) after Phase 2. Use them as a reference during later phases to verify your design system implementation matches the original design.
+Do NOT delete or modify clone pages (e.g., `page.clone-homepage.json`) after Phase 1. Use them as a reference during later phases to verify your design system implementation matches the original design.
 
 **Why:** Clone pages prove the design can be replicated and serve as a visual regression test.
 
@@ -644,60 +671,212 @@ Do NOT delete or modify clone pages (e.g., `page.clone-homepage.json`) after Pha
 
 ---
 
-## Context Management
+## How This Workflow Thinks
 
-This workflow is designed to run across multiple AI agent sessions. Use these guidelines to manage context:
+Before diving into phases, understand the logic that connects them.
 
-### When to Spawn a Sub-Agent
+**Clone first, then extract.** You start by making temporary 1:1 copies of the reference design as Shopify pages (Phase 1). This forces you to truly understand the reference — every spacing value, every color, every component — because you can't clone it without understanding it. The clone pages prove the design *can* be replicated in Horizon.
 
-Spawn a sub-agent when:
-- You're approaching 80% of your context window and still have significant work left
-- A phase is large enough to be a standalone project (e.g., 5+ pages to clone)
-- You're working on multiple unrelated tasks that can be parallelized
+**Extract the system from the clones.** Once clone pages match the reference pixel-for-pixel, you formalize what you learned into a layered design system (Phase 2) — tokens, base styles, primitives. Then you refactor the clone pages to use these layers. If the clones still match after refactoring, your design system is correct.
 
-### How to Spawn a Sub-Agent
+**Fill the gaps.** The reference won't cover every Shopify need (empty cart, search results, error states). Phase 3 identifies what's missing and builds new components that feel native to the extracted design language.
 
-1. **Create clear handoff instructions:**
-   ```markdown
-   # Sub-Agent Handoff: Phase 2 Clone Pages (Continued)
+**Build real pages on top of the system.** Phase 4 uses content plans from Workflow 1 (what to build) and the design system from Phase 2 (how to style it) to build actual Shopify pages. The clone pages stay intact as regression tests.
 
-   **What to do:**
-   Build clone pages for: [list pages]
-   Follow Phase 2 instructions in: phases/phase-2-design-system-extraction.md
+**QA everything against everything.** Phase 5 compares clone pages against reference (still match?), real pages against clone pages (consistent?), and the design system reference page against itself (coherent?).
 
-   **What's already done:**
-   - [list completed pages]
-   - [reference previous work]
+**Header and footer are global.** Unlike page content, the header and footer appear on every page. They're Horizon section groups (`header-group.json`, `footer-group.json`). The workflow audits them in Phase 1, overrides their CSS in Phase 2, and configures navigation menus in Phase 4. They are NOT rebuilt from scratch — Horizon's header/footer functionality (mobile nav, search, cart icon) is preserved and only restyled.
 
-   **Inputs:**
-   - THEME_ROOT: [path]
-   - REFERENCE_PATH: [path]
-   - REFERENCE_SERVER_URL: [url if applicable]
+**Color schemes, not flat colors.** Horizon uses a color scheme system — named schemes (e.g., "Scheme 1", "Scheme 2") each containing background, foreground, primary, and button colors. Sections choose which scheme to use, enabling alternating light/dark sections. The workflow maps extracted tokens into Horizon's scheme architecture rather than fighting against it.
 
-   **Output location:**
-   Save work to: $THEME_ROOT/templates/page.clone-*.json
-   Document progress in: $THEME_ROOT/.workflow/progress.md
-   ```
+**The CSS cascade philosophy.** All styling flows through a strict hierarchy:
+1. **Theme Settings** → merchant-configurable values (colors, fonts, spacing)
+2. **Design Tokens CSS** → settings converted to CSS custom properties
+3. **Base Styles CSS** → typography, reset, layout containers
+4. **Component Primitives CSS** → buttons, cards, forms, badges
+5. **Section-Specific CSS** → minimal overrides for unique sections (should be <20 lines per section)
 
-2. **Provide the sub-agent with:**
-   - Clear task scope (what to build, what not to touch)
-   - Input paths and URLs
-   - Reference to detailed instructions (phase docs, skills)
-   - Expected deliverables
-   - Location of previous work/progress logs
+If two sections need the same custom CSS, refactor it up to primitives. Section-specific CSS is a last resort, not the default.
 
-3. **When the sub-agent completes:**
-   - Verify the deliverables exist and are correct
-   - Merge their progress into your progress.md
-   - Continue to the next phase
+**The design system reference page is your canary.** After Phase 2 creates it, you check it after every significant change — new components in Phase 3, every page build in Phase 4, every QA fix in Phase 5. If the reference page looks broken, something upstream is wrong.
+
+---
+
+## Agent Execution Architecture
+
+This workflow is designed for autonomous AI agent execution. This section defines how agents manage context, hand off work, and maintain quality.
+
+### Execution Phases
+
+The workflow runs in four execution phases (not to be confused with the 5 workflow phases):
+
+```
+Execution Phase A: Reference Mastery (Main Agent)
+├── Workflow Phase 1: Reference Audit & Page Cloning
+├── Workflow Phase 2: Design System Extraction
+└── Creates: design-system-handoff.md
+
+Execution Phase B: Gap Fill (Main Agent)
+├── Workflow Phase 3: Gap Analysis & Fill
+├── Quality Gate: verify design system reference page
+└── Updates: design-system-handoff.md with new primitives/components
+
+Execution Phase C: Page Build (Sequential then Parallel Sub-Agents)
+├── Step 1: Homepage build (main agent or single sub-agent) — establishes patterns
+├── Quality Gate: verify reference page, update handoff brief with homepage learnings
+├── Step 2: Remaining batches (parallel sub-agents)
+├── Workflow Phase 4: Page Implementation
+└── Sub-agents receive: updated design-system-handoff.md + page assignments
+
+Execution Phase D: QA (Main Agent or Fresh Sub-Agent)
+├── Workflow Phase 5: Final QA & Refinement
+└── Reads: all deliverables from Phases 1-4
+```
+
+**Why Phase 3 stays with the main agent:** Gap analysis is holistic — it requires understanding the full design system to decide what's missing and where new components fit. Sub-agents building individual pages shouldn't be making system-level architecture decisions. The main agent keeps full context from Phases 1-2 and is best positioned to fill gaps coherently.
+
+**Why Homepage builds first, alone:** The homepage touches the most section types and establishes patterns (how to use primitives, how to structure section JSON, how section-specific CSS interacts with the design system). Building it first — and then updating the handoff brief with what was learned — gives every subsequent sub-agent better instructions.
+
+### The Design System Handoff Brief
+
+After Phase 2, the main agent creates `THEME_ROOT/.workflow/design-system-handoff.md` — a compact (~2000-3000 token) document that gives any sub-agent everything it needs to build pages correctly. This replaces the need to re-read all design system files.
+
+**Template:**
+```markdown
+# Design System Handoff Brief
+
+## Prefix
+All custom files and classes use the prefix: `{prefix}` (e.g., `lxn-`)
+
+## CSS Architecture
+- Load order: {prefix}tokens.css → {prefix}base.css → {prefix}primitives.css (registered in snippets/stylesheets.liquid)
+- All values via CSS custom properties (never hardcode colors/spacing)
+- Section-specific CSS < 20 lines; if 2+ sections need it, move to primitives
+
+## Key Tokens
+- Primary: [value] | Secondary: [value]
+- Heading font: [value] | Body font: [value]
+- Spacing scale: xs=[value], sm=[value], base=[value], md=[value], lg=[value], xl=[value]
+- Border radius: sm=[value], base=[value], lg=[value]
+
+## Available Primitives
+- Buttons: .{prefix}btn, .{prefix}btn--primary, .{prefix}btn--secondary, .{prefix}btn--outline
+- Cards: .{prefix}card, .{prefix}card__image, .{prefix}card__title, .{prefix}card__footer
+- Forms: .{prefix}form-group, .{prefix}form-error, .{prefix}form-success
+- Layout: .{prefix}container, .{prefix}container--narrow, .{prefix}container--wide
+- [List all available primitive classes]
+
+## Coding Rules
+- Use {% render %} not {% include %}
+- Horizon native sections: override CSS only, never fork the Liquid
+- All images need alt text
+- All interactive elements need focus states
+- Settings: use Shopify setting types (color, font_picker, range, etc.)
+
+## Reference Page
+- Location: templates/page.design-system.json
+- Check this page after every significant change
+- If anything looks broken, fix before continuing
+
+## Quality Standards
+- theme-check: zero errors
+- No console errors in browser
+- Responsive at 1440px, 768px, 390px
+```
+
+### Sub-Agent Strategy
+
+**Phase 1 Sub-Agents (if needed):** One per clone page. Each receives reference screenshots, design tokens map, component inventory, and code architecture skill reference.
+
+**Phase 4 Sub-Agents — Two-Stage Launch:**
+
+Stage 1 (Sequential): Homepage builds first. This is the most important page and touches the most section types. It establishes patterns for how primitives are used, how section JSON is structured, and how section-specific CSS interacts with the design system. The main agent (or a single sub-agent) builds the homepage, then:
+
+1. Screenshots at all three breakpoints and verifies against reference
+2. Loads the design system reference page and verifies nothing broke
+3. **Updates `design-system-handoff.md`** with any learnings: new patterns discovered, primitives that needed adjustment, gotchas to avoid, section JSON conventions that worked well
+4. Only then proceeds to Stage 2
+
+Stage 2 (Parallel): Remaining pages launch in batches:
+- Batch A: Product + Cart
+- Batch B: Collection + Search + List-Collections
+- Batch C: Blog + Article
+- Batch D: Custom pages (About, Contact, FAQ, etc.)
+- Batch E: 404 + Password
+
+Each batch sub-agent receives: the **updated** design-system-handoff.md (with homepage learnings), content specs for assigned pages, site-content-map.md (for shared component awareness), and the code architecture skill reference.
+
+**Inter-Batch Issue Propagation:** If a sub-agent discovers that a shared primitive or token needs fixing, it should:
+1. Fix it in its own build
+2. Flag it clearly in its completion report (under a "SHARED FIXES" heading)
+3. The main agent reviews all completion reports and applies shared fixes before signing off
+
+For stores with fewer than 6 total pages, skip sub-agents entirely — the main agent builds all pages sequentially, maintaining full context. Sub-agents are a scaling strategy, not the default.
+
+### Quality Gates
+
+There are three explicit quality gates where work must stop and verify before continuing:
+
+1. **After Phase 2 (Design System Extraction):** Load the design system reference page. Every token, primitive, and component must render correctly. If anything is wrong, fix it before creating the handoff brief.
+
+2. **After Phase 3 (Gap Fill):** Load the design system reference page again. All new primitives and components added during gap-fill must render correctly alongside the originals. Update the handoff brief with new additions.
+
+3. **After Homepage Build (Phase 4 Stage 1):** Full visual comparison of homepage at all breakpoints. Design system reference page must still be intact. Handoff brief must be updated with homepage learnings before any parallel batches launch.
+
+Skipping a quality gate to save time will always cost more time later.
+
+### Context Pressure Decision Points
+
+There are two moments where the agent evaluates whether to continue or spawn sub-agents:
+
+1. **After Phase 1 cloning:** If more than 4 pages needed cloning and context is above 60%, spawn sub-agents for remaining clones.
+2. **Before Phase 4 parallel batches (Stage 2):** The decision depends on both context pressure and project size:
+   - **Small stores (≤6 pages):** Main agent builds all pages sequentially regardless of context. Full context produces better results than fragmented sub-agents.
+   - **Medium stores (7-12 pages):** If context is above 50%, spawn sub-agents for Stage 2 batches. Otherwise, main agent continues.
+   - **Large stores (13+ pages):** Always spawn sub-agents for Stage 2 batches. The main agent manages coordination.
+
+### Sub-Agent Prompt Template
+
+When spawning a sub-agent, provide:
+```
+You are building Shopify theme pages for [project name].
+
+Read these files first (in this order):
+0. THEME_ROOT/.workflow/prefix.txt (your CSS prefix — use it on ALL custom classes and files)
+1. THEME_ROOT/.workflow/design-system-handoff.md (your styling guide and pattern reference)
+2. docs/workflows/skills/code-architecture/SKILL.md (your coding rules)
+3. docs/workflows/skills/visual-comparison/SKILL.md (your QA methodology)
+
+Then read these source files to understand what's available:
+4. THEME_ROOT/snippets/{prefix}tokens.liquid (all design tokens)
+5. THEME_ROOT/assets/{prefix}primitives.css (all shared component classes)
+6. THEME_ROOT/assets/{prefix}base.css (base/reset styles)
+7. THEME_ROOT/snippets/stylesheets.liquid (CSS load order — register any new CSS here)
+
+Your assignment: [specific pages]
+Content specs: [paths to W1 page specs]
+Theme root: [THEME_ROOT path]
+
+Build each page following Phase 4 instructions in phases/phase-4-page-implementation.md.
+After each page, screenshot at 1440px, 768px, 390px and verify.
+After each page, load page.design-system.json and visually verify nothing is broken.
+
+If you need to fix a shared primitive or token to make your pages work:
+- Make the fix
+- Flag it under "SHARED FIXES" in your completion report so other agents get the update
+
+Report back: files created, files modified, SHARED FIXES (if any), any issues found.
+```
 
 ### Token Budget
 
-Phases 1–3 should fit in a single session (80–100K tokens).
-Phase 2 (clone pages) is the longest and may require multiple sessions or sub-agents.
-Phases 4–7 should fit in a single session each.
+Phases 1–2 should fit in a single session (80–100K tokens).
+Phase 3 should fit in a single session (~20-30K tokens).
+Phase 4 Homepage (Stage 1) should fit in a single session (~30-40K tokens).
+Phase 4 remaining batches run in parallel sub-agents (~30-40K tokens each).
+Phase 5 should fit in a single session (~30-40K tokens).
 
-Total budget: ~200K tokens for entire workflow.
+Total budget: ~200-300K tokens for entire workflow, depending on store size.
 
 ---
 
@@ -746,7 +925,7 @@ Total budget: ~200K tokens for entire workflow.
 
 ### Problem: Phase Takes Much Longer Than Expected
 
-**Symptom:** You're 5 hours into Phase 2 and only halfway done cloning pages.
+**Symptom:** You're 5 hours into Phase 1 and only halfway done cloning pages.
 
 **Solution:**
 1. Consider spawning a sub-agent to handle remaining pages in parallel
@@ -772,11 +951,11 @@ Total budget: ~200K tokens for entire workflow.
 **Solution:**
 1. Check `$THEME_ROOT/.workflow/progress.md` — it should have a complete record
 2. Check for phase deliverables:
-   - Phase 1: `design-tokens-map.md`, `component-inventory.md`, `reference-pages-catalog.md`
-   - Phase 2: `page.clone-*.json` templates, `clone-pages-build-log.md`
-   - Phase 3: `design-system-*.css` files, updated `settings_schema.json`
-   - Phase 4: `page.design-system.json` template
-   - Phases 5–7: corresponding log files in `.workflow/`
+   - Phase 1: `design-tokens-map.md`, `component-inventory.md`, `reference-pages-catalog.md`, `page.clone-*.json` templates
+   - Phase 2: `design-system-*.css` files, updated `settings_schema.json`, `page.design-system.json` template, `design-system-handoff.md`
+   - Phase 3: gap analysis documents, updated component inventory
+   - Phase 4: real page templates, implementation screenshots
+   - Phase 5: QA reports, final screenshots, final report
 3. If a phase is missing deliverables, go back and complete it
 
 ---

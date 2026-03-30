@@ -10,6 +10,10 @@ By the end of this phase, you will have:
 - Complete documentation of the completed design system
 - A final report for stakeholders
 
+### Naming Convention
+
+All file references in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. Replace `{prefix}` with your actual prefix (e.g., `lxn-`).
+
 ---
 
 ## Step 1: Full Screenshot Audit
@@ -39,6 +43,7 @@ By the end of this phase, you will have:
      - Contact page (`/pages/contact`)
      - FAQ page (if applicable)
      - Search results page (`/search?q=test`)
+     - List collections page (`/collections`)
      - 404 page (link to `/non-existent-page`)
      - Password page (if applicable)
      - Any other custom pages
@@ -126,6 +131,8 @@ By the end of this phase, you will have:
    - [ ] Hover states visible/correct (if applicable)
    - [ ] No regressions from refactoring
 
+   **Note on clone section naming:** Clone sections use the `clone-` prefix (e.g., `clone-hero.liquid`). If any real pages reuse clone sections directly, consider whether the naming is appropriate for the production theme. Renaming is optional but recommended for clarity — a section named `hero.liquid` is clearer than `clone-hero.liquid` in the final theme.
+
 3. **Document findings**: `THEME_ROOT/.workflow/qa-clone-verification.md`
    ```markdown
    # Clone Page Verification
@@ -193,7 +200,18 @@ For each real page (homepage, product, collection, cart, etc.):
    - Do quantity selectors work (product/cart)?
    - Do any accordions/modals open/close?
 
-5. **Document findings**: `THEME_ROOT/.workflow/qa-real-pages.md`
+5. **Review header and footer (global):**
+   - Header matches reference at all viewports
+   - Logo displays correctly
+   - Navigation menu populated and styled
+   - Mobile navigation opens/closes
+   - Sticky header behavior correct
+   - Announcement bar displays (if applicable)
+   - Footer layout matches reference
+   - Footer links, newsletter, social icons all present
+   - Payment icons display
+
+6. **Document findings**: `THEME_ROOT/.workflow/qa-real-pages.md`
    ```markdown
    # Real Page Quality Review
 
@@ -408,11 +426,10 @@ For each real page (homepage, product, collection, cart, etc.):
 
 Verify CSS file structure:
 
-- [ ] `assets/design-tokens.css` - All design tokens
-- [ ] `assets/base.css` - Base styles (reset, typography, containers)
-- [ ] `assets/primitives.css` - Component primitives (buttons, cards, forms, etc.)
-- [ ] `assets/horizon-overrides.css` - Overrides for Horizon native sections
-- [ ] `assets/theme.css` or `assets/main.css` - Any remaining global styles
+- [ ] `snippets/{prefix}tokens.liquid` - All design tokens (loaded via {% render %} in a <style> tag in theme.liquid)
+- [ ] `assets/{prefix}base.css` - Base styles (reset, typography, containers)
+- [ ] `assets/{prefix}primitives.css` - Component primitives, Horizon overrides (buttons, cards, forms, etc.)
+- [ ] Horizon overrides are inside `{prefix}primitives.css`, scoped under `#MainContent` (no separate overrides file)
 
 Verify no CSS in wrong places:
 
@@ -421,29 +438,24 @@ Verify no CSS in wrong places:
 - [ ] All CSS loaded in correct order in `theme.liquid`
 
 **Load order should be:**
-1. design-tokens.css
-2. base.css
-3. primitives.css
-4. horizon-overrides.css
-5. Any section-specific CSS files
+1. `snippets/{prefix}tokens.liquid` (rendered inline via `<style>` tag in theme.liquid, BEFORE `{% render 'stylesheets' %}`)
+2. `assets/{prefix}base.css` (registered in `snippets/stylesheets.liquid`)
+3. `assets/{prefix}primitives.css` (registered in `snippets/stylesheets.liquid`, includes Horizon overrides)
 
 Document in: `THEME_ROOT/.workflow/qa-css-organization.md`
 ```markdown
 # CSS Organization Check
 
 ## File Structure
-- [x] assets/design-tokens.css - Contains all CSS variables
-- [x] assets/base.css - Reset, typography, containers
-- [x] assets/primitives.css - All component styles
-- [x] assets/horizon-overrides.css - Horizon section overrides
-- [x] assets/theme.css - Any remaining global styles
+- [x] snippets/{prefix}tokens.liquid - Contains all CSS variables (rendered server-side)
+- [x] assets/{prefix}base.css - Reset, typography, containers
+- [x] assets/{prefix}primitives.css - All component styles + Horizon overrides
+- [x] (Horizon overrides are in {prefix}primitives.css, scoped under #MainContent)
 
 ## Load Order (in theme.liquid)
-1. design-tokens.css
-2. base.css
-3. primitives.css
-4. horizon-overrides.css
-5. theme.css
+1. snippets/{prefix}tokens.liquid (rendered inline via <style> tag)
+2. {prefix}base.css (via snippets/stylesheets.liquid)
+3. {prefix}primitives.css (via snippets/stylesheets.liquid, includes Horizon overrides)
 
 Status: ✅ All CSS properly organized
 
@@ -736,6 +748,7 @@ Update `THEME_ROOT/.workflow/progress.md`:
 - Component primitives built
 - Design system reference page created
 - Clone pages refactored to use design system
+- Design system handoff brief created
 
 ## Phase 3: Gap Analysis & Fill
 - [x] COMPLETE
@@ -880,8 +893,8 @@ This report documents the completion of Workflow 2: Design Replication. The proj
 
 ## Remaining Work (if any)
 
-### Phase 6: Advanced Functionality
-These items were designed but not implemented (require JavaScript):
+### Advanced Functionality (Post-Workflow)
+These items were designed but not implemented during this workflow (require JavaScript or advanced features):
 - Product variant filtering
 - Dynamic collection sorting
 - Shopping cart animations
@@ -889,7 +902,7 @@ These items were designed but not implemented (require JavaScript):
 - Search functionality
 - [etc.]
 
-These will be implemented in Workflow 3/Phase 6 as needed.
+These can be implemented in a future workflow or as standalone enhancements.
 
 ## Deliverables Checklist
 
@@ -912,7 +925,7 @@ These will be implemented in Workflow 3/Phase 6 as needed.
 This theme is ready for:
 1. Client handoff and review
 2. Content population and testing
-3. Advanced feature implementation (Phase 6)
+3. Advanced feature implementation (future workflow)
 4. Launch preparation
 
 ## Project Statistics
@@ -1079,6 +1092,7 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
    - CSS variables and base styles
    - 50+ component primitives
    - Design system reference page
+   - Design system handoff brief for sub-agents
 
 2. **All Real Pages Built**
    - Homepage, product, collection, cart, blog, pages, errors
@@ -1120,4 +1134,4 @@ The design replication workflow is complete. The theme now has:
 - Complete documentation
 - Ready for content population and advanced features
 
-**Next workflow**: Workflow 3 — Advanced Features & Optimization (or as planned)
+**Next steps**: Advanced features and optimization can be planned as a future workflow if needed.

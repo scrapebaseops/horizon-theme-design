@@ -661,7 +661,7 @@ Write to `OUTPUT_DIR/site-structure.md`:
 # Site Structure Plan
 
 ## Brand: [Brand Name]
-## Store Type: [Classification]
+## Key Brand Traits: [Primary traits from brand analysis]
 
 ## Pages & Templates
 

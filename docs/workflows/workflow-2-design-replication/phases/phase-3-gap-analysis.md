@@ -9,6 +9,10 @@ By the end of this phase, you will have:
 - Updated design system reference page with all components
 - Updated component inventory
 
+### Naming Convention
+
+All CSS classes and files created in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. New component classes follow BEM: `.{prefix}component`, `.{prefix}component--modifier`, `.{prefix}component__element`.
+
 ---
 
 ## Step 1: Audit Against Content Plans
@@ -364,7 +368,7 @@ For each missing component (starting with critical/high priority):
    - Understand the pattern (colors, spacing, typography)
    - Plan how the new component should align with the pattern
 
-2. **Code the component in `assets/primitives.css`:**
+2. **Code the component in `assets/{prefix}primitives.css`:**
 
    **Example: Loading Spinner**
    ```css
@@ -428,6 +432,8 @@ For each missing component (starting with critical/high priority):
 
 **Objective:** Implement the most critical missing components.
 
+**Note:** All CSS classes below should use your project prefix. For example, if your prefix is `lxn-`, then `.spinner` becomes `.lxn-spinner`, `.option-selector` becomes `.lxn-option-selector`, etc. The examples below omit the prefix for readability, but you must include it in your actual code.
+
 **Instructions:**
 
 Follow this order (critical first):
@@ -448,7 +454,7 @@ Follow this order (critical first):
      border: 2px solid var(--color-border);
      border-radius: var(--border-radius-base);
      cursor: pointer;
-     transition: all 0.2s ease;
+     transition: all var(--transition-base);
    }
 
    .option-item:hover {
@@ -488,7 +494,7 @@ Follow this order (critical first):
      display: flex;
      align-items: center;
      justify-content: center;
-     transition: background-color 0.2s;
+     transition: background-color var(--transition-base);
    }
 
    .quantity-btn:hover {
@@ -594,7 +600,7 @@ Follow this order (critical first):
      border-radius: var(--border-radius-base);
      font-size: var(--type-body);
      font-family: inherit;
-     transition: border-color 0.2s, box-shadow 0.2s;
+     transition: border-color var(--transition-base), box-shadow var(--transition-base);
    }
 
    .form-group input:focus,
@@ -602,7 +608,7 @@ Follow this order (critical first):
    .form-group select:focus {
      outline: none;
      border-color: var(--color-primary);
-     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
    }
 
    /* Error state */
@@ -613,7 +619,7 @@ Follow this order (critical first):
 
    .form-group.has-error input:focus,
    .form-group.has-error textarea:focus {
-     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-error) 10%, transparent);
    }
 
    .form-error {
@@ -631,7 +637,7 @@ Follow this order (critical first):
 
    .form-group.has-success input:focus,
    .form-group.has-success textarea:focus {
-     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 10%, transparent);
    }
 
    .form-success {
@@ -768,7 +774,7 @@ Follow this order (critical first):
      border: 1px solid var(--color-border);
      border-radius: var(--border-radius-base);
      cursor: pointer;
-     transition: all 0.2s;
+     transition: all var(--transition-base);
      text-decoration: none;
    }
 
@@ -806,25 +812,25 @@ Follow this order (critical first):
    }
 
    .alert-success {
-     background-color: rgba(34, 197, 94, 0.1);
+     background-color: color-mix(in srgb, var(--color-success) 10%, transparent);
      border-left: 4px solid var(--color-success);
      color: var(--color-success);
    }
 
    .alert-error {
-     background-color: rgba(239, 68, 68, 0.1);
+     background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
      border-left: 4px solid var(--color-error);
      color: var(--color-error);
    }
 
    .alert-warning {
-     background-color: rgba(245, 158, 11, 0.1);
+     background-color: color-mix(in srgb, var(--color-warning) 10%, transparent);
      border-left: 4px solid var(--color-warning);
      color: var(--color-warning);
    }
 
    .alert-info {
-     background-color: rgba(37, 99, 235, 0.1);
+     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
      border-left: 4px solid var(--color-primary);
      color: var(--color-primary);
    }
@@ -836,7 +842,7 @@ Follow this order (critical first):
      cursor: pointer;
      font-size: 20px;
      opacity: 0.7;
-     transition: opacity 0.2s;
+     transition: opacity var(--transition-base);
    }
 
    .alert-close:hover {
@@ -847,6 +853,13 @@ Follow this order (critical first):
 ### 3.4 Add Components to Design System Reference
 
 **Objective:** Update the design system reference page with new components.
+
+**The design system reference page is your continuous QA tool.** It's not just documentation — it's a living verification page. Every time you add a new component here, you're testing whether it integrates with the existing design system. After adding each new component:
+1. Load the full `page.design-system.json` page in the browser
+2. Visually scan the ENTIRE page (not just the new section)
+3. Check at all 3 viewports (1440px, 768px, 390px)
+4. Verify: Does the new component feel cohesive with existing ones? Are colors consistent? Is spacing proportional? Did adding the new CSS break anything above it?
+5. If anything looks off — fix it before continuing to the next component
 
 **Instructions:**
 
@@ -1035,6 +1048,7 @@ Follow this order (critical first):
 - [ ] Component inventory fully updated with all components and status
 - [ ] Code follows code-architecture skill
 - [ ] All primitives are tested (added to reference page)
+- [ ] Design system handoff brief updated with new component classes (if it exists from Phase 2)
 
 ---
 

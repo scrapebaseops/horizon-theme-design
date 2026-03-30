@@ -10,6 +10,14 @@ By the end of this phase, you will have:
 - All pages responsive and working at all viewports
 - All interactive elements functional
 
+### Naming Convention
+
+All custom files and CSS classes use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. In this phase:
+- New sections: `sections/{prefix}feature-grid.liquid`
+- New snippets: `snippets/{prefix}product-card.liquid`
+- CSS classes: `.{prefix}btn`, `.{prefix}card`, etc.
+- Horizon overrides: scoped under `#MainContent` in `assets/{prefix}primitives.css`
+
 ---
 
 ## Step 1: Plan Each Page
@@ -76,7 +84,7 @@ By the end of this phase, you will have:
 
    **Option 2: Override Horizon Native Section**
    - If Horizon provides the section (product, collection, etc.)
-   - You'll override its CSS via `horizon-overrides.css`
+   - You'll override its CSS via `assets/{prefix}primitives.css`
    - Only override styling, keep functionality
    - Assign block type: The Horizon section name
    - Note: "Using Horizon native section with style overrides"
@@ -311,14 +319,14 @@ Build pages in this order:
    ```
 
 4. **Use Horizon product section** for the main product content:
-   - Don't recreate; override CSS in `horizon-overrides.css`
+   - Don't recreate; override CSS in `assets/{prefix}primitives.css`
    - Ensure product images, variants, pricing display correctly
 
 5. **Build custom sections** if needed:
-   - `sections/custom-related-products.liquid` if different from clone
+   - `sections/{prefix}related-products.liquid` if different from clone
 
 6. **Override Horizon product section styling**:
-   - Edit `assets/horizon-overrides.css`
+   - Edit `assets/{prefix}primitives.css`
    - Ensure buttons match design system (`.btn-primary`, etc.)
    - Ensure pricing matches design tokens
    - Ensure variant selector matches design system
@@ -416,7 +424,7 @@ Build pages in this order:
      border: 1px solid var(--color-border);
      border-radius: var(--border-radius-base);
      overflow: hidden;
-     transition: box-shadow 0.2s;
+     transition: box-shadow var(--transition-base);
    }
 
    #MainContent .product-card:hover {
@@ -574,6 +582,82 @@ Build pages in this order:
 
 4. **Screenshot at all 3 viewports**.
 
+### 2.6b Build Search Results Page
+
+**Objective:** Build the search results page template.
+
+**Instructions:**
+
+1. **Review the search page content spec** from Workflow 1 (if applicable).
+
+2. **Edit the search template**: `templates/search.json`
+
+3. **Use Horizon's native search section** (`search-results`):
+   - Override CSS only — do NOT fork the section
+   - Search input, results grid, and pagination are all handled by Horizon
+   - Style product cards in results to match your design system
+
+4. **Override search styling** in `assets/{prefix}primitives.css`:
+   ```css
+   /* Search page overrides */
+   #MainContent .search__input {
+     border-radius: var(--border-radius-md);
+     font-family: var(--font-body);
+     padding: var(--space-sm) var(--space-md);
+   }
+
+   #MainContent .search-results .product-card {
+     /* Matches collection page product card styling */
+   }
+   ```
+
+5. **Screenshot at all 3 viewports** and verify search input and results layout.
+
+### 2.6c Build List-Collections Page
+
+**Objective:** Build the "all collections" page template.
+
+**Instructions:**
+
+1. **Edit the list-collections template**: `templates/list-collections.json`
+
+2. **Use Horizon's native list-collections section**:
+   - Override CSS to match design system
+   - Collection cards should match your card primitives
+
+3. **Override list-collections styling** in `assets/{prefix}primitives.css`:
+   ```css
+   /* List-Collections overrides */
+   #MainContent .collection-list .collection-card {
+     border-radius: var(--border-radius-md);
+   }
+
+   #MainContent .collection-list .collection-card__title {
+     font-family: var(--font-heading);
+   }
+   ```
+
+4. **Screenshot at all 3 viewports**.
+
+### 2.6d Build Contact Page
+
+**Objective:** Build the contact page using Horizon's dedicated contact template.
+
+**Instructions:**
+
+1. **Horizon provides a separate contact template**: `templates/page.contact.json`
+
+2. **This is distinct from the generic `page.json`** — it includes a contact form section.
+
+3. **Configure the contact template** with appropriate sections:
+   - Contact form (Horizon native)
+   - Store information (hours, address, phone)
+   - Map section (if applicable)
+
+4. **Override contact form styling** in `assets/{prefix}primitives.css` — form inputs should match your design system.
+
+5. **Screenshot at all 3 viewports**.
+
 ### 2.7 Build Generic Pages (About, Contact, FAQ)
 
 **Objective:** Build static/generic page templates.
@@ -647,7 +731,7 @@ Build pages in this order:
    }
    ```
 
-2. **500 Page**: `templates/500.json` (same structure)
+2. **Note:** Shopify does not support custom 500 error page templates. Server errors are handled by Shopify's infrastructure. Skip 500 pages entirely.
 
 3. **Password Page**: `templates/password.json`
 
@@ -666,6 +750,82 @@ Build pages in this order:
    ```
 
 5. **Screenshot at all 3 viewports**.
+
+---
+
+## Step 2b: Configure Header, Footer, and Navigation
+
+### 2b.1 Configure Navigation Menus
+
+**Objective:** Set up Shopify navigation menus to match Workflow 1's site structure.
+
+**Instructions:**
+
+1. **Review the site structure** from `CONTENT_PLANS_PATH/site-structure.md` — it contains the navigation plan.
+
+2. **The main navigation menu** is configured in Shopify admin (Navigation section), not in theme files. However, the workflow should document the expected menu structure:
+
+3. **Create a menu configuration document**: `THEME_ROOT/.workflow/navigation-config.md`
+   ```markdown
+   # Navigation Configuration
+
+   ## Main Menu
+   - Home → /
+   - Shop → /collections/all
+     - [Collection 1] → /collections/collection-1
+     - [Collection 2] → /collections/collection-2
+   - About → /pages/about
+   - Blog → /blogs/news
+   - Contact → /pages/contact
+
+   ## Footer Menu
+   - About Us → /pages/about
+   - FAQ → /pages/faq
+   - Shipping & Returns → /pages/shipping-returns
+   - Privacy Policy → /policies/privacy-policy
+   - Terms of Service → /policies/terms-of-service
+   ```
+
+4. **If working with a dev store:** Create these menus via Shopify admin or Shopify CLI.
+
+5. **If working locally only:** Document the expected menus so they can be created when the theme is deployed.
+
+### 2b.2 Configure Header Section Group
+
+**Objective:** Configure the header to match the reference design.
+
+**Instructions:**
+
+1. **Edit `sections/header-group.json`** to configure:
+   - Announcement bar: text, link, color scheme
+   - Header: logo, menu reference, sticky behavior, transparent options
+   - Menu style and position
+
+2. **Verify header matches reference** at all viewports:
+   - Logo size and position correct
+   - Navigation items visible and styled (desktop)
+   - Mobile hamburger menu works
+   - Search icon present and functional
+   - Cart icon with count badge
+   - Announcement bar displays correctly
+   - Sticky behavior matches reference
+
+### 2b.3 Configure Footer Section Group
+
+**Objective:** Configure the footer to match the reference design.
+
+**Instructions:**
+
+1. **Edit `sections/footer-group.json`** to configure:
+   - Footer content: link columns, newsletter, social links
+   - Footer utilities: copyright, policy links, payment icons
+
+2. **Verify footer matches reference** at all viewports:
+   - Link columns display correctly
+   - Newsletter signup form styled
+   - Social media icons present
+   - Copyright and policy links visible
+   - Payment icons display
 
 ---
 
@@ -747,42 +907,60 @@ For each page, before considering it "done":
 
 ## Step 4: Sub-Agent Strategy for Scaling
 
-### 4.1 Parallel Page Implementation
+### 4.1 Two-Stage Page Implementation
 
-**Objective:** Build multiple pages in parallel using sub-agents.
+**Objective:** Build the homepage first to establish patterns, then build remaining pages in parallel.
 
 **Instructions:**
 
-1. **Main Agent Responsibilities:**
-   - Complete homepage
-   - Complete product page
-   - Complete the most critical pages
-   - Coordinate sub-agents
+#### Stage 1: Homepage (Sequential — Main Agent or Single Sub-Agent)
 
-2. **Spin Up Sub-Agents For:**
-   - Collection page
-   - Cart page
-   - Blog listing page
-   - Article page
-   - About/Contact/FAQ pages
+The homepage builds first, alone. It touches the most section types and establishes patterns for everything that follows.
 
-3. **Provide each Sub-Agent with:**
-   - Content spec for the page
-   - Design system reference
-   - Code-architecture skill
+1. Build the homepage following Steps 1-3 above
+2. Screenshot at 1440px, 768px, 390px and verify against reference
+3. Load the design system reference page — verify nothing broke
+4. **Update `THEME_ROOT/.workflow/design-system-handoff.md`** with homepage learnings:
+   - Any primitives that needed adjustment (and how)
+   - Section JSON conventions that worked well
+   - Gotchas or unexpected Horizon behaviors encountered
+   - Any new CSS added to primitives during the homepage build
+5. Only proceed to Stage 2 after the homepage passes QA and the handoff brief is updated
+
+#### Stage 2: Remaining Pages (Parallel Sub-Agents)
+
+For stores with ≤6 pages, skip sub-agents — the main agent builds all pages sequentially for better quality. For larger stores, launch parallel batches:
+
+- **Batch A:** Product Page + Cart Page
+- **Batch B:** Collection + Search + List-Collections
+- **Batch C:** Blog Listing + Article
+- **Batch D:** Custom pages (About, Contact, FAQ, etc.)
+- **Batch E:** 404 + Password
+
+**Provide each Sub-Agent with:**
+   - `THEME_ROOT/.workflow/design-system-handoff.md` (**updated** with homepage learnings — this is the primary styling guide)
+   - The actual CSS source files to read (not just the brief):
+     - `THEME_ROOT/snippets/{prefix}tokens.liquid`
+     - `THEME_ROOT/assets/{prefix}primitives.css`
+     - `THEME_ROOT/assets/{prefix}base.css`
+     - `THEME_ROOT/snippets/stylesheets.liquid`
+   - Content spec for the assigned page(s) from Workflow 1
+   - `CONTENT_PLANS_PATH/site-content-map.md` (for shared component awareness)
+   - Code-architecture skill reference (`skills/code-architecture/SKILL.md`)
+   - Visual comparison skill reference (`skills/visual-comparison/SKILL.md`)
    - Theme root path
-   - Example page implementations (homepage, product)
-   - Visual comparison skill
+   - The completed homepage implementation (as a pattern to follow: `templates/index.json` and its sections)
 
-4. **Sub-Agent Tasks:**
+**Sub-Agent Tasks:**
    - Build the page template JSON
    - Build any new sections needed
    - Override Horizon section styling
    - Run visual QA
    - Fix issues
-   - Report: template created, sections created/modified, issues found
+   - If a shared primitive or token needs fixing, make the fix and flag it under "SHARED FIXES"
+   - Report: template created, sections created/modified, shared fixes (if any), issues found
 
-5. **Sub-Agent Reporting Template:**
+**Sub-Agent Reporting Template:**
    ```
    Page: [Page Name]
    Template: templates/[name].json
@@ -795,7 +973,10 @@ For each page, before considering it "done":
    - [existing-section].liquid
 
    CSS Overrides Added to:
-   - assets/horizon-overrides.css
+   - assets/{prefix}primitives.css (Horizon overrides scoped under #MainContent)
+
+   SHARED FIXES (primitives/tokens changed that affect other pages):
+   - [describe fix and why it was needed, or "None"]
 
    Visual QA Result:
    - [ ] Passed all checks
@@ -807,6 +988,14 @@ For each page, before considering it "done":
    - [page-name]-768.png
    - [page-name]-390.png
    ```
+
+#### Post-Stage 2: Merge Review
+
+After all sub-agents complete, the main agent:
+1. Reviews all "SHARED FIXES" from sub-agent reports
+2. Reconciles any conflicting changes to shared files (primitives, tokens, base)
+3. Loads the design system reference page — verifies everything still works together
+4. Screenshots every completed page at all breakpoints for Phase 5 QA baseline
 
 ---
 
@@ -840,6 +1029,21 @@ For each page, before considering it "done":
    - Don't duplicate component code
    - Use snippets for repeated patterns (product cards, feature items)
    - DRY principle applies
+
+6. **Refactor Up When Patterns Emerge:**
+   - If 2 or more sections need the same custom CSS, don't duplicate it
+   - Move the shared styles up to `assets/primitives.css` as a new primitive class
+   - Section-specific CSS should be under 20 lines per section
+   - If a section's custom CSS exceeds 20 lines, evaluate which parts can be promoted to primitives
+   - This keeps the cascade clean: tokens → base → primitives handle 90%+ of styling
+
+7. **Check the Design System Reference Page After Every Significant Change:**
+   - After building each page (or batch of related pages), load `page.design-system.json` in the browser
+   - Visually scan the full reference page at all 3 viewports (1440px, 768px, 390px)
+   - Look for: broken layouts, color inconsistencies, spacing regressions, missing components
+   - If anything looks wrong, fix it BEFORE continuing to the next page
+   - This catches cascade bugs early — a CSS change for the product page might break the button primitives
+   - The reference page is your canary in the coal mine
 
 ### 5.2 Keeping Clone Pages Intact
 
@@ -888,6 +1092,37 @@ For each page, before considering it "done":
    - Create a custom section instead
    - Document why in code comments
 
+### 5.4 JavaScript and Interactivity
+
+**Objective:** Ensure interactive elements work correctly.
+
+**Instructions:**
+
+1. **Horizon Native Sections Handle Their Own JS:**
+   - Product sections (variant selectors, add to cart, image galleries) → Horizon's JS
+   - Collection sections (filtering, sorting, pagination) → Horizon's JS
+   - Cart sections (quantity changes, remove items) → Horizon's JS
+   - Search sections (search input, results) → Horizon's JS
+   - Do NOT rewrite JavaScript for these — only override CSS
+
+2. **Custom Sections May Need Minimal JS:**
+   - Accordions/collapsibles → use `<details>`/`<summary>` HTML elements (no JS needed)
+   - Mobile navigation toggle → Horizon provides this
+   - Modals/drawers → if not using Horizon's, use minimal vanilla JS in a section `{% javascript %}` block
+   - Carousels/sliders → evaluate if truly needed; consider CSS-only alternatives first
+
+3. **Rules for Custom JavaScript:**
+   - Keep JS in the section file using `{% javascript %}` blocks
+   - No external JS libraries unless absolutely necessary
+   - Progressive enhancement: the page must work without JS (content visible, links functional)
+   - All interactive elements must be keyboard accessible
+   - Document any custom JS in code comments
+
+4. **What This Workflow Does NOT Build:**
+   - Complex client-side features (real-time search, AJAX cart drawer, etc.)
+   - These are post-workflow enhancements
+   - The workflow produces a visually complete, navigable theme — advanced JS interactions come later
+
 ---
 
 ## Verification Checklist
@@ -901,6 +1136,13 @@ For each page, before considering it "done":
 - [ ] Blog/Article pages are complete and pass visual QA
 - [ ] Generic pages (About, Contact, FAQ) are complete and pass visual QA
 - [ ] Error pages (404, 500, password) are complete and pass visual QA
+- [ ] Search page is complete and passes visual QA
+- [ ] List-collections page is complete and passes visual QA
+- [ ] Contact page is complete and passes visual QA
+- [ ] Navigation menus documented in navigation-config.md
+- [ ] Header configured and matching reference at all viewports
+- [ ] Footer configured and matching reference at all viewports
+- [ ] Mobile navigation works correctly
 - [ ] All pages use design system (no hardcoded colors/spacing)
 - [ ] All pages are responsive (no horizontal scrolling)
 - [ ] All pages responsive layout correct at all 3 viewports

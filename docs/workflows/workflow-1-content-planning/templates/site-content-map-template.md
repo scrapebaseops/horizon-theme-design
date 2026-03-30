@@ -4,7 +4,7 @@
 
 **Brand**: [PLACEHOLDER: Brand name]
 
-**Store Type**: [PLACEHOLDER: Store type classification from Step 1]
+**Key Brand Traits**: [PLACEHOLDER: Primary brand traits from brand analysis]
 
 **Planning Date**: [DATE]
 

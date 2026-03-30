@@ -10,6 +10,17 @@ By the end of this phase, you will have:
 - A design system reference page showcasing all components
 - Clone pages refactored to use the design system (with maintained visual parity)
 
+### Naming Convention
+
+All files and CSS classes created in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. Examples below use `{prefix}` as a placeholder — replace with your actual prefix (e.g., `lxn-`).
+
+- Token file: `assets/{prefix}tokens.css`
+- Base styles: `assets/{prefix}base.css`
+- Primitives: `assets/{prefix}primitives.css`
+- CSS classes: `.{prefix}btn`, `.{prefix}card`, `.{prefix}container`
+- BEM modifiers: `.{prefix}btn--primary`, `.{prefix}card__title`
+- Design system sections: `sections/{prefix}ds-typography.liquid`
+
 ---
 
 ## Step 1: Formalize Design Tokens
@@ -22,12 +33,36 @@ By the end of this phase, you will have:
 
 1. Open `config/settings_schema.json`
 
-2. Add new setting groups for design system configuration. Follow this structure:
+2. **⚠️ Important: Audit Horizon's Existing Settings First**
 
-```json
-{
-  "name": "Design System",
-  "settings": [
+   Before adding new settings, review what Horizon already provides in `settings_schema.json`. Horizon has its own typography, color, and layout settings. Do NOT duplicate these. Instead:
+   - Map your extracted tokens to Horizon's existing settings where they match
+   - Only add new settings for tokens that Horizon doesn't already cover
+   - If Horizon has a setting that's close but not exact (e.g., it has "Body font" but you need more granular control), extend rather than duplicate
+   - Document which Horizon settings you're reusing vs. which are new additions
+
+   **Color Schemes vs. Flat Colors**
+
+   Horizon uses a **color scheme system**, not flat color settings. Each scheme (e.g., "Scheme 1", "Scheme 2") contains a group of related colors: background, foreground/heading, foreground/body, primary, and button colors (background, text, border, hover states).
+
+   Sections can then choose which scheme to use via a `color_scheme` setting, enabling merchants to create alternating light/dark sections.
+
+   **Your approach:**
+   1. Audit Horizon's existing color schemes in `settings_schema.json`
+   2. Map your extracted design tokens to Horizon's scheme structure:
+      - Reference "light mode" → update Scheme 1 defaults
+      - Reference "dark mode" (if it exists) → update Scheme 2 defaults
+      - Reference accent/alternate colors → create Scheme 3 if needed
+   3. Set scheme defaults in `settings_data.json` to match the reference
+   4. Do NOT create duplicate flat color settings (`color_primary`, `color_secondary`, etc.) alongside Horizon's schemes — use the scheme system
+   5. Your design tokens CSS should read from scheme variables where available, and only define new custom properties for tokens Horizon doesn't cover (spacing scale, border radius, shadows, transition speeds, etc.)
+
+3. Add new setting groups for design system configuration. Follow this structure:
+
+   ```json
+   {
+     "name": "Design System",
+     "settings": [
     {
       "type": "header",
       "content": "Typography"
@@ -131,32 +166,32 @@ By the end of this phase, you will have:
       "id": "enable_shadows",
       "label": "Enable Shadows on Cards",
       "default": true
-    }
-  ]
-}
-```
+     }
+   ]
+   }
+   ```
 
-3. **Use the token categories from Phase 1's design-tokens-map.md:**
+4. **Use the token categories from Phase 1's design-tokens-map.md:**
    - Add settings for all typography values (heading fonts, body font, sizes)
    - Add settings for all color values (primary, secondary, text, backgrounds, status colors)
    - Add settings for spacing scale values
    - Add settings for border radius values
    - Add settings for shadow options
 
-4. **Default values** should match the design tokens extracted in Phase 1.
+5. **Default values** should match the design tokens extracted in Phase 1.
 
-### 1.2 Create CSS Custom Properties File
+### 1.2 Create Design Tokens Snippet
 
 **Objective:** Convert settings into CSS custom properties for use throughout the theme.
 
 **Instructions:**
 
-1. Create file: `assets/design-tokens.css`
+1. Create file: `snippets/{prefix}tokens.liquid` (this must be a Liquid snippet, not a CSS file, because it contains Liquid template tags that need server-side processing)
 
 2. Structure the file with Liquid variables that read from settings:
 
 ```liquid
-<!-- In assets/design-tokens.css -->
+<!-- In snippets/{prefix}tokens.liquid -->
 
 :root {
   {%- comment -%}
@@ -212,6 +247,13 @@ By the end of this phase, you will have:
   {%- endif -%}
 
   {%- comment -%}
+  Transition Tokens
+  {%- endcomment -%}
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  {%- comment -%}
   Typography Scale
   {%- endcomment -%}
   --type-h1: calc(var(--type-base-size) * 3);
@@ -223,13 +265,16 @@ By the end of this phase, you will have:
 }
 ```
 
-3. **Load this file in your theme's main stylesheet** or add to `theme.liquid`:
-   - Include in the `<head>` section:
+3. **Load this snippet in your theme's `<head>` section** in `theme.liquid`:
    ```liquid
-   {{ 'design-tokens.css' | asset_url | stylesheet_tag }}
+   <style>
+     {% render '{prefix}tokens' %}
+   </style>
    ```
 
-4. **Ensure load order:** design-tokens.css must load before any CSS that uses the variables.
+   **Important:** This must be a `<style>` tag rendering a snippet, NOT an asset stylesheet link, because it contains Liquid that must be processed server-side.
+
+4. **Ensure load order:** This design-tokens snippet must load before any CSS that uses the variables.
 
 ### 1.3 Wire Settings → Liquid Variables → CSS
 
@@ -246,7 +291,7 @@ By the end of this phase, you will have:
 {%- comment -%} etc. {%- endcomment -%}
 ```
 
-2. Alternatively, create a snippet `snippets/design-tokens.liquid` that centralizes all token assignments:
+2. Alternatively, create a snippet `snippets/{prefix}tokens.liquid` that centralizes all token assignments:
 
 ```liquid
 {%- comment -%}
@@ -266,9 +311,9 @@ Typography tokens are accessed via settings directly
 {%- endcomment -%}
 ```
 
-3. In `theme.liquid`, include this snippet:
+3. In `theme.liquid`, render this snippet:
 ```liquid
-{% include 'design-tokens' %}
+{% render '{prefix}tokens' %}
 ```
 
 4. Now sections can use tokens like:
@@ -299,6 +344,34 @@ Typography tokens are accessed via settings directly
    - Verify CSS variables are calculating correctly
    - Check that all sections are using the new tokens
 
+### 1.5 Set Default Values in settings_data.json
+
+**Objective:** Ensure the theme launches with the reference design's values, not Horizon's defaults.
+
+**Instructions:**
+
+1. Open `config/settings_data.json`
+
+2. For every design token setting you added or mapped in Step 1.1, set the default value to match the extracted design tokens from Phase 1:
+
+   ```json
+   {
+     "current": {
+       "color_primary": "#2563EB",
+       "color_secondary": "#6366F1",
+       "color_text_primary": "#111827",
+       "type_base_size": 16,
+       "spacing_base": 8,
+       "border_radius_base": 8,
+       "enable_shadows": true
+     }
+   }
+   ```
+
+3. **Critical:** The values in `settings_data.json` must match the design tokens extracted in Phase 1's `design-tokens-map.md`. This is what makes the theme look correct out of the box.
+
+4. **Verify:** After updating, refresh the theme preview. The design should match the reference without any manual setting changes.
+
 ---
 
 ## Step 2: Build Base Styles
@@ -309,15 +382,23 @@ Typography tokens are accessed via settings directly
 
 **Instructions:**
 
-1. Create file: `assets/base.css`
+1. Create file: `assets/{prefix}base.css`
 
 2. **Include the following sections:**
 
 #### **Reset/Normalize:**
 ```css
-* {
-  margin: 0;
-  padding: 0;
+/*
+ * Horizon-Aware Reset
+ * Horizon has its own base styles. Only add what's missing or needs overriding.
+ * Do NOT use a blanket * { margin: 0; padding: 0; } reset — it will break
+ * native Horizon sections.
+ */
+
+/* Ensure border-box on custom elements only */
+[class^="{prefix}custom-"],
+[class^="{prefix}clone-"],
+[class^="{prefix}ds-"] {
   box-sizing: border-box;
 }
 
@@ -378,11 +459,11 @@ small, .small {
 }
 
 /* Text Colors */
-.text-primary {
+.{prefix}text-primary {
   color: var(--color-text-primary);
 }
 
-.text-secondary {
+.{prefix}text-secondary {
   color: var(--color-text-secondary);
 }
 
@@ -399,66 +480,66 @@ a:hover {
 #### **Spacing Utilities:**
 ```css
 /* Margin utilities */
-.m-xs { margin: var(--spacing-xs); }
-.m-sm { margin: var(--spacing-sm); }
-.m-base { margin: var(--spacing-base); }
-.m-md { margin: var(--spacing-md); }
-.m-lg { margin: var(--spacing-lg); }
+.{prefix}m-xs { margin: var(--spacing-xs); }
+.{prefix}m-sm { margin: var(--spacing-sm); }
+.{prefix}m-base { margin: var(--spacing-base); }
+.{prefix}m-md { margin: var(--spacing-md); }
+.{prefix}m-lg { margin: var(--spacing-lg); }
 
-.mb-xs { margin-bottom: var(--spacing-xs); }
-.mb-sm { margin-bottom: var(--spacing-sm); }
-.mb-base { margin-bottom: var(--spacing-base); }
-.mb-md { margin-bottom: var(--spacing-md); }
-.mb-lg { margin-bottom: var(--spacing-lg); }
+.{prefix}mb-xs { margin-bottom: var(--spacing-xs); }
+.{prefix}mb-sm { margin-bottom: var(--spacing-sm); }
+.{prefix}mb-base { margin-bottom: var(--spacing-base); }
+.{prefix}mb-md { margin-bottom: var(--spacing-md); }
+.{prefix}mb-lg { margin-bottom: var(--spacing-lg); }
 
-.mt-xs { margin-top: var(--spacing-xs); }
-.mt-sm { margin-top: var(--spacing-sm); }
-.mt-base { margin-top: var(--spacing-base); }
-.mt-md { margin-top: var(--spacing-md); }
-.mt-lg { margin-top: var(--spacing-lg); }
+.{prefix}mt-xs { margin-top: var(--spacing-xs); }
+.{prefix}mt-sm { margin-top: var(--spacing-sm); }
+.{prefix}mt-base { margin-top: var(--spacing-base); }
+.{prefix}mt-md { margin-top: var(--spacing-md); }
+.{prefix}mt-lg { margin-top: var(--spacing-lg); }
 
 /* Padding utilities */
-.p-xs { padding: var(--spacing-xs); }
-.p-sm { padding: var(--spacing-sm); }
-.p-base { padding: var(--spacing-base); }
-.p-md { padding: var(--spacing-md); }
-.p-lg { padding: var(--spacing-lg); }
+.{prefix}p-xs { padding: var(--spacing-xs); }
+.{prefix}p-sm { padding: var(--spacing-sm); }
+.{prefix}p-base { padding: var(--spacing-base); }
+.{prefix}p-md { padding: var(--spacing-md); }
+.{prefix}p-lg { padding: var(--spacing-lg); }
 
 /* Gap utilities (for flex/grid) */
-.gap-xs { gap: var(--spacing-xs); }
-.gap-sm { gap: var(--spacing-sm); }
-.gap-base { gap: var(--spacing-base); }
-.gap-md { gap: var(--spacing-md); }
-.gap-lg { gap: var(--spacing-lg); }
+.{prefix}gap-xs { gap: var(--spacing-xs); }
+.{prefix}gap-sm { gap: var(--spacing-sm); }
+.{prefix}gap-base { gap: var(--spacing-base); }
+.{prefix}gap-md { gap: var(--spacing-md); }
+.{prefix}gap-lg { gap: var(--spacing-lg); }
 ```
 
 #### **Layout Containers:**
 ```css
 /* Container widths */
-.container-narrow {
+.{prefix}container--narrow {
   max-width: 600px;
   margin: 0 auto;
   padding: 0 var(--spacing-base);
 }
 
-.container-default {
+.{prefix}container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--spacing-base);
 }
 
-.container-wide {
+.{prefix}container--wide {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--spacing-base);
 }
 
-.container-full {
+.{prefix}container--full {
   width: 100%;
   padding: 0 var(--spacing-base);
 }
 
-.container-full-bleed {
+.{prefix}container--full-bleed {
   width: 100vw;
   position: relative;
   left: 50%;
@@ -473,12 +554,12 @@ section {
   padding-bottom: var(--spacing-xl);
 }
 
-section.section-compact {
+section.{prefix}section-compact {
   padding-top: var(--spacing-lg);
   padding-bottom: var(--spacing-lg);
 }
 
-section.section-large {
+section.{prefix}section-large {
   padding-top: var(--spacing-2xl);
   padding-bottom: var(--spacing-2xl);
 }
@@ -486,33 +567,33 @@ section.section-large {
 
 #### **Prose/Rich Text:**
 ```css
-.prose {
+.{prefix}prose {
   font-size: var(--type-body);
   line-height: 1.8;
 }
 
-.prose h1,
-.prose h2,
-.prose h3 {
+.{prefix}prose h1,
+.{prefix}prose h2,
+.{prefix}prose h3 {
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-base);
 }
 
-.prose p {
+.{prefix}prose p {
   margin-bottom: var(--spacing-base);
 }
 
-.prose ul,
-.prose ol {
+.{prefix}prose ul,
+.{prefix}prose ol {
   margin-left: var(--spacing-md);
   margin-bottom: var(--spacing-base);
 }
 
-.prose li {
+.{prefix}prose li {
   margin-bottom: var(--spacing-sm);
 }
 
-.prose blockquote {
+.{prefix}prose blockquote {
   border-left: 4px solid var(--color-primary);
   padding-left: var(--spacing-base);
   margin-left: 0;
@@ -520,17 +601,31 @@ section.section-large {
   font-style: italic;
 }
 
-.prose img {
+.{prefix}prose img {
   max-width: 100%;
   height: auto;
   margin-bottom: var(--spacing-base);
 }
 ```
 
-3. **Load base.css in theme.liquid** (after design-tokens.css):
-```liquid
-{{ 'base.css' | asset_url | stylesheet_tag }}
-```
+3. **Register in `snippets/stylesheets.liquid`** (Horizon's CSS registration point):
+
+   Open `snippets/stylesheets.liquid` and add your design system stylesheets AFTER Horizon's `base.css`:
+
+   ```liquid
+   {%- comment -%} Design System Stylesheets {%- endcomment -%}
+   {{ '{prefix}base.css' | asset_url | stylesheet_tag }}
+   {{ '{prefix}primitives.css' | asset_url | stylesheet_tag }}
+   ```
+
+   For the design tokens (which contain Liquid), render them inline in `layout/theme.liquid` inside a `<style>` tag, BEFORE the `{% render 'stylesheets' %}` call:
+
+   ```liquid
+   <style>{% render '{prefix}tokens' %}</style>
+   {%- render 'stylesheets' -%}
+   ```
+
+   **Why `snippets/stylesheets.liquid`?** This is Horizon's CSS registration point. Adding your stylesheets here keeps them organized alongside Horizon's own CSS and ensures correct load order.
 
 ---
 
@@ -542,7 +637,7 @@ section.section-large {
 
 **Instructions:**
 
-1. Create file: `assets/primitives.css`
+1. Create file: `assets/{prefix}primitives.css`
 
 2. **Build primitives in this order** (most used first):
    - Buttons
@@ -571,7 +666,7 @@ section.section-large {
 /* Button Primitives */
 
 /* Base button */
-.btn {
+.{prefix}btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -582,64 +677,64 @@ section.section-large {
   border: 2px solid transparent;
   border-radius: var(--border-radius-base);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   text-decoration: none;
   white-space: nowrap;
 }
 
 /* Variants */
-.btn-primary {
+.{prefix}btn--primary {
   background-color: var(--color-primary);
   color: white;
 }
 
-.btn-primary:hover {
+.{prefix}btn--primary:hover {
   opacity: 0.9;
   transform: translateY(-2px);
   box-shadow: var(--shadow-base);
 }
 
-.btn-primary:active {
+.{prefix}btn--primary:active {
   transform: translateY(0);
 }
 
-.btn-primary:disabled {
+.{prefix}btn--primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-.btn-secondary {
+.{prefix}btn--secondary {
   background-color: var(--color-secondary);
   color: white;
 }
 
-.btn-secondary:hover {
+.{prefix}btn--secondary:hover {
   opacity: 0.9;
 }
 
-.btn-outline {
+.{prefix}btn--outline {
   background-color: transparent;
   color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.btn-outline:hover {
+.{prefix}btn--outline:hover {
   background-color: var(--color-primary);
   color: white;
 }
 
-.btn-ghost {
+.{prefix}btn--ghost {
   background-color: transparent;
   color: var(--color-text-primary);
   border-color: var(--color-border);
 }
 
-.btn-ghost:hover {
+.{prefix}btn--ghost:hover {
   background-color: var(--color-background);
 }
 
-.btn-link {
+.{prefix}btn--link {
   background-color: transparent;
   color: var(--color-primary);
   padding: 0;
@@ -647,24 +742,24 @@ section.section-large {
   border-radius: 0;
 }
 
-.btn-link:hover {
+.{prefix}btn--link:hover {
   text-decoration: underline;
   box-shadow: none;
   transform: none;
 }
 
 /* Sizes */
-.btn-sm {
+.{prefix}btn--sm {
   padding: calc(var(--spacing-sm) * 0.5) var(--spacing-sm);
   font-size: var(--type-small);
 }
 
-.btn-lg {
+.{prefix}btn--lg {
   padding: var(--spacing-md) var(--spacing-lg);
   font-size: 18px;
 }
 
-.btn-full {
+.{prefix}btn--full {
   width: 100%;
 }
 ```
@@ -673,10 +768,10 @@ section.section-large {
 
 1. In a clone section, replace any button HTML with:
 ```html
-<a href="#" class="btn btn-primary">Add to Cart</a>
-<a href="#" class="btn btn-secondary">Shop More</a>
-<a href="#" class="btn btn-outline">Learn More</a>
-<a href="#" class="btn btn-ghost">Cancel</a>
+<a href="#" class="{prefix}btn {prefix}btn--primary">Add to Cart</a>
+<a href="#" class="{prefix}btn {prefix}btn--secondary">Shop More</a>
+<a href="#" class="{prefix}btn {prefix}btn--outline">Learn More</a>
+<a href="#" class="{prefix}btn {prefix}btn--ghost">Cancel</a>
 ```
 
 2. Screenshot the clone section at all 3 viewports
@@ -689,20 +784,20 @@ section.section-large {
 ```css
 /* Card Primitives */
 
-.card {
+.{prefix}card {
   background-color: white;
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-base);
   padding: var(--spacing-base);
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
-.card:hover {
+.{prefix}card:hover {
   box-shadow: var(--shadow-base);
   border-color: var(--color-primary);
 }
 
-.card-image {
+.{prefix}card__image {
   width: 100%;
   height: auto;
   border-radius: var(--border-radius-sm);
@@ -710,25 +805,25 @@ section.section-large {
   overflow: hidden;
 }
 
-.card-image img {
+.{prefix}card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.card-title {
+.{prefix}card__title {
   font-size: var(--type-h4);
   font-weight: 700;
   margin-bottom: var(--spacing-sm);
 }
 
-.card-description {
+.{prefix}card__desc {
   font-size: var(--type-small);
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-base);
 }
 
-.card-footer {
+.{prefix}card__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -736,7 +831,7 @@ section.section-large {
   border-top: 1px solid var(--color-border);
 }
 
-.card-price {
+.{prefix}card__price {
   font-size: var(--type-h4);
   font-weight: 700;
   color: var(--color-primary);
@@ -755,7 +850,7 @@ section.section-large {
 
 **Instructions:**
 
-1. Create file: `assets/horizon-overrides.css`
+1. Horizon section overrides go in `assets/{prefix}primitives.css`, scoped under `#MainContent`
 
 2. For any native Horizon sections used in clone pages, add overrides:
 
@@ -774,7 +869,73 @@ section.section-large {
 }
 ```
 
-3. Load this file in theme.liquid after primitives.css
+3. Ensure all overrides are scoped under `#MainContent` to avoid affecting Horizon's header, footer, or other theme zones
+
+### 3.4 Override Header and Footer Styles
+
+**Objective:** Match the reference design's header and footer via CSS overrides.
+
+**Instructions:**
+
+1. **Header overrides** go in `assets/{prefix}primitives.css`, scoped to header selectors:
+
+   ```css
+   /* Header Overrides */
+   .header {
+     font-family: var(--font-heading);
+   }
+
+   .header__logo img {
+     height: var(--header-logo-height, 40px);
+   }
+
+   .header-nav__link {
+     font-size: var(--font-size-sm);
+     font-weight: var(--font-weight-semibold);
+     letter-spacing: 0.05em;
+     text-transform: uppercase;
+   }
+
+   .announcement-bar {
+     background-color: var(--color-primary);
+     color: white;
+     font-size: var(--font-size-xs);
+     padding: var(--space-xs) 0;
+   }
+   ```
+
+2. **Footer overrides** in the same file:
+
+   ```css
+   /* Footer Overrides */
+   .footer {
+     background-color: var(--color-foreground);
+     color: var(--color-background);
+   }
+
+   .footer h3, .footer h4 {
+     font-family: var(--font-heading);
+     font-size: var(--font-size-base);
+     font-weight: var(--font-weight-bold);
+   }
+
+   .footer a {
+     color: var(--color-background);
+     opacity: 0.8;
+   }
+
+   .footer a:hover {
+     opacity: 1;
+   }
+   ```
+
+3. **Screenshot and verify** header/footer match reference at all 3 viewports.
+
+4. **Test header states:**
+   - Default state
+   - Sticky/scrolled state
+   - Mobile navigation open
+   - Transparent header on homepage (if applicable)
 
 ---
 
@@ -794,31 +955,31 @@ section.section-large {
 {
   "sections": {
     "hero": {
-      "type": "design-system-hero",
+      "type": "{prefix}ds-hero",
       "settings": {}
     },
     "typography": {
-      "type": "design-system-typography",
+      "type": "{prefix}ds-typography",
       "settings": {}
     },
     "colors": {
-      "type": "design-system-colors",
+      "type": "{prefix}ds-colors",
       "settings": {}
     },
     "buttons": {
-      "type": "design-system-buttons",
+      "type": "{prefix}ds-buttons",
       "settings": {}
     },
     "cards": {
-      "type": "design-system-cards",
+      "type": "{prefix}ds-cards",
       "settings": {}
     },
     "forms": {
-      "type": "design-system-forms",
+      "type": "{prefix}ds-forms",
       "settings": {}
     },
     "components": {
-      "type": "design-system-components",
+      "type": "{prefix}ds-components",
       "settings": {}
     }
   },
@@ -840,7 +1001,7 @@ section.section-large {
 
 **Instructions:**
 
-1. **Typography Showcase Section** (`sections/design-system-typography.liquid`):
+1. **Typography Showcase Section** (`sections/{prefix}ds-typography.liquid`):
 
 ```liquid
 <section class="design-system-section">
@@ -882,26 +1043,26 @@ section.section-large {
 </section>
 
 <style>
-  .design-system-section {
+  .{prefix}ds-section {
     padding: var(--spacing-xl) 0;
     border-bottom: 1px solid var(--color-border);
   }
 
-  .type-samples {
+  .{prefix}type-samples {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
   }
 
-  .type-sample {
+  .{prefix}type-sample {
     padding: var(--spacing-base);
     background-color: white;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-base);
   }
 
-  .type-info {
+  .{prefix}type-info {
     font-size: var(--type-small);
     color: var(--color-text-secondary);
     margin-top: var(--spacing-sm);
@@ -909,62 +1070,62 @@ section.section-large {
 </style>
 ```
 
-2. **Color Showcase Section** (`sections/design-system-colors.liquid`):
+2. **Color Showcase Section** (`sections/{prefix}ds-colors.liquid`):
 
 ```liquid
-<section class="design-system-section">
-  <div class="container-default">
+<section class="{prefix}ds-section">
+  <div class="{prefix}container">
     <h2>Colors</h2>
 
-    <div class="color-grid">
-      <div class="color-item">
-        <div class="color-swatch" style="background-color: {{ settings.color_primary }}"></div>
-        <p class="color-label">Primary</p>
-        <p class="color-code">{{ settings.color_primary }}</p>
+    <div class="{prefix}color-grid">
+      <div class="{prefix}color-item">
+        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_primary }}"></div>
+        <p class="{prefix}color-label">Primary</p>
+        <p class="{prefix}color-code">{{ settings.color_primary }}</p>
       </div>
 
-      <div class="color-item">
-        <div class="color-swatch" style="background-color: {{ settings.color_secondary }}"></div>
-        <p class="color-label">Secondary</p>
-        <p class="color-code">{{ settings.color_secondary }}</p>
+      <div class="{prefix}color-item">
+        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_secondary }}"></div>
+        <p class="{prefix}color-label">Secondary</p>
+        <p class="{prefix}color-code">{{ settings.color_secondary }}</p>
       </div>
 
-      <div class="color-item">
-        <div class="color-swatch" style="background-color: {{ settings.color_success }}"></div>
-        <p class="color-label">Success</p>
-        <p class="color-code">{{ settings.color_success }}</p>
+      <div class="{prefix}color-item">
+        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_success }}"></div>
+        <p class="{prefix}color-label">Success</p>
+        <p class="{prefix}color-code">{{ settings.color_success }}</p>
       </div>
 
-      <div class="color-item">
-        <div class="color-swatch" style="background-color: {{ settings.color_error }}"></div>
-        <p class="color-label">Error</p>
-        <p class="color-code">{{ settings.color_error }}</p>
+      <div class="{prefix}color-item">
+        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_error }}"></div>
+        <p class="{prefix}color-label">Error</p>
+        <p class="{prefix}color-code">{{ settings.color_error }}</p>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .color-grid {
+  .{prefix}color-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
   }
 
-  .color-swatch {
+  .{prefix}color-swatch {
     width: 100%;
     height: 150px;
     border-radius: var(--border-radius-base);
     border: 1px solid var(--color-border);
   }
 
-  .color-label {
+  .{prefix}color-label {
     font-weight: 600;
     margin-top: var(--spacing-sm);
   }
 
-  .color-code {
+  .{prefix}color-code {
     font-size: var(--type-small);
     color: var(--color-text-secondary);
     font-family: monospace;
@@ -972,57 +1133,57 @@ section.section-large {
 </style>
 ```
 
-3. **Buttons Showcase Section** (`sections/design-system-buttons.liquid`):
+3. **Buttons Showcase Section** (`sections/{prefix}ds-buttons.liquid`):
 
 ```liquid
-<section class="design-system-section">
-  <div class="container-default">
+<section class="{prefix}ds-section">
+  <div class="{prefix}container">
     <h2>Buttons</h2>
 
-    <div class="button-grid">
-      <div class="button-group">
+    <div class="{prefix}button-grid">
+      <div class="{prefix}button-group">
         <h4>Primary</h4>
-        <button class="btn btn-primary">Primary Button</button>
-        <button class="btn btn-primary" disabled>Disabled</button>
+        <button class="{prefix}btn {prefix}btn--primary">Primary Button</button>
+        <button class="{prefix}btn {prefix}btn--primary" disabled>Disabled</button>
       </div>
 
-      <div class="button-group">
+      <div class="{prefix}button-group">
         <h4>Secondary</h4>
-        <button class="btn btn-secondary">Secondary Button</button>
-        <button class="btn btn-secondary" disabled>Disabled</button>
+        <button class="{prefix}btn {prefix}btn--secondary">Secondary Button</button>
+        <button class="{prefix}btn {prefix}btn--secondary" disabled>Disabled</button>
       </div>
 
-      <div class="button-group">
+      <div class="{prefix}button-group">
         <h4>Outline</h4>
-        <button class="btn btn-outline">Outline Button</button>
-        <button class="btn btn-outline" disabled>Disabled</button>
+        <button class="{prefix}btn {prefix}btn--outline">Outline Button</button>
+        <button class="{prefix}btn {prefix}btn--outline" disabled>Disabled</button>
       </div>
 
-      <div class="button-group">
+      <div class="{prefix}button-group">
         <h4>Ghost</h4>
-        <button class="btn btn-ghost">Ghost Button</button>
-        <button class="btn btn-ghost" disabled>Disabled</button>
+        <button class="{prefix}btn {prefix}btn--ghost">Ghost Button</button>
+        <button class="{prefix}btn {prefix}btn--ghost" disabled>Disabled</button>
       </div>
 
-      <div class="button-group">
+      <div class="{prefix}button-group">
         <h4>Sizes</h4>
-        <button class="btn btn-primary btn-sm">Small</button>
-        <button class="btn btn-primary">Default</button>
-        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="{prefix}btn {prefix}btn--primary {prefix}btn--sm">Small</button>
+        <button class="{prefix}btn {prefix}btn--primary">Default</button>
+        <button class="{prefix}btn {prefix}btn--primary {prefix}btn--lg">Large</button>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .button-grid {
+  .{prefix}button-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
   }
 
-  .button-group {
+  .{prefix}button-group {
     padding: var(--spacing-base);
     background-color: white;
     border: 1px solid var(--color-border);
@@ -1032,47 +1193,47 @@ section.section-large {
     gap: var(--spacing-sm);
   }
 
-  .button-group h4 {
+  .{prefix}button-group h4 {
     margin: 0;
   }
 </style>
 ```
 
-4. **Cards Showcase Section** (`sections/design-system-cards.liquid`):
+4. **Cards Showcase Section** (`sections/{prefix}ds-cards.liquid`):
 
 ```liquid
-<section class="design-system-section">
-  <div class="container-default">
+<section class="{prefix}ds-section">
+  <div class="{prefix}container">
     <h2>Cards</h2>
 
-    <div class="card-grid">
-      <div class="card">
-        <img src="https://via.placeholder.com/300x200" alt="Sample" class="card-image">
-        <h4 class="card-title">Card Title</h4>
-        <p class="card-description">This is a card component with an image, title, description, and button.</p>
-        <div class="card-footer">
-          <span class="card-price">$99.00</span>
-          <button class="btn btn-primary btn-sm">Buy</button>
+    <div class="{prefix}card-grid">
+      <div class="{prefix}card">
+        <img src="https://via.placeholder.com/300x200" alt="Sample" class="{prefix}card__image">
+        <h4 class="{prefix}card__title">Card Title</h4>
+        <p class="{prefix}card__desc">This is a card component with an image, title, description, and button.</p>
+        <div class="{prefix}card__footer">
+          <span class="{prefix}card__price">$99.00</span>
+          <button class="{prefix}btn {prefix}btn--primary {prefix}btn--sm">Buy</button>
         </div>
       </div>
 
-      <div class="card">
-        <img src="https://via.placeholder.com/300x200" alt="Sample" class="card-image">
-        <h4 class="card-title">Another Card</h4>
-        <p class="card-description">Cards can be used for product listings, testimonials, team members, and more.</p>
-        <div class="card-footer">
-          <span class="card-price">$149.00</span>
-          <button class="btn btn-primary btn-sm">Buy</button>
+      <div class="{prefix}card">
+        <img src="https://via.placeholder.com/300x200" alt="Sample" class="{prefix}card__image">
+        <h4 class="{prefix}card__title">Another Card</h4>
+        <p class="{prefix}card__desc">Cards can be used for product listings, testimonials, team members, and more.</p>
+        <div class="{prefix}card__footer">
+          <span class="{prefix}card__price">$149.00</span>
+          <button class="{prefix}btn {prefix}btn--primary {prefix}btn--sm">Buy</button>
         </div>
       </div>
 
-      <div class="card">
-        <img src="https://via.placeholder.com/300x200" alt="Sample" class="card-image">
-        <h4 class="card-title">Card With Badge</h4>
-        <p class="card-description">Cards can include badges and other decorative elements.</p>
-        <div class="card-footer">
-          <span class="card-price">$199.00</span>
-          <button class="btn btn-primary btn-sm">Buy</button>
+      <div class="{prefix}card">
+        <img src="https://via.placeholder.com/300x200" alt="Sample" class="{prefix}card__image">
+        <h4 class="{prefix}card__title">Card With Badge</h4>
+        <p class="{prefix}card__desc">Cards can include badges and other decorative elements.</p>
+        <div class="{prefix}card__footer">
+          <span class="{prefix}card__price">$199.00</span>
+          <button class="{prefix}btn {prefix}btn--primary {prefix}btn--sm">Buy</button>
         </div>
       </div>
     </div>
@@ -1080,7 +1241,7 @@ section.section-large {
 </section>
 
 <style>
-  .card-grid {
+  .{prefix}card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-lg);
@@ -1166,7 +1327,7 @@ section.section-large {
 3. Use it in sections:
    ```liquid
    {%- for product in collection.products -%}
-     {%- include 'product-card', product: product -%}
+     {%- render 'product-card', product: product -%}
    {%- endfor -%}
    ```
 
@@ -1204,7 +1365,29 @@ section.section-large {
 
 ---
 
-## Step 6: Verification Checklist
+## Step 6: Create Design System Handoff Brief
+
+**Objective:** Create a compact reference document that gives sub-agents everything they need to build pages correctly, without re-reading all design system files.
+
+**Instructions:**
+
+1. Create file: `THEME_ROOT/.workflow/design-system-handoff.md`
+
+2. Include:
+   - CSS load order and architecture summary
+   - Key token values (colors, fonts, spacing scale, border radius)
+   - List of all available primitive CSS classes
+   - Coding rules (use `{% render %}`, never fork Horizon sections, alt text required, etc.)
+   - Location of the design system reference page
+   - Quality standards (theme-check zero errors, responsive at 3 viewports)
+
+3. Keep it under 3000 tokens. This is a quick-reference, not a full specification.
+
+4. **Verify:** A sub-agent reading only this document and the code-architecture skill should be able to build a new section correctly without reading any other design system files.
+
+---
+
+## Step 7: Verification Checklist
 
 **Objective:** Ensure Phase 2 is complete and correct.
 
@@ -1212,7 +1395,7 @@ section.section-large {
 
 - [ ] All design tokens are in `config/settings_schema.json`
 - [ ] All tokens have default values matching the extracted design
-- [ ] `assets/design-tokens.css` loads and applies tokens correctly
+- [ ] `snippets/design-tokens.liquid` loads and applies tokens correctly
 - [ ] Changing a theme setting (color, font, etc.) updates the page
 - [ ] `assets/base.css` includes typography, spacing, and layout utilities
 - [ ] `assets/primitives.css` includes all needed components (buttons, cards, forms, etc.)
@@ -1223,9 +1406,13 @@ section.section-large {
 - [ ] All clone pages still match their reference screenshots at all 3 viewports
 - [ ] Code follows code-architecture skill (no CSS in wrong places)
 - [ ] Horizon section overrides are in place and working
+- [ ] Header CSS overrides match reference at all viewports
+- [ ] Footer CSS overrides match reference at all viewports
+- [ ] Header states work correctly (sticky, mobile nav, transparent)
+- [ ] Design system handoff brief created (`design-system-handoff.md`)
 
 ---
 
 ## Next Steps
 
-Once all verification items pass, move to **Phase 3: Gap Analysis & Fill**.
+Once all verification items pass and the design system handoff brief is created, move to **Phase 3: Gap Analysis & Fill**. The handoff brief must exist before proceeding — it's the primary input for sub-agents in Phases 3-5.

@@ -11,6 +11,15 @@ By the end of this phase, you will have:
 - A comprehensive design tokens map
 - A component inventory
 
+### Naming Convention
+
+All custom files and CSS classes created in this phase must use the project prefix defined during Pre-Flight (stored in `THEME_ROOT/.workflow/prefix.txt`). For example, if the prefix is `lxn-`:
+- Clone sections: `sections/clone-lxn-hero.liquid`
+- Clone CSS: `assets/clone-lxn-hero.css` (if needed)
+- CSS classes within clone sections: `.clone-lxn-hero`, `.clone-lxn-hero__title`
+
+This prefix carries forward into all subsequent phases.
+
 ---
 
 ## Part A: Reference Audit
@@ -38,6 +47,8 @@ By the end of this phase, you will have:
    - FAQ page (if applicable)
    - Any custom landing pages
    - Any other unique template types
+   - **Header** (logo placement, navigation style, search, cart icon, announcement bar)
+   - **Footer** (link columns, newsletter, social icons, copyright, payment icons)
 
 3. Create a file: `THEME_ROOT/.workflow/reference-pages-catalog.md`
 4. Document each page with:
@@ -61,6 +72,20 @@ By the end of this phase, you will have:
 - Data Requirements: Featured products (4)
 ```
 
+**Example entry (Header):**
+```
+## Header
+- Type: Global (appears on all pages)
+- Key Components:
+  - Logo (left-aligned)
+  - Main navigation (horizontal, 5 items)
+  - Search icon
+  - Cart icon with count badge
+  - Announcement bar above header
+- Unique Features: Sticky on scroll, transparent on homepage
+- Data Requirements: Main navigation menu, announcement text
+```
+
 ### Step 2: Take Reference Screenshots
 
 **Objective:** Capture the reference design at all 3 responsive breakpoints.
@@ -78,6 +103,12 @@ By the end of this phase, you will have:
    - The full page (scroll to capture entire page if needed)
    - All interactive states if visible (hover, active, etc.)
    - Color schemes/light-dark modes if they exist
+5. **Header and footer screenshots** — capture these separately:
+   - Header in default state: `header-default-{viewport}.png`
+   - Header sticky/scrolled state (if different): `header-sticky-{viewport}.png`
+   - Header on homepage (if transparent/different): `header-homepage-{viewport}.png`
+   - Mobile navigation open state: `header-mobile-nav-390.png`
+   - Footer: `footer-{viewport}.png`
 
 **Note:** If the reference is a live website, use a screenshot tool (Playwright, Puppeteer) or manual browser screenshots. If it's a Figma file or images, ensure you have exports at each breakpoint.
 
@@ -199,7 +230,7 @@ By the end of this phase, you will have:
 1. Review all reference screenshots and look for:
    - **Atoms** (buttons, badges, chips, form inputs)
    - **Molecules** (card layouts, form groups, button groups)
-   - **Organisms** (hero sections, product grids, navigation, footer)
+   - **Organisms** (hero sections, product grids, header with navigation, footer with link columns, announcement bar)
    - **Templates/Layouts** (page structures)
 
 2. Create file: `THEME_ROOT/.workflow/component-inventory.md`
@@ -299,7 +330,7 @@ By the end of this phase, you will have:
 
 1. For each section type, create:
    - `sections/clone-{section-name}.liquid` (structure)
-   - `sections/clone-{section-name}.css` (styling, if needed)
+   - CSS within the section's `<style>` tag or in `assets/clone-{section-name}.css` if substantial
    - Schema with settings in `sections/clone-{section-name}.liquid`
 
 2. **Follow the code-architecture skill:**
@@ -319,55 +350,118 @@ By the end of this phase, you will have:
    - Add settings schema for any configurable content
    - Create demo/placeholder content that matches the visual layout
 
-### Step 7: Visual Comparison Loop (Granular Approach)
+### Step 6b: Handle Header and Footer
 
-**Objective:** Use the visual-comparison skill's granular methodology to ensure pixel-perfect matching.
+**Objective:** Style the global header and footer to match the reference, without forking Horizon's native sections.
 
 **Instructions:**
 
-1. **Start with atomic elements:**
-   - For each section, begin with smallest elements (typography, buttons, spacing)
-   - Take a screenshot of your clone at 1440px
-   - Compare against reference screenshot side-by-side
-   - Check: Do heading sizes match? Do button sizes match? Do colors match?
-   - Adjust CSS until they match exactly
-   - Take another screenshot and compare
+1. **Do NOT create clone header/footer sections.** Horizon's header and footer are section groups (`header-group.json`, `footer-group.json`) with complex JavaScript for mobile navigation, search, cart functionality, etc. Forking these would break that functionality.
 
-2. **Build up to molecules:**
-   - Once individual elements are correct, build small component groups
-   - Example: a button with text and icon
-   - Screenshot and compare
-   - Fix any misalignments, spacing issues
+2. **Instead, override their CSS:**
+   - All header/footer style overrides go in `assets/{prefix}primitives.css` (or a dedicated `assets/{prefix}header-footer.css` if the overrides are substantial)
+   - Scope overrides under Horizon's existing selectors (e.g., `.header`, `.footer`, `#shopify-section-header-group`)
+   - Target: logo size, navigation font/spacing, announcement bar colors, footer layout/typography
 
-3. **Build up to sections:**
-   - Once molecules are working, assemble into full sections
-   - Screenshot the full section at 1440px
-   - Compare against reference screenshot
-   - Check layout, spacing, alignment
-   - Fix any issues
+3. **Configure the header section group:**
+   - Edit `sections/header-group.json` to configure:
+     - Logo image (via settings)
+     - Menu style and position
+     - Sticky header behavior
+     - Transparent header options (if the reference uses them)
+     - Announcement bar text and styling
 
-4. **Test all three viewports:**
-   - After section looks good at 1440px, screenshot at 768px
-   - Compare against reference at 768px
-   - Fix responsive issues
-   - Then test at 390px
-   - Compare and fix
+4. **Configure the footer section group:**
+   - Edit `sections/footer-group.json` to configure:
+     - Footer link columns
+     - Newsletter section
+     - Social media links
+     - Copyright text
+     - Payment icons
 
-5. **Screenshot process:**
-   - Use your theme in Shopify admin or local preview
-   - For each section, take full-width screenshots at each breakpoint
-   - Save as: `THEME_ROOT/.workflow/clone-screenshots/{page-name}/{section-name}-{viewport}.png`
+5. **Screenshot and compare** header/footer against reference at all 3 viewports, including:
+   - Default header state
+   - Scrolled/sticky header state
+   - Mobile navigation open state
+   - Footer layout
 
-6. **Comparison checklist for each section:**
-   - [ ] Typography: sizes, weights, colors, line-height
+6. **Save header/footer screenshots** to `THEME_ROOT/.workflow/clone-screenshots/header/` and `footer/`
+
+### Step 7: Visual Comparison Loop (Inside-Out Zoom Approach)
+
+**Objective:** Use an inside-out zoom methodology to ensure pixel-perfect matching, starting from the smallest elements and working outward.
+
+**Why inside-out?** Starting with a full-page screenshot comparison is tempting but counterproductive. Differences at the page level are overwhelming and hard to diagnose. Instead, start at the smallest measurable unit and work outward. By the time you reach the full page, every component within it is already verified.
+
+**Instructions:**
+
+1. **Level 1: CSS Properties (Innermost Zoom)**
+   - Pick individual CSS properties on the smallest elements
+   - Example: the `font-size`, `font-weight`, `color`, and `letter-spacing` of a button's text
+   - Compare these exact values against the reference (use DevTools computed styles)
+   - Fix any mismatches before moving outward
+   - Do this for: heading text, body text, button text, link text, caption text
+
+2. **Level 2: Complete Elements**
+   - Zoom out to see the complete element (a full button, a full input field, a full heading)
+   - Screenshot individual elements and compare against reference
+   - Check: padding, border-radius, background color, hover state, size
+   - Fix any mismatches
+   - Do this for: every button variant, every form input, every heading level, every badge/chip
+
+3. **Level 3: Components (Molecules)**
+   - Zoom out to see complete components (a product card, a form group, a feature block)
+   - Screenshot the component and compare against reference
+   - Check: internal spacing, alignment, proportions between child elements
+   - Fix any mismatches
+   - Do this for: every distinct component type in the section
+
+4. **Level 4: Full Sections (All Viewports)**
+   - Zoom out to see the complete section
+   - Screenshot at **1440px**, **768px**, and **390px**
+   - Compare against reference at each viewport
+   - Check: overall layout, column counts, stacking behavior, spacing between components
+   - Fix any mismatches
+
+5. **Level 5: Full Page**
+   - Screenshot the entire page at all 3 viewports
+   - Compare against reference
+   - Check: section ordering, vertical rhythm, overall proportions, header/footer integration
+   - This should reveal very few issues if Levels 1-4 were done thoroughly
+
+6. **Final Zoom-Back-In Pass**
+   - After the full page looks correct, zoom back in section by section
+   - This catches regressions — fixes at one level sometimes break another
+   - Quick spot-check at each section, not a full re-audit
+   - If anything regressed, fix and re-verify that section
+
+7. **Iterative Fix Loop (for each issue found):**
+   - Screenshot the problem area
+   - Identify the specific mismatch
+   - Fix ONE thing at a time
+   - Re-screenshot the same area
+   - Verify the fix
+   - Check that nothing else broke
+   - Repeat until clean
+
+8. **Pass/Fail Thresholds:**
+   - Element level: < 0.05% visual difference
+   - Component level: < 0.1% visual difference
+   - Section level: < 0.5% visual difference
+   - Full page level: < 1.0% visual difference
+   - Any difference above threshold requires investigation and fix
+
+9. **Comparison Checklist Per Section:**
+   - [ ] Typography: sizes, weights, colors, line-height, letter-spacing
    - [ ] Colors: backgrounds, text, accents, borders
-   - [ ] Spacing: padding, margins, gaps
+   - [ ] Spacing: padding, margins, gaps between elements
    - [ ] Sizing: widths, heights, aspect ratios
-   - [ ] Borders: radius, width, color
+   - [ ] Borders: radius, width, color, style
    - [ ] Shadows: blur, spread, offset, color
    - [ ] Layout: alignment, centering, flex/grid behavior
    - [ ] Responsive: mobile stacking, tablet layout, desktop layout
-   - [ ] All three viewports match reference at all three viewports
+   - [ ] All three viewports verified (1440px, 768px, 390px)
+   - [ ] Hover/focus states match (where applicable)
 
 ### Step 8: Sub-Agent Strategy for Scaling
 
@@ -474,7 +568,7 @@ A clone page is complete when:
    - Create a filter/listing UI that matches the reference visually
    - Use placeholder products (4-12 depending on reference)
    - Style the product grid to match reference
-   - Note: Actual filtering/pagination logic happens in Phase 6
+   - Note: Actual filtering/pagination logic is handled by Horizon's native section JavaScript
 
 3. **Blog/Article Pages:**
    - Use placeholder article content
@@ -483,7 +577,7 @@ A clone page is complete when:
 
 4. **Search Results:**
    - Create a search results UI with placeholder results
-   - Note: Actual search functionality in Phase 6
+   - Note: Actual search functionality is handled by Horizon's native search section
 
 5. **Documentation:**
    - Add notes to your component inventory:
@@ -509,6 +603,9 @@ By the end of Phase 1, you should have:
 - [ ] `THEME_ROOT/.workflow/clone-screenshots/` — Clone pages at all 3 viewports
 - [ ] All clone pages pass visual parity at all viewports
 - [ ] All code follows code-architecture skill conventions
+- [ ] Header CSS overrides complete and matching reference
+- [ ] Footer CSS overrides complete and matching reference
+- [ ] Header/footer screenshots at all 3 viewports
 
 ---
 
