@@ -1,0 +1,16 @@
+{%- doc -%}
+  Render the Sandstone rolling text link.
+
+  @param {string} href - Link destination
+  @param {string} initial_text - Primary label
+  @param {string} hover_text - Hover label
+  @param {string} [class] - Additional classes
+{%- enddoc -%}
+
+<a
+  href="{{ href }}"
+  class="sandstone-rolling-link{% if class != blank %} {{ class }}{% endif %}"
+>
+  <span class="sandstone-rolling-link__label">{{ initial_text }}</span>
+  <span class="sandstone-rolling-link__hover">{{ hover_text }}</span>
+</a>

@@ -1,0 +1,116 @@
+<section class="sandstone-section--overflow">
+  <div class="sandstone-container sandstone-section--project-top">
+    <div>
+      {% render 'sandstone-kicker', text: section.settings.kicker %}
+      <p class="sandstone-display-text sandstone-display-lg sandstone-heading sandstone-mt-xl sandstone-display-text--tight">
+        {{ section.settings.heading }}
+      </p>
+      {% render 'sandstone-rolling-link', href: section.settings.cta_url, text: section.settings.cta_text, hover_text: section.settings.cta_hover_text %}
+    </div>
+
+    <div class="sandstone-project-grid">
+      <div class="sandstone-project-sidebar">
+        <div>
+          <p class="sandstone-meta" id="sandstone-project-year">
+            {% for block in section.blocks limit: 1 %}{{ block.settings.year }}{% endfor %}
+          </p>
+          <h3 class="sandstone-text-xl sandstone-heading sandstone-text-balance sandstone-mt-lg" id="sandstone-project-title">
+            {% for block in section.blocks limit: 1 %}{{ block.settings.title }}{% endfor %}
+          </h3>
+          <p class="sandstone-subtitle sandstone-mt-xs" id="sandstone-project-location">
+            {% for block in section.blocks limit: 1 %}{{ block.settings.location }}{% endfor %}
+          </p>
+        </div>
+        <div class="sandstone-nav-btns sandstone-mt-lg">
+          <button type="button" class="sandstone-project-nav-btn" aria-label="Previous slide" data-sandstone-project-prev>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m0 0 7 7m-7-7 7-7"/></svg>
+          </button>
+          <button type="button" class="sandstone-project-nav-btn" aria-label="Next slide" data-sandstone-project-next>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0-7-7m7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="sandstone-project-slider-wrap">
+        <div class="sandstone-project-slider" data-sandstone-project-slider>
+          {%- for block in section.blocks -%}
+            {%- assign img_index = forloop.index | modulo: 4 -%}
+            {%- if img_index == 0 -%}{%- assign img_index = 4 -%}{%- endif -%}
+            {%- assign fallback_file = 'sandstone-project-' | append: img_index | append: '.png' -%}
+            <a href="{{ block.settings.url | default: '#' }}" class="sandstone-project-slide" data-index="{{ forloop.index0 }}" data-year="{{ block.settings.year }}" data-title="{{ block.settings.title }}" data-location="{{ block.settings.location }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1600
+                  | image_tag:
+                    alt: block.settings.title,
+                    loading: 'lazy',
+                    class: 'sandstone-project-slide__img',
+                    widths: '400, 800, 1200, 1600'
+                }}
+              {%- else -%}
+                <img src="{{ fallback_file | asset_url }}" alt="{{ block.settings.title }}" loading="lazy" class="sandstone-project-slide__img">
+              {%- endif -%}
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var slider = document.querySelector('[data-sandstone-project-slider]');
+    var prev = document.querySelector('[data-sandstone-project-prev]');
+    var next = document.querySelector('[data-sandstone-project-next]');
+    var yearEl = document.getElementById('sandstone-project-year');
+    var titleEl = document.getElementById('sandstone-project-title');
+    var locEl = document.getElementById('sandstone-project-location');
+    if (!slider) return;
+    var slides = slider.querySelectorAll('.sandstone-project-slide');
+    var current = 0;
+    function updateInfo(i) {
+      var s = slides[i];
+      if (s && yearEl) yearEl.textContent = s.dataset.year;
+      if (s && titleEl) titleEl.textContent = s.dataset.title;
+      if (s && locEl) locEl.textContent = s.dataset.location;
+    }
+    function go(i) {
+      if (i < 0) i = slides.length - 1;
+      if (i >= slides.length) i = 0;
+      current = i;
+      slides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      updateInfo(i);
+    }
+    if (prev) prev.addEventListener('click', function() { go(current - 1); });
+    if (next) next.addEventListener('click', function() { go(current + 1); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sandstone Projects",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Latest works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore our latest interior design projects and transformative spaces." },
+    { "type": "url", "id": "cta_url", "label": "See all link", "default": "/collections/all" },
+    { "type": "text", "id": "cta_text", "label": "See all — text", "default": "See all projects" },
+    { "type": "text", "id": "cta_hover_text", "label": "See all — hover text", "default": "Explore now" }
+  ],
+  "blocks": [
+    {
+      "type": "project",
+      "name": "Project",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "location", "label": "Location" },
+        { "type": "text", "id": "year", "label": "Year", "default": "2025" },
+        { "type": "image_picker", "id": "image", "label": "Cover image" },
+        { "type": "url", "id": "url", "label": "Project link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Projects" }]
+}
+{% endschema %}

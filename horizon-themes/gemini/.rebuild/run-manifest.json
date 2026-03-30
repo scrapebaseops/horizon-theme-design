@@ -1,0 +1,16 @@
+{
+  "theme_root": "horizon-themes/gemini",
+  "reference_root": "lexington-reference/sandstone_v6",
+  "execution_mode": "full_pipeline",
+  "current_phase": "1 - Audit and mapping",
+  "status": "In progress",
+  "last_updated_utc": "2026-03-28T12:00:00Z",
+  "viewports": [
+    "1440x900",
+    "768x1024",
+    "390x844"
+  ],
+  "best_loop": 0,
+  "top_mismatches": [],
+  "blockers": []
+}

@@ -1,0 +1,88 @@
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    <div class="sandstone-sidebar-grid">
+      <div class="sandstone-sidebar-grid__sidebar sandstone-sidebar-grid__sidebar--sticky sandstone-sidebar-max">
+        <div class="sandstone-card sandstone-flex-col">
+          {% if section.settings.kicker != blank %}
+            <p class="sandstone-kicker">{{ section.settings.kicker }}</p>
+          {% endif %}
+          {% if section.settings.sidebar_heading != blank %}
+            <p class="sandstone-text-xl sandstone-heading sandstone-mt-xl sandstone-text-balance">
+              {{ section.settings.sidebar_heading }}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="sandstone-divider-list">
+        {%- for block in section.blocks -%}
+          <div class="sandstone-divider-list__item sandstone-process-step" {{ block.shopify_attributes }}>
+            <p class="sandstone-stat-number sandstone-process-step__number">
+              {{ '0' | append: forloop.index | append: '.' }}
+            </p>
+            <div class="sandstone-process-step__content">
+              <h3 class="sandstone-display-sm sandstone-heading">{{ block.settings.title }}</h3>
+              <p class="sandstone-text-sm sandstone-body sandstone-mt-sm">{{ block.settings.description }}</p>
+            </div>
+            <div class="sandstone-process-step__image">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 500
+                  | image_tag:
+                    class: 'sandstone-image sandstone-image--fixed-h',
+                    loading: 'lazy',
+                    widths: '250, 500'
+                }}
+              {%- else -%}
+                {%- assign process_img_map = 'sandstone-process-1.png|sandstone-process-2.png|sandstone-process-3.png|sandstone-process-4.png|sandstone-process-5.png|sandstone-process-6.png' | split: '|' -%}
+                {%- assign process_img_index = forloop.index0 | modulo: 6 -%}
+                <img
+                  src="{{ process_img_map[process_img_index] | asset_url }}"
+                  alt="{{ block.settings.title }}"
+                  class="sandstone-image sandstone-image--fixed-h"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Process",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "The Process" },
+    { "type": "textarea", "id": "sidebar_heading", "label": "Sidebar heading", "default": "A proven methodology that transforms visions into beautiful interiors through collaboration, creativity, and meticulous attention to detail." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Discovery" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle." },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Process",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Discovery", "description": "Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs." } },
+        { "type": "step", "settings": { "title": "Design Development", "description": "Design development drives the creative process. Our interior designers work closely with you through mood boards, material samples, and 3D visualizations to refine concepts with clarity and intention." } },
+        { "type": "step", "settings": { "title": "Communication", "description": "Throughout the process, we maintain open communication and detailed planning. Regular check-ins, design presentations, and feedback sessions keep us aligned while allowing flexibility as your vision evolves." } },
+        { "type": "step", "settings": { "title": "Implementation", "description": "As we move from design to implementation, our focus shifts to execution and quality. Careful material sourcing, artisan coordination, and on-site supervision ensure the finished interior meets our exacting standards." } },
+        { "type": "step", "settings": { "title": "Procurement", "description": "Procurement involves carefully selecting and acquiring all the materials, furniture, and finishes needed for your project. We work with trusted suppliers to ensure quality, sustainability, and timely delivery." } },
+        { "type": "step", "settings": { "title": "Installation", "description": "During installation, our team oversees the careful placement and assembly of all elements. From furniture arrangement to lighting installation, we ensure every detail is executed flawlessly to bring your vision to life." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<section class="sandstone-benchmark-section">
+  <div class="sandstone-shell">
+    <div class="sandstone-intro-copy rte">
+      {{ section.settings.body_copy }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Intro",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "body_copy",
+      "label": "Intro copy",
+      "default": "<p>We are a <em>multidisciplinary interior design</em> studio dedicated to creating <em>timeless interiors</em> that enhance living spaces and inspire everyday experiences.</p>"
+    }
+  ],
+  "presets": [{ "name": "Sandstone Intro" }]
+}
+{% endschema %}

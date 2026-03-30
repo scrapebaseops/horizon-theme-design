@@ -1,0 +1,78 @@
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    {% if section.settings.kicker != blank %}
+      <p class="sandstone-kicker">{{ section.settings.kicker }}</p>
+    {% endif %}
+    <h1 class="sandstone-display-xl sandstone-heading sandstone-mt-xl sandstone-text-balance">
+      {{ section.settings.heading }}
+    </h1>
+    <div class="sandstone-team-grid sandstone-mt-xl">
+      {%- for block in section.blocks -%}
+        <article class="sandstone-team-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag:
+                class: 'sandstone-team-card__image',
+                loading: 'lazy',
+                widths: '400, 600, 800'
+            }}
+          {%- else -%}
+            <div class="sandstone-team-card__image sandstone-image" style="background: var(--sandstone-base-200); min-height: 20rem;"></div>
+          {%- endif -%}
+          <div class="sandstone-team-card__body">
+            <h2 class="sandstone-text-lg sandstone-heading">{{ block.settings.name }}</h2>
+            <p class="sandstone-text-sm sandstone-body sandstone-mt-xs">{{ block.settings.role }}</p>
+            {% if block.settings.bio != blank %}
+              <p class="sandstone-text-sm sandstone-body sandstone-mt-md">{{ block.settings.bio }}</p>
+            {% endif %}
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="sandstone-rolling-link sandstone-mt-md" style="margin-top: 1rem;">
+                <span>{{ block.settings.link_text }}</span>
+                <span>{{ block.settings.link_hover_text }}</span>
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Team grid",
+  "tag": "section",
+  "class": "sandstone-team-section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Team" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our studio" }
+  ],
+  "blocks": [
+    {
+      "type": "member",
+      "name": "Team member",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Name" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Role" },
+        { "type": "textarea", "id": "bio", "label": "Bio" },
+        { "type": "url", "id": "link", "label": "Profile link" },
+        { "type": "text", "id": "link_text", "label": "Link text", "default": "View profile" },
+        { "type": "text", "id": "link_hover_text", "label": "Link hover text", "default": "Read more" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Team grid",
+      "blocks": [
+        { "type": "member", "settings": { "name": "James Mitchell", "role": "Principal Architect" } },
+        { "type": "member", "settings": { "name": "Sarah Chen", "role": "Design Director" } },
+        { "type": "member", "settings": { "name": "Michael Torres", "role": "Project Lead" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

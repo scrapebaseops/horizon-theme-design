@@ -1,0 +1,37 @@
+{% comment %}
+  Sandstone Fullbleed Container — rounded full-viewport container with media background
+  Usage: {% render 'sandstone-fullbleed', image: section.settings.image %}
+  Pass inner content via section blocks or capture.
+  Optional: show_overlay (boolean), overlay_content (HTML string)
+{% endcomment %}
+
+<div class="sandstone-section--tight">
+  <div class="sandstone-container--wide" style="padding-inline: var(--sandstone-container-px-sm);">
+    <div class="sandstone-fullbleed">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'sandstone-fullbleed__media',
+            loading: 'eager',
+            widths: '600, 900, 1200, 1800, 2400'
+        }}
+      {%- elsif video_url != blank -%}
+        <video autoplay muted loop playsinline class="sandstone-fullbleed__media">
+          <source src="{{ video_url }}" type="video/mp4" />
+        </video>
+      {%- else -%}
+        <div class="sandstone-fullbleed__media" style="background: var(--sandstone-base-300);"></div>
+      {%- endif -%}
+
+      {%- if show_overlay and overlay_content != blank -%}
+        <div class="sandstone-fullbleed__overlay">
+          <div class="sandstone-fullbleed__panel">
+            {{ overlay_content }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

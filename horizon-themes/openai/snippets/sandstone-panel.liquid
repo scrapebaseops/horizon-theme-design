@@ -1,0 +1,16 @@
+{%- doc -%}
+  Simple wrapper for reusable Sandstone floating panels.
+
+  @param {string} content - Inner HTML
+  @param {string} [class] - Additional classes
+  @param {string} [style] - Inline styles
+{%- enddoc -%}
+
+<div
+  class="sandstone-panel{% if class != blank %} {{ class }}{% endif %}"
+  {% if style != blank %}
+    style="{{ style }}"
+  {% endif %}
+>
+  {{ content }}
+</div>

@@ -1,0 +1,154 @@
+<section class="sandstone-projects padding-block">
+  <div class="page-width">
+    <div class="projects-header">
+      <p class="kicker">Latest works</p>
+      <p class="projects-title">Explore our latest interior design projects and transformative spaces.</p>
+      <a href="#" class="rolling-link">See all projects</a>
+    </div>
+
+    <div class="projects-grid">
+      <div class="projects-info">
+        <div>
+          <p class="project-year">2025</p>
+          <h3 class="project-name">Luxury Residential Complex</h3>
+          <p class="project-location">Downtown Metropolitan Area</p>
+        </div>
+        <div class="projects-arrows hidden-mobile">
+          <button class="arrow-btn" aria-label="Previous">←</button>
+          <button class="arrow-btn" aria-label="Next">→</button>
+        </div>
+      </div>
+      
+      <div class="projects-slider">
+        <div class="project-card">
+          <img src="{{ 'sandstone-project-1.png' | asset_url }}" alt="Project 1" loading="lazy" width="800" height="1000">
+        </div>
+        <div class="project-card">
+          <img src="{{ 'sandstone-project-2.png' | asset_url }}" alt="Project 2" loading="lazy" width="800" height="1000">
+        </div>
+        <div class="project-card">
+          <img src="{{ 'sandstone-project-3.png' | asset_url }}" alt="Project 3" loading="lazy" width="800" height="1000">
+        </div>
+        <div class="project-card">
+          <img src="{{ 'sandstone-project-4.png' | asset_url }}" alt="Project 4" loading="lazy" width="800" height="1000">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-projects {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  .projects-header {
+    margin-bottom: 3rem;
+  }
+  .kicker {
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 500;
+  }
+  .projects-title {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    font-weight: 500;
+    max-width: 600px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+  .rolling-link {
+    font-size: 0.875rem;
+    color: #111827;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media screen and (min-width: 990px) {
+    .projects-grid {
+      grid-template-columns: 3fr 9fr;
+    }
+  }
+  .projects-info {
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .project-year {
+    font-size: 0.75rem;
+    color: #4b5563;
+  }
+  .project-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 0.25rem;
+  }
+  .project-location {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  .projects-arrows {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+  .arrow-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .projects-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none; /* Firefox */
+  }
+  .projects-slider::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .project-card {
+    flex: 0 0 calc(80% - 1rem);
+    scroll-snap-align: start;
+  }
+  @media screen and (min-width: 768px) {
+    .project-card {
+      flex: 0 0 calc(40% - 1rem);
+    }
+  }
+  .project-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Projects",
+  "presets": [
+    {
+      "name": "Sandstone Projects"
+    }
+  ]
+}
+{% endschema %}

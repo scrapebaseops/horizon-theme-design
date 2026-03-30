@@ -1,0 +1,14 @@
+{% comment %}
+  Sandstone Display Text — large responsive text with italic accent support
+  Usage: {% render 'sandstone-display-text', text: section.settings.text, size: 'display-2xl' %}
+  Accepts Shopify richtext. <em> tags render as Sandstone italic accents (lighter weight, muted color).
+  Sizes: display-2xl, display-xl, display-lg, display-md, display-sm, display-xs
+{% endcomment %}
+
+{%- liquid
+  assign size = size | default: 'display-lg'
+-%}
+
+<div class="sandstone-display-text sandstone-{{ size }} sandstone-heading" style="line-height: 1.15;">
+  {{ text }}
+</div>

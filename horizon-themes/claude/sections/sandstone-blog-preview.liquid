@@ -1,0 +1,90 @@
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    <div>
+      <p class="sandstone-kicker">{{ section.settings.kicker }}</p>
+      <p class="sandstone-display-lg sandstone-heading sandstone-mt-xl sandstone-text-balance">
+        {{ section.settings.heading }}
+      </p>
+      <a href="{{ section.settings.link | default: routes.root_url }}" class="sandstone-rolling-link">
+        <span>{{ section.settings.link_text }}</span>
+        <span>{{ section.settings.link_hover_text }}</span>
+      </a>
+    </div>
+
+    <div class="sandstone-grid-3 sandstone-mt-xl">
+      {%- for block in section.blocks -%}
+        <article {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag:
+                class: 'sandstone-image sandstone-image--blog',
+                loading: 'lazy',
+                widths: '400, 600, 800'
+            }}
+          {%- else -%}
+            {%- assign blog_img_map = 'sandstone-blog-1.png|sandstone-blog-2.png|sandstone-blog-3.png' | split: '|' -%}
+            {%- assign blog_img_index = forloop.index0 | modulo: 3 -%}
+            <img
+              src="{{ blog_img_map[blog_img_index] | asset_url }}"
+              alt="{{ block.settings.title }}"
+              class="sandstone-image sandstone-image--blog"
+              loading="lazy"
+            >
+          {%- endif -%}
+          <div class="sandstone-mt-md">
+            <p class="sandstone-meta sandstone-mt-xs">{{ block.settings.date }}</p>
+            <h3 class="sandstone-text-lg sandstone-article-title sandstone-mt-md">{{ block.settings.title }}</h3>
+            <p class="sandstone-text-base sandstone-muted sandstone-mt-xs sandstone-text-pretty">{{ block.settings.description }}</p>
+            <a href="{{ block.settings.url | default: '#' }}" class="sandstone-rolling-link">
+              <span>{% if block.settings.article_cta_text != blank %}{{ block.settings.article_cta_text }}{% else %}{{ section.settings.article_cta_text }}{% endif %}</span>
+              <span>{% if block.settings.article_cta_hover != blank %}{{ block.settings.article_cta_hover }}{% else %}{{ section.settings.article_cta_hover }}{% endif %}</span>
+            </a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Blog Preview",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Journal" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Explore our latest articles and insights on design, technology, and creative innovation" },
+    { "type": "url", "id": "link", "label": "View all link" },
+    { "type": "text", "id": "link_text", "label": "View all — text", "default": "See all articles" },
+    { "type": "text", "id": "link_hover_text", "label": "View all — hover text", "default": "Read more" },
+    { "type": "text", "id": "article_cta_text", "label": "Article link — default text", "default": "Read this article" },
+    { "type": "text", "id": "article_cta_hover", "label": "Article link — default hover text", "default": "Read further" }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "The Art of Sustainable Design" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Exploring how sustainable materials and thoughtful design create spaces that are both beautiful and environmentally responsible." },
+        { "type": "text", "id": "date", "label": "Date", "default": "March 15, 2026" },
+        { "type": "url", "id": "url", "label": "Article URL" },
+        { "type": "text", "id": "article_cta_text", "label": "Article link — text (optional override)" },
+        { "type": "text", "id": "article_cta_hover", "label": "Article link — hover text (optional override)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Blog Preview",
+      "blocks": [
+        { "type": "article", "settings": { "title": "The Art of Sustainable Design", "description": "Exploring how sustainable materials and thoughtful design create spaces that are both beautiful and environmentally responsible.", "date": "March 15, 2026" } },
+        { "type": "article", "settings": { "title": "Minimalism in Modern Interiors", "description": "How the principles of minimalism are reshaping contemporary interior design and creating more intentional living spaces.", "date": "March 8, 2026" } },
+        { "type": "article", "settings": { "title": "Color Theory for Living Spaces", "description": "Understanding how color choices influence mood, perception, and the overall experience of a designed environment.", "date": "February 28, 2026" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

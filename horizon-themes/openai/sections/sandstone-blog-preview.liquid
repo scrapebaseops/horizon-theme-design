@@ -1,0 +1,211 @@
+<section class="sandstone-benchmark-section">
+  <div class="sandstone-shell">
+    <div class="sandstone-benchmark-heading">
+      {% if section.settings.kicker != blank %}
+        {% render 'sandstone-kicker', text: section.settings.kicker %}
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="sandstone-display-lg">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% liquid
+        assign blog_link = section.settings.link_url
+        if blog_link == blank and section.settings.blog != blank
+          assign blog_link = section.settings.blog.url
+        endif
+        if blog_link == blank
+          assign blog_link = routes.root_url
+        endif
+      %}
+      {% if section.settings.link_label != blank %}
+        {% render 'sandstone-rolling-link',
+          href: blog_link,
+          initial_text: section.settings.link_label,
+          hover_text: section.settings.link_hover
+        %}
+      {% endif %}
+    </div>
+
+    <div class="sandstone-blog-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'article_card' %}
+            {% liquid
+              assign card_article = block.settings.article
+              assign card_title = block.settings.title
+              assign card_excerpt = block.settings.excerpt
+              assign card_image = block.settings.image
+              assign card_link = block.settings.link
+              assign card_date = block.settings.date_override
+              if card_article != blank
+                if card_title == blank
+                  assign card_title = card_article.title
+                endif
+                if card_link == blank
+                  assign card_link = card_article.url
+                endif
+                if card_image == blank and card_article.image
+                  assign card_image = card_article.image
+                endif
+                if card_date == blank
+                  assign card_date = card_article.published_at | date: '%B %e, %Y'
+                endif
+                if card_excerpt == blank and card_article != blank
+                  if card_article.excerpt != blank
+                    assign card_excerpt = card_article.excerpt | strip_html | truncate: 180
+                  else
+                    assign card_excerpt = card_article.content | strip_html | truncate: 180
+                  endif
+                endif
+              endif
+            %}
+            <article class="sandstone-blog-card" {{ block.shopify_attributes }}>
+              {% if card_image != blank %}
+                <img
+                  class="sandstone-blog-image"
+                  src="{{ card_image | image_url: width: 1200 }}"
+                  alt="{{ card_title | escape }}"
+                  loading="lazy"
+                >
+              {% elsif card_article != blank and card_article.image %}
+                <img
+                  class="sandstone-blog-image"
+                  src="{{ card_article.image | image_url: width: 1200 }}"
+                  alt="{{ card_title | escape }}"
+                  loading="lazy"
+                >
+              {% else %}
+                <img class="sandstone-blog-image" src="{{ 'sandstone-blog-1.png' | asset_url }}" alt="" loading="lazy">
+              {% endif %}
+              <div class="sandstone-blog-copy">
+                {% if card_date != blank %}
+                  <p class="sandstone-blog-date">{{ card_date }}</p>
+                {% endif %}
+                {% if card_title != blank %}
+                  <h3 class="sandstone-blog-title">{{ card_title }}</h3>
+                {% endif %}
+                {% if card_excerpt != blank %}
+                  <p class="sandstone-blog-description">{{ card_excerpt }}</p>
+                {% endif %}
+                {% if card_link != blank %}
+                  {% render 'sandstone-rolling-link',
+                    href: card_link,
+                    initial_text: block.settings.cta_initial | default: 'Read this article',
+                    hover_text: block.settings.cta_hover | default: 'Read further'
+                  %}
+                {% endif %}
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <article class="sandstone-blog-card">
+          <img class="sandstone-blog-image" src="{{ 'sandstone-blog-1.png' | asset_url }}" alt="" loading="eager">
+          <div class="sandstone-blog-copy">
+            <p class="sandstone-blog-date">November 12, 2025</p>
+            <h3 class="sandstone-blog-title">Human-Centered Architecture</h3>
+            <p class="sandstone-blog-description">
+              How architects translate vision into space, blending context, materiality, and technology.
+            </p>
+            {% render 'sandstone-rolling-link', href: routes.root_url, initial_text: 'Read this article', hover_text: 'Read further' %}
+          </div>
+        </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Blog Preview",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Journal"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore our latest articles and insights on design, technology, and creative innovation"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Default blog",
+      "info": "Used when link URL is empty for the section CTA."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "CTA link URL"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "CTA label",
+      "default": "See all articles"
+    },
+    {
+      "type": "text",
+      "id": "link_hover",
+      "label": "CTA hover label",
+      "default": "Read more"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_card",
+      "name": "Article card",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Blog article"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Override image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Override title"
+        },
+        {
+          "type": "textarea",
+          "id": "excerpt",
+          "label": "Override excerpt"
+        },
+        {
+          "type": "text",
+          "id": "date_override",
+          "label": "Override date (text)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Override URL"
+        },
+        {
+          "type": "text",
+          "id": "cta_initial",
+          "label": "Card CTA label",
+          "default": "Read this article"
+        },
+        {
+          "type": "text",
+          "id": "cta_hover",
+          "label": "Card CTA hover",
+          "default": "Read further"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Blog Preview" }]
+}
+{% endschema %}

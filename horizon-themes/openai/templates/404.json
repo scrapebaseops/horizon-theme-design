@@ -8,35 +8,17 @@
  * ------------------------------------------------------------
  */{
   "sections": {
+    "sandstone_page_hero": {
+      "type": "sandstone-page-hero",
+      "settings": {
+        "kicker": "",
+        "heading": "",
+        "subheading": ""
+      }
+    },
     "main": {
       "type": "main-404",
       "blocks": {
-        "text_GqmVFf": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<h1>Page not found</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h3",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "text_Ua9XAW": {
           "type": "text",
           "name": "t:names.text",
@@ -80,7 +62,6 @@
         }
       },
       "block_order": [
-        "text_GqmVFf",
         "text_Ua9XAW",
         "button_PAQMwR"
       ],
@@ -276,6 +257,7 @@
     }
   },
   "order": [
+    "sandstone_page_hero",
     "main",
     "product_list_iA96Tq"
   ]

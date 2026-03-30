@@ -1,2 +1,5 @@
 {{ 'overflow-list.css' | asset_url | preload_tag: as: 'style' }}
 {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'sandstone-tokens.css' | asset_url | stylesheet_tag }}
+{{ 'sandstone-base.css' | asset_url | stylesheet_tag }}
+{{ 'sandstone-primitives.css' | asset_url | stylesheet_tag }}

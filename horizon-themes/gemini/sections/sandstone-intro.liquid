@@ -1,0 +1,39 @@
+<section class="sandstone-intro padding-block">
+  <div class="page-width">
+    <p class="intro-text">
+      We are a <span class="italic">multidisciplinary interior design</span> studio dedicated to creating <span class="italic">timeless interiors</span> that enhance living spaces and inspire everyday experiences.
+    </p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-intro {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    background-color: var(--color-background);
+  }
+  .sandstone-intro .intro-text {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--color-foreground);
+    letter-spacing: -0.02em;
+    max-width: 1000px;
+  }
+  .sandstone-intro .italic {
+    font-style: italic;
+    font-weight: 300;
+    color: #666;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Intro",
+  "presets": [
+    {
+      "name": "Sandstone Intro"
+    }
+  ]
+}
+{% endschema %}

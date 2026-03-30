@@ -1,0 +1,32 @@
+{%- liquid
+  assign body_html = section.settings.body
+  if body_html == blank and article
+    assign body_html = article.content
+  elsif body_html == blank and page
+    assign body_html = page.content
+  endif
+-%}
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    <div class="sandstone-prose rte">
+      {{ body_html }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Content",
+  "tag": "section",
+  "class": "sandstone-content-prose-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Content",
+      "info": "Optional. Leave empty on page and article templates to use the page or article body."
+    }
+  ],
+  "presets": [{ "name": "Sandstone Content" }]
+}
+{% endschema %}

@@ -1,0 +1,132 @@
+{% liquid
+  assign legal_out = section.settings.legal_line
+  assign y = 'now' | date: '%Y'
+  if legal_out == blank
+    assign legal_out = '© ' | append: y | append: ' ' | append: shop.name | append: '. All rights reserved.'
+  else
+    assign legal_out = legal_out | replace: '[year]', y
+  endif
+%}
+
+{% capture footer_inner %}
+  <div>
+    {% render 'sandstone-logo' %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="sandstone-home-footer-team">
+        {% for block in section.blocks %}
+          {% if block.type == 'team_member' %}
+            <div class="sandstone-home-footer-member" {{ block.shopify_attributes }}>
+              <h3 class="sandstone-home-footer-role">{{ block.settings.role }}</h3>
+              <p class="sandstone-home-footer-name">{{ block.settings.name }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="sandstone-home-footer-team">
+        <div class="sandstone-home-footer-member">
+          <h3 class="sandstone-home-footer-role">Architectural Designer</h3>
+          <p class="sandstone-home-footer-name">Jordan Smith</p>
+        </div>
+        <div class="sandstone-home-footer-member">
+          <h3 class="sandstone-home-footer-role">Project Architect</h3>
+          <p class="sandstone-home-footer-name">Sofia Ramirez</p>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.copy_primary != blank %}
+      <div class="sandstone-home-footer-copy sandstone-home-footer-copy--primary rte">{{ section.settings.copy_primary }}</div>
+    {% endif %}
+    {% if section.settings.copy_secondary != blank %}
+      <div class="sandstone-home-footer-copy sandstone-home-footer-copy--secondary rte">{{ section.settings.copy_secondary }}</div>
+    {% endif %}
+  </div>
+
+  <p class="sandstone-contact-legal">{{ legal_out }}</p>
+{% endcapture %}
+
+<section class="sandstone-benchmark-section sandstone-home-footer-section">
+  <div class="sandstone-shell sandstone-shell--wide">
+    <div class="sandstone-media-stage sandstone-home-footer-stage">
+      <video
+        class="sandstone-media-stage__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        {% if section.settings.video_poster != blank %}
+          poster="{{ section.settings.video_poster | image_url: width: 1920 }}"
+        {% endif %}
+      >
+        <source src="{{ section.settings.video_asset | default: 'sandstone-benchmark-hero.mp4' | asset_url }}" type="video/mp4">
+      </video>
+
+      <div class="sandstone-home-footer-wrap">
+        {% render 'sandstone-panel', content: footer_inner, class: 'sandstone-home-footer-panel' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Footer",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_asset",
+      "label": "Background video filename",
+      "default": "sandstone-benchmark-hero.mp4"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster"
+    },
+    {
+      "type": "richtext",
+      "id": "copy_primary",
+      "label": "Primary copy",
+      "default": "<p>Pioneering sustainable architecture that harmonizes with nature and creates spaces of enduring beauty. Building the future, one innovative design at a time.</p><p></p><p>We believe in creating environments that inspire and endure, blending innovation with tradition to shape the world around us for generations to come.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "copy_secondary",
+      "label": "Secondary copy",
+      "default": "<p>Our commitment to excellence drives every project, ensuring that each space we create not only meets the highest standards of sustainability but also fosters a deeper connection between people and their surroundings.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "legal_line",
+      "label": "Legal line",
+      "info": "Use [year] for the current year.",
+      "default": "© [year] Sandstone Architecture. All rights reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team member",
+      "settings": [
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Role title"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Name"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Footer" }]
+}
+{% endschema %}

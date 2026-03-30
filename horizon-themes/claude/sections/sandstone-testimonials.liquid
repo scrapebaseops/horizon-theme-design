@@ -1,0 +1,94 @@
+<section class="sandstone-section sandstone-section--overflow">
+  <div class="sandstone-testimonials-layout">
+
+    <div class="sandstone-testimonials-layout__sidebar">
+      <div class="sandstone-testimonials-layout__sidebar-inner">
+        <p class="sandstone-text-xl sandstone-heading sandstone-text-balance sandstone-mt-md">
+          {{ section.settings.heading | default: 'Real partner stories, brought to life through creativity, strategy, and brand experiences that stick.' }}
+        </p>
+        <div class="sandstone-nav-btns sandstone-mt-xl">
+          <button class="sandstone-btn sandstone-btn--muted sandstone-btn--icon" aria-label="Previous" data-sandstone-testimonials-prev>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="sandstone-btn sandstone-btn--muted sandstone-btn--icon" aria-label="Next" data-sandstone-testimonials-next>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sandstone-testimonials-layout__track" data-sandstone-testimonials-track>
+      {%- for block in section.blocks -%}
+        <div class="sandstone-testimonial sandstone-testimonial--slide" {{ block.shopify_attributes }}>
+          <blockquote>
+            <span class="sandstone-testimonial__decorative-quote" aria-hidden="true">{{ section.settings.decorative_quote | default: '"' }}</span>
+            <p class="sandstone-testimonial__quote">&ldquo;{{ block.settings.quote }}&rdquo;</p>
+          </blockquote>
+          <div class="sandstone-testimonial__author">
+            {%- if block.settings.avatar != blank -%}
+              {{ block.settings.avatar | image_url: width: 96 | image_tag: class: 'sandstone-testimonial__avatar', loading: 'lazy' }}
+            {%- else -%}
+              {%- assign avatar_map = 'sandstone-avatar-sarah.png|sandstone-avatar-michael.png|sandstone-avatar-emma.png|sandstone-avatar-david.png|sandstone-avatar-lisa.png|sandstone-avatar-robert.png' | split: '|' -%}
+              {%- assign avatar_index = forloop.index0 | modulo: 6 -%}
+              <img
+                src="{{ avatar_map[avatar_index] | asset_url }}"
+                alt="{{ block.settings.author }}"
+                class="sandstone-testimonial__avatar"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <div>
+              <p class="sandstone-text-lg sandstone-heading">{{ block.settings.author }}</p>
+              <p class="sandstone-text-sm sandstone-body">{{ block.settings.role }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var track = document.querySelector('[data-sandstone-testimonials-track]');
+    var prev = document.querySelector('[data-sandstone-testimonials-prev]');
+    var next = document.querySelector('[data-sandstone-testimonials-next]');
+    if (!track || !prev || !next) return;
+    var amount = function() { return (track.querySelector('.sandstone-testimonial') || {}).offsetWidth + 16 || 300; };
+    prev.addEventListener('click', function() { track.scrollBy({ left: -amount(), behavior: 'smooth' }); });
+    next.addEventListener('click', function() { track.scrollBy({ left: amount(), behavior: 'smooth' }); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sandstone Testimonials",
+  "tag": "div",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Real partner stories, brought to life through creativity, strategy, and brand experiences that stick." },
+    { "type": "text", "id": "decorative_quote", "label": "Decorative quote character", "default": "\u201c", "info": "Shown above each testimonial (e.g. typographic quote mark)." }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Sarah Johnson" },
+        { "type": "text", "id": "role", "label": "Role & location", "default": "Homeowner, Austin TX" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Testimonials",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance. Their attention to detail and sustainable approach exceeded our expectations.", "author": "Sarah Johnson", "role": "Homeowner, Austin TX" } },
+        { "type": "testimonial", "settings": { "quote": "Working with Sandstone on our office redesign was incredible. They created a space that boosts productivity while maintaining a warm, inviting atmosphere for our team.", "author": "Michael Chen", "role": "CEO, San Francisco CA" } },
+        { "type": "testimonial", "settings": { "quote": "The boutique hotel project with Sandstone was a masterpiece. They understood our vision perfectly and delivered interiors that tell a story and create unforgettable experiences.", "author": "Emma Rodriguez", "role": "Hotel Owner, Santa Fe NM" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

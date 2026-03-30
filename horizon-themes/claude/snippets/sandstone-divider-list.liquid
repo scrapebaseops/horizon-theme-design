@@ -1,0 +1,13 @@
+{% comment %}
+  Sandstone Divider List — container with border-y divide-y pattern
+  Usage:
+    {% capture items %}
+      ... your list items with class="sandstone-divider-list__item" ...
+    {% endcapture %}
+    {% render 'sandstone-divider-list', content: items %}
+  Optional: class (extra classes), style (inline styles)
+{% endcomment %}
+
+<div class="sandstone-divider-list{% if class %} {{ class }}{% endif %}"{% if style %} style="{{ style }}"{% endif %}>
+  {{ content }}
+</div>

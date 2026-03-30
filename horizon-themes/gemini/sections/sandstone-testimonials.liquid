@@ -1,0 +1,176 @@
+<section class="sandstone-testimonials padding-block">
+  <div class="page-width">
+    <div class="testimonials-grid">
+      <div class="testimonials-left">
+        <h2 class="testimonials-heading">Real partner stories, brought to life through creativity, strategy, and brand experiences that stick.</h2>
+        <div class="testimonials-arrows hidden-mobile">
+          <button class="arrow-btn" aria-label="Previous">←</button>
+          <button class="arrow-btn" aria-label="Next">→</button>
+        </div>
+      </div>
+      <div class="testimonials-right">
+        <div class="testimonials-slider">
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              <span class="quote-mark">"</span>
+              <p>"Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance. Their attention to detail and sustainable approach exceeded our expectations."</p>
+            </blockquote>
+            <div class="testimonial-author">
+              <img src="{{ 'sandstone-testimonial-sara.png' | asset_url }}" alt="Sarah Johnson" class="author-avatar" loading="lazy" width="48" height="48">
+              <div>
+                <p class="author-name">Sarah Johnson</p>
+                <p class="author-role">Homeowner, Austin, TX</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              <span class="quote-mark">"</span>
+              <p>"Working with Sandstone on our office redesign was incredible. They created a space that boosts productivity while maintaining a warm, inviting atmosphere for our team."</p>
+            </blockquote>
+            <div class="testimonial-author">
+              <img src="{{ 'sandstone-testimonial-michael.png' | asset_url }}" alt="Michael Chen" class="author-avatar" loading="lazy" width="48" height="48">
+              <div>
+                <p class="author-name">Michael Chen</p>
+                <p class="author-role">CEO, San Francisco, CA</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              <span class="quote-mark">"</span>
+              <p>"The boutique hotel project with Sandstone was a masterpiece. They understood our vision perfectly and delivered interiors that tell a story and create unforgettable experiences."</p>
+            </blockquote>
+            <div class="testimonial-author">
+              <img src="{{ 'sandstone-testimonial-emily.png' | asset_url }}" alt="Emma Rodriguez" class="author-avatar" loading="lazy" width="48" height="48">
+              <div>
+                <p class="author-name">Emma Rodriguez</p>
+                <p class="author-role">Hotel Owner, Santa Fe, NM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-testimonials {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-color: var(--color-background);
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media screen and (min-width: 990px) {
+    .testimonials-grid {
+      grid-template-columns: 1fr 2fr;
+    }
+    .sandstone-testimonials {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  .testimonials-left {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .testimonials-heading {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+  .testimonials-arrows {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .testimonials-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+    height: 100%;
+  }
+  .testimonials-slider::-webkit-scrollbar {
+    display: none;
+  }
+  .testimonial-card {
+    flex: 0 0 calc(90% - 1rem);
+    scroll-snap-align: start;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  @media screen and (min-width: 768px) {
+    .testimonial-card {
+      flex: 0 0 calc(60% - 1rem);
+    }
+  }
+  .testimonial-quote {
+    margin: 0;
+    position: relative;
+  }
+  .quote-mark {
+    font-size: 8rem;
+    line-height: 1;
+    font-style: italic;
+    color: #e5e7eb;
+    display: block;
+    margin-bottom: -4rem;
+  }
+  .testimonial-quote p {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 500;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+  }
+  .author-avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .author-name {
+    font-weight: 500;
+    margin: 0;
+  }
+  .author-role {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Testimonials",
+  "presets": [
+    {
+      "name": "Sandstone Testimonials"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+{
+  "theme_root": "horizon-themes/openai",
+  "reference_root": "lexington-reference/sandstone_v6",
+  "execution_mode": "full_pipeline",
+  "current_phase": "phase-7",
+  "status": "ready_for_review",
+  "last_updated_utc": "2026-03-28T08:45:58Z",
+  "viewports": ["1440x900", "768x1024", "390x844"],
+  "best_loop": "loop-07",
+  "top_mismatches": [
+    "Hero still captures can land on slightly different video frames between the local reference and hosted Shopify preview",
+    "The floating search trigger control is close but not an exact icon-level match yet",
+    "A small amount of lower-page spacing and media-crop polish remains possible if stricter sign-off is needed"
+  ],
+  "blockers": []
+}

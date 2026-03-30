@@ -1,0 +1,55 @@
+<section class="sandstone-section--tight">
+  <div class="sandstone-container--wide">
+    <div class="sandstone-fullbleed sandstone-fullbleed--bottom-start">
+
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'sandstone-fullbleed__media',
+            loading: 'eager',
+            widths: '600, 900, 1200, 1800, 2400'
+        }}
+      {%- else -%}
+        <video autoplay muted loop playsinline preload="none" class="sandstone-fullbleed__media">
+          <source src="{{ 'sandstone-hero.mp4' | asset_url }}" type="video/mp4">
+        </video>
+      {%- endif -%}
+
+      {%- if section.settings.show_logo_overlay -%}
+        <div class="sandstone-hero-logo-overlay" aria-hidden="true">
+          <span class="sandstone-hero-logo-text">
+            {{ section.settings.logo_text | default: shop.name }}
+          </span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.ticker_text != blank -%}
+        <div class="sandstone-hero-ticker">
+          <div class="sandstone-hero-ticker__track">
+            {%- for i in (1..8) -%}
+              <span class="sandstone-hero-ticker__item">
+                {{ section.settings.ticker_text }}
+              </span>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Hero",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "checkbox", "id": "show_logo_overlay", "label": "Show logo overlay", "default": true },
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "SNDST" },
+    { "type": "text", "id": "ticker_text", "label": "Ticker text", "default": "(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM //" }
+  ],
+  "presets": [{ "name": "Sandstone Hero" }]
+}
+{% endschema %}

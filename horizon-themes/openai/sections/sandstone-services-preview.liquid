@@ -1,0 +1,170 @@
+<section class="sandstone-benchmark-section" data-sandstone-services>
+  <div class="sandstone-shell sandstone-shell--wide">
+    <div class="sandstone-services-stage">
+      <div class="sandstone-services-media" aria-hidden="true">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'service' %}
+              {% assign idx = forloop.index0 %}
+              <img
+                class="sandstone-service-image{% if idx == 0 %} is-active{% endif %}"
+                data-service-image="{{ idx }}"
+                src="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 2000 }}{% else %}{{ 'sandstone-service-1.png' | asset_url }}{% endif %}"
+                alt="{{ block.settings.title | escape }}"
+                loading="{% if idx == 0 %}eager{% else %}lazy{% endif %}"
+              >
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <img
+            class="sandstone-service-image is-active"
+            data-service-image="0"
+            src="{{ 'sandstone-service-1.png' | asset_url }}"
+            alt=""
+            loading="eager"
+          >
+          <img class="sandstone-service-image" data-service-image="1" src="{{ 'sandstone-service-2.png' | asset_url }}" alt="" loading="lazy">
+          <img class="sandstone-service-image" data-service-image="2" src="{{ 'sandstone-service-3.png' | asset_url }}" alt="" loading="lazy">
+        {% endif %}
+      </div>
+
+      <div class="sandstone-services-wrap">
+        <div class="sandstone-panel sandstone-services-panel">
+          {% if section.settings.kicker != blank %}
+            {% render 'sandstone-kicker', text: section.settings.kicker %}
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <h2 class="sandstone-display-lg sandstone-services-title">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          <div class="sandstone-services-list" role="tablist" aria-label="{{ section.settings.kicker | default: 'Services' }}">
+            {% if section.blocks.size > 0 %}
+              {% for block in section.blocks %}
+                {% if block.type == 'service' %}
+                  {% assign idx = forloop.index0 %}
+                  <button
+                    type="button"
+                    class="sandstone-service-trigger{% if idx == 0 %} is-active{% endif %}"
+                    data-service-trigger="{{ idx }}"
+                    data-service-description="{{ block.settings.description | strip_newlines | escape }}"
+                    aria-pressed="{% if idx == 0 %}true{% else %}false{% endif %}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.title }}
+                  </button>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <button type="button" class="sandstone-service-trigger is-active" data-service-trigger="0" data-service-description="Curated selection of sustainable, low-impact interior materials that meet both environmental and aesthetic standards." aria-pressed="true">
+                Eco-Materials Selection
+              </button>
+              <button type="button" class="sandstone-service-trigger" data-service-trigger="1" data-service-description="Design and integration of high-performance lighting, smart home, and energy systems for optimal interior performance." aria-pressed="false">
+                Energy-Efficient Systems
+              </button>
+              <button type="button" class="sandstone-service-trigger" data-service-trigger="2" data-service-description="Comprehensive evaluation of environmental impacts of interior design choices and development of sustainable strategies." aria-pressed="false">
+                Environmental Impact Assessment
+              </button>
+            {% endif %}
+          </div>
+
+          {% liquid
+            assign first_service_desc = ''
+            for block in section.blocks
+              if block.type == 'service'
+                assign first_service_desc = block.settings.description
+                break
+              endif
+            endfor
+          %}
+          <p class="sandstone-service-description" data-service-description>
+            {% if first_service_desc != blank %}
+              {{ first_service_desc }}
+            {% else %}
+              Curated selection of sustainable, low-impact interior materials that meet both environmental and aesthetic standards.
+            {% endif %}
+          </p>
+
+          {% liquid
+            assign slink = section.settings.link_url
+            if slink == blank
+              assign slink = routes.root_url
+            endif
+          %}
+          {% if section.settings.link_label != blank %}
+            {% render 'sandstone-rolling-link',
+              href: slink,
+              initial_text: section.settings.link_label,
+              hover_text: section.settings.link_hover
+            %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Services",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Services"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Leading sustainable interior design services that integrate ecofriendly materials and energy efficient solutions."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Footer link URL"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "See all services"
+    },
+    {
+      "type": "text",
+      "id": "link_hover",
+      "label": "Link hover label",
+      "default": "Explore now"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Service name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Describe this service."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Services" }]
+}
+{% endschema %}

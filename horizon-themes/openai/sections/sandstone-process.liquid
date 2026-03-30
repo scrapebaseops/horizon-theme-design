@@ -1,0 +1,117 @@
+{% capture process_panel %}
+  {% if section.settings.kicker != blank %}
+    {% render 'sandstone-kicker', text: section.settings.kicker %}
+  {% endif %}
+  {% if section.settings.intro_heading != blank %}
+    <h2 class="sandstone-display-lg">{{ section.settings.intro_heading }}</h2>
+  {% endif %}
+{% endcapture %}
+
+<section class="sandstone-benchmark-section">
+  <div class="sandstone-shell">
+    <div class="sandstone-editorial-grid">
+      {% render 'sandstone-panel', content: process_panel, class: 'sandstone-sticky-panel' %}
+      <div class="sandstone-process-list">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'step' %}
+              <article class="sandstone-process-step" {{ block.shopify_attributes }}>
+                <p class="sandstone-process-number">{{ block.settings.step_label }}</p>
+                <div>
+                  <h3 class="sandstone-process-title">{{ block.settings.title }}</h3>
+                  <p class="sandstone-process-copy">{{ block.settings.copy }}</p>
+                </div>
+                {% if block.settings.image != blank %}
+                  <img
+                    class="sandstone-process-image"
+                    src="{{ block.settings.image | image_url: width: 800 }}"
+                    alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <img
+                    class="sandstone-process-image"
+                    src="{{ 'sandstone-service-1.png' | asset_url }}"
+                    alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </article>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% comment %} Theme default — matches original benchmark {% endcomment %}
+          <article class="sandstone-process-step">
+            <p class="sandstone-process-number">01.</p>
+            <div>
+              <h3 class="sandstone-process-title">Discovery</h3>
+              <p class="sandstone-process-copy">
+                Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs.
+              </p>
+            </div>
+            <img class="sandstone-process-image" src="{{ 'sandstone-service-1.png' | asset_url }}" alt="" loading="lazy">
+          </article>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Process",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "The Process"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_heading",
+      "label": "Intro heading",
+      "default": "A proven methodology that transforms visions into beautiful interiors through collaboration, creativity, and meticulous attention to detail."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_label",
+          "label": "Step label",
+          "default": "01."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Discovery"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Description",
+          "default": "Describe this phase of your process."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Process" }]
+}
+{% endschema %}

@@ -1,0 +1,47 @@
+<section class="sandstone-philosophy padding-block">
+  <div class="page-width">
+    <p class="philosophy-text">
+      At Sandstone, we believe great <span class="italic">interior design</span> creates environments that nurture and inspire. Our approach blends <span class="italic">timeless principles</span> with <span class="italic">contemporary innovation</span>, ensuring every space serves its inhabitants while telling a unique story.
+    </p>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-philosophy {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    background-color: var(--color-background);
+  }
+  .sandstone-philosophy .philosophy-text {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--color-foreground);
+    letter-spacing: -0.02em;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media screen and (min-width: 990px) {
+    .sandstone-philosophy .philosophy-text {
+      text-indent: 10rem;
+      text-align: left;
+    }
+  }
+  .sandstone-philosophy .italic {
+    font-style: italic;
+    font-weight: 300;
+    color: #666;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Philosophy",
+  "presets": [
+    {
+      "name": "Sandstone Philosophy"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+<section class="sandstone-benchmark-section sandstone-benchmark-section--philosophy">
+  <div class="sandstone-shell">
+    <div class="sandstone-philosophy-copy rte">
+      {{ section.settings.body_copy }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Philosophy",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "body_copy",
+      "label": "Philosophy copy",
+      "default": "<p>At Sandstone, we believe great <em>interior design</em> creates environments that nurture and inspire. Our approach blends <em>timeless principles</em> with <em>contemporary innovation</em>, ensuring every space serves its inhabitants while telling a unique story.</p>"
+    }
+  ],
+  "presets": [{ "name": "Sandstone Philosophy" }]
+}
+{% endschema %}

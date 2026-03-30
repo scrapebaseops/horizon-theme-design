@@ -1,0 +1,177 @@
+{
+  "sections": {
+    "sandstone_hero": {
+      "type": "sandstone-hero",
+      "settings": {
+        "show_logo_overlay": true,
+        "logo_text": "SNDST",
+        "ticker_text": "(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM //"
+      }
+    },
+    "sandstone_intro": {
+      "type": "sandstone-intro",
+      "settings": {
+        "text": "<p>We are a <em>multidisciplinary interior design<\/em> studio dedicated to creating <em>timeless interiors<\/em> that enhance living spaces and inspire everyday experiences.<\/p>"
+      }
+    },
+    "sandstone_stats": {
+      "type": "sandstone-stats",
+      "settings": {
+        "sidebar_text": "Purposeful in vision. Meticulous in craft. Bold in innovation.",
+        "intro_heading": "At our core is a belief in creative intention. Every space, every material, every design choice — it all matters. Because in a world saturated with options, we believe thoughtful design wins.",
+        "intro_body": "We're not just interior designers — we're thinkers, creators, and collaborators. Our team blends global trends with personal sensibility, crafting spaces that feel authentic yet inspiring."
+      },
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "500+",
+            "description": "Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments."
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "15+",
+            "description": "With more than 15 years of experience in the interior design industry, we have honed our skills in creating timeless and modern spaces."
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "200+",
+            "description": "We have served over 200 happy clients, building lasting relationships through our commitment to quality, creativity, and exceptional design solutions."
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "number": "50+",
+            "description": "Our work has been recognized with over 50 awards, celebrating our innovative approaches and outstanding contributions to design excellence."
+          }
+        }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3", "stat_4"]
+    },
+    "sandstone_philosophy": {
+      "type": "sandstone-philosophy",
+      "settings": {
+        "text": "<p>At Sandstone, we believe great <em>interior design<\/em> creates environments that nurture and inspire. Our approach blends <em>timeless principles<\/em> with <em>contemporary innovation<\/em>, ensuring every space serves its inhabitants while telling a unique story.<\/p>"
+      }
+    },
+    "sandstone_process": {
+      "type": "sandstone-process",
+      "settings": {
+        "kicker": "The Process",
+        "sidebar_heading": "A proven methodology that transforms visions into beautiful interiors through collaboration, creativity, and meticulous attention to detail."
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Discovery",
+            "description": "Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Design Development",
+            "description": "Design development drives the creative process. Our interior designers work closely with you through mood boards, material samples, and 3D visualizations."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Communication",
+            "description": "Throughout the process, we maintain open communication and detailed planning. Regular check-ins, design presentations, and feedback sessions keep us aligned."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "Implementation",
+            "description": "As we move from design to implementation, our focus shifts to execution and quality. Careful material sourcing, artisan coordination, and on-site supervision."
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4"]
+    },
+    "sandstone_testimonials": {
+      "type": "sandstone-testimonials",
+      "settings": {
+        "heading": "Real partner stories, brought to life through creativity, strategy, and brand experiences that stick."
+      },
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance. Their attention to detail and sustainable approach exceeded our expectations.",
+            "author": "Sarah Johnson",
+            "role": "Homeowner, Austin TX"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Working with Sandstone on our office redesign was incredible. They created a space that boosts productivity while maintaining a warm, inviting atmosphere for our team.",
+            "author": "Michael Chen",
+            "role": "CEO, San Francisco CA"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The boutique hotel project with Sandstone was a masterpiece. They understood our vision perfectly and delivered interiors that tell a story and create unforgettable experiences.",
+            "author": "Emma Rodriguez",
+            "role": "Hotel Owner, Santa Fe NM"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"]
+    },
+    "sandstone_blog": {
+      "type": "sandstone-blog-preview",
+      "settings": {
+        "kicker": "Journal",
+        "heading": "Explore our latest articles and insights on design, technology, and creative innovation"
+      },
+      "blocks": {
+        "article_1": {
+          "type": "article",
+          "settings": {
+            "title": "The Art of Sustainable Design",
+            "description": "Exploring how sustainable materials and thoughtful design create spaces that are both beautiful and environmentally responsible.",
+            "date": "March 15, 2026"
+          }
+        },
+        "article_2": {
+          "type": "article",
+          "settings": {
+            "title": "Minimalism in Modern Interiors",
+            "description": "How the principles of minimalism are reshaping contemporary interior design and creating more intentional living spaces.",
+            "date": "March 8, 2026"
+          }
+        },
+        "article_3": {
+          "type": "article",
+          "settings": {
+            "title": "Color Theory for Living Spaces",
+            "description": "Understanding how color choices influence mood, perception, and the overall experience of a designed environment.",
+            "date": "February 28, 2026"
+          }
+        }
+      },
+      "block_order": ["article_1", "article_2", "article_3"]
+    }
+  },
+  "order": [
+    "sandstone_hero",
+    "sandstone_intro",
+    "sandstone_stats",
+    "sandstone_philosophy",
+    "sandstone_process",
+    "sandstone_testimonials",
+    "sandstone_blog"
+  ]
+}

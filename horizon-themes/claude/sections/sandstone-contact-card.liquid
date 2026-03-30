@@ -1,0 +1,66 @@
+<div class="sandstone-section--tight">
+  <div class="sandstone-container--wide">
+    <div class="sandstone-fullbleed">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'sandstone-fullbleed__media',
+            loading: 'eager',
+            widths: '600, 900, 1200, 1800, 2400'
+        }}
+      {%- else -%}
+        <video autoplay muted loop playsinline preload="none" class="sandstone-fullbleed__media">
+          <source src="{{ 'sandstone-hero.mp4' | asset_url }}" type="video/mp4">
+        </video>
+      {%- endif -%}
+
+      <div class="sandstone-fullbleed__overlay">
+        <div class="sandstone-fullbleed__panel">
+          <div>
+            <a href="{{ routes.root_url }}" class="sandstone-hero-nav__logo">{{ section.settings.logo_text }}</a>
+            <h1 class="sandstone-display-md sandstone-heading sandstone-mt-xl">{{ section.settings.heading }}</h1>
+            {% if section.settings.intro != blank %}
+              <p class="sandstone-text-lg sandstone-body sandstone-mt-md sandstone-text-balance">{{ section.settings.intro }}</p>
+            {% endif %}
+            <div class="sandstone-mt-xl">
+              {% if section.settings.email != blank %}
+                <p class="sandstone-text-base sandstone-heading">{{ section.settings.email_label }}</p>
+                <p class="sandstone-text-sm sandstone-body sandstone-mt-xs">
+                  <a href="mailto:{{ section.settings.email }}" class="sandstone-hero-nav__menu-link sandstone-inline-link">{{ section.settings.email }}</a>
+                </p>
+              {% endif %}
+              {% if section.settings.phone != blank %}
+                <p class="sandstone-text-base sandstone-heading sandstone-mt-md">{{ section.settings.phone_label }}</p>
+                <p class="sandstone-text-sm sandstone-body sandstone-mt-xs">
+                  <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}" class="sandstone-hero-nav__menu-link sandstone-inline-link">{{ section.settings.phone }}</a>
+                </p>
+              {% endif %}
+            </div>
+          </div>
+          <p class="sandstone-text-xs sandstone-muted">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sandstone Contact card",
+  "tag": "section",
+  "class": "sandstone-contact-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Sandstone&co®" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Get in touch" },
+    { "type": "textarea", "id": "intro", "label": "Introduction" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
+    { "type": "text", "id": "email", "label": "Email address", "default": "hello@sandstone.com" },
+    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone" },
+    { "type": "text", "id": "phone", "label": "Phone number", "default": "(415) 555-1234" }
+  ],
+  "presets": [{ "name": "Sandstone Contact card" }]
+}
+{% endschema %}

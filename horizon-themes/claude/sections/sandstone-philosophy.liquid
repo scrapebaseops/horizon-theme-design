@@ -1,0 +1,23 @@
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    <div class="sandstone-display-text sandstone-display-xl sandstone-heading sandstone-philosophy-text">
+      {{ section.settings.text }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Philosophy",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Display text",
+      "default": "<p>At Sandstone, we believe great <em>interior design</em> creates environments that nurture and inspire. Our approach blends <em>timeless principles</em> with <em>contemporary innovation</em>, ensuring every space serves its inhabitants while telling a unique story.</p>"
+    }
+  ],
+  "presets": [{ "name": "Sandstone Philosophy" }]
+}
+{% endschema %}

@@ -8,6 +8,14 @@
  * ------------------------------------------------------------
  */{
   "sections": {
+    "sandstone_page_hero": {
+      "type": "sandstone-page-hero",
+      "settings": {
+        "kicker": "Journal",
+        "heading": "",
+        "subheading": ""
+      }
+    },
     "main": {
       "type": "main-blog",
       "blocks": {
@@ -110,6 +118,7 @@
     }
   },
   "order": [
+    "sandstone_page_hero",
     "main"
   ]
 }

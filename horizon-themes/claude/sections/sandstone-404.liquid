@@ -1,0 +1,52 @@
+<div class="sandstone-section--tight">
+  <div class="sandstone-container--wide">
+    <div class="sandstone-fullbleed">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'sandstone-fullbleed__media',
+            loading: 'lazy',
+            widths: '600, 900, 1200, 1800, 2400'
+        }}
+      {%- else -%}
+        <video autoplay muted loop playsinline preload="none" class="sandstone-fullbleed__media">
+          <source src="{{ 'sandstone-hero.mp4' | asset_url }}" type="video/mp4">
+        </video>
+      {%- endif -%}
+
+      <div class="sandstone-fullbleed__overlay">
+        <div class="sandstone-fullbleed__panel">
+          <div>
+            <a href="{{ routes.root_url }}" class="sandstone-hero-nav__logo">{{ section.settings.logo_text }}</a>
+            <h1 class="sandstone-display-md sandstone-heading sandstone-mt-xl">{{ section.settings.heading }}</h1>
+            <p class="sandstone-text-lg sandstone-body sandstone-mt-md sandstone-text-balance">{{ section.settings.body }}</p>
+          </div>
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="sandstone-btn sandstone-btn--default sandstone-btn--base">
+            {{ section.settings.button_label }}
+          </a>
+          <p class="sandstone-text-xs sandstone-muted sandstone-mt-xl">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_note }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sandstone 404",
+  "tag": "section",
+  "class": "sandstone-404-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Sandstone&co®" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Page not found" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "The link may be incorrect, or the page has been removed." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Continue shopping" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "copyright_note", "label": "Copyright note", "default": "All rights reserved." }
+  ],
+  "presets": [{ "name": "Sandstone 404" }]
+}
+{% endschema %}

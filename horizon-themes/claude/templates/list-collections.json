@@ -8,6 +8,14 @@
  * ------------------------------------------------------------
  */{
   "sections": {
+    "sandstone_page_hero": {
+      "type": "sandstone-page-hero",
+      "settings": {
+        "kicker": "",
+        "heading": "",
+        "subheading": ""
+      }
+    },
     "collection_list_Wfgh3m": {
       "type": "main-collection-list",
       "blocks": {
@@ -169,6 +177,7 @@
     }
   },
   "order": [
+    "sandstone_page_hero",
     "collection_list_Wfgh3m"
   ]
 }

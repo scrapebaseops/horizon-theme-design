@@ -1,0 +1,167 @@
+{% liquid
+  assign video_file = section.settings.video_asset | default: 'sandstone-benchmark-hero.mp4'
+  assign show_big_logo = section.settings.show_watermark_logo
+%}
+
+<section class="sandstone-benchmark-section sandstone-benchmark-hero">
+  <div class="sandstone-shell sandstone-shell--wide">
+    <div class="sandstone-media-stage">
+      <div class="sandstone-hero-masthead">
+        <div class="sandstone-panel sandstone-hero-brand">
+          {% render 'sandstone-logo' %}
+        </div>
+      </div>
+      <video
+        class="sandstone-media-stage__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        {% if section.settings.video_poster != blank %}
+          poster="{{ section.settings.video_poster | image_url: width: 1920 }}"
+        {% endif %}
+      >
+        <source src="{{ video_file | asset_url }}" type="video/mp4">
+      </video>
+
+      {% liquid
+        assign ticker_count = 0
+        for block in section.blocks
+          if block.type == 'ticker_item'
+            assign ticker_count = ticker_count | plus: 1
+          endif
+        endfor
+      %}
+      <div class="sandstone-hero-ticker sandstone-hero-ticker--desktop" aria-hidden="true">
+        <div class="sandstone-hero-ticker__track">
+          {% if ticker_count > 0 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'ticker_item' and block.settings.text != blank %}
+                <span {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+              {% endif %}
+            {% endfor %}
+            {% for block in section.blocks %}
+              {% if block.type == 'ticker_item' and block.settings.text != blank %}
+                <span>{{ block.settings.text }}</span>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <span>(415) 555-1234</span>
+            <span>hello@sandstone.com</span>
+            <span>San Francisco, CA</span>
+            <span>Mon - Fri: 9AM - 6PM</span>
+            <span>(415) 555-1234</span>
+            <span>hello@sandstone.com</span>
+            <span>San Francisco, CA</span>
+            <span>Mon - Fri: 9AM - 6PM</span>
+          {% endif %}
+        </div>
+      </div>
+      <div class="sandstone-hero-ticker sandstone-hero-ticker--mobile" aria-hidden="true">
+        <div class="sandstone-hero-ticker__track">
+          {% if ticker_count > 0 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'ticker_item' and block.settings.text != blank %}
+                <span {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+              {% endif %}
+            {% endfor %}
+            {% for block in section.blocks %}
+              {% if block.type == 'ticker_item' and block.settings.text != blank %}
+                <span>{{ block.settings.text }}</span>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <span>(415) 555-1234</span>
+            <span>hello@sandstone.com</span>
+            <span>San Francisco, CA</span>
+            <span>Mon - Fri: 9AM - 6PM</span>
+            <span>(415) 555-1234</span>
+            <span>hello@sandstone.com</span>
+            <span>San Francisco, CA</span>
+            <span>Mon - Fri: 9AM - 6PM</span>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if show_big_logo %}
+        <div class="sandstone-hero-logo">
+          {% render 'sandstone-big-logo' %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Hero",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_asset",
+      "label": "Video filename",
+      "default": "sandstone-benchmark-hero.mp4",
+      "info": "Theme asset filename from the Assets folder (e.g. sandstone-benchmark-hero.mp4)."
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster image",
+      "info": "Optional first-frame image while the video loads."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_watermark_logo",
+      "label": "Show large watermark logo",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_item",
+      "name": "Ticker item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "hello@example.com"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Hero",
+      "blocks": [
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "(415) 555-1234"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "hello@sandstone.com"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "San Francisco, CA"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "Mon - Fri: 9AM - 6PM"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

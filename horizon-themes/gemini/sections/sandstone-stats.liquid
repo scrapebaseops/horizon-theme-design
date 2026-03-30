@@ -1,0 +1,151 @@
+<section class="sandstone-stats padding-block">
+  <div class="page-width">
+    <div class="stats-grid">
+      <!-- Left Column (Image & Text) -->
+      <div class="stats-left">
+        <div class="stats-sticky">
+          <img src="{{ 'sandstone-team.png' | asset_url }}" alt="Team" class="stats-image" loading="lazy" width="800" height="1080">
+          <p class="stats-kicker">Purposeful in vision. Meticulous in craft. Bold in innovation.</p>
+        </div>
+      </div>
+      
+      <!-- Right Column (Text & Stats list) -->
+      <div class="stats-right">
+        <p class="stats-heading">
+          At our core is a belief in creative intention. Every space, every material, every design choice — it all matters. Because in a world saturated with options, we believe thoughtful design wins. When you work with Sandstone, you’re not just hiring a designer — you’re gaining a partner who’s invested in your vision, your lifestyle, and your impact.
+        </p>
+        <p class="stats-subheading">
+          We’re not just interior designers — we’re thinkers, creators, and collaborators. Our team blends global trends with personal sensibility, crafting spaces that feel authentic yet inspiring. Whether it’s a home transformation, a commercial space, or a bespoke environment, our goal is always the same: to make your space feel truly yours.
+        </p>
+        
+        <div class="stats-list">
+          <div class="stat-item">
+            <p class="stat-number">500+</p>
+            <p class="stat-desc">Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments that reflect our clients' unique visions and lifestyles.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">15+</p>
+            <p class="stat-desc">With more than 15 years of experience in the interior design industry, we have honed our skills in creating timeless and modern spaces that stand the test of time.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">200+</p>
+            <p class="stat-desc">We have served over 200 happy clients, building lasting relationships through our commitment to quality, creativity, and exceptional design solutions tailored to their needs.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">50+</p>
+            <p class="stat-desc">Our work has been recognized with over 50 awards, celebrating our innovative approaches and outstanding contributions to the field of interior design excellence.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">25+</p>
+            <p class="stat-desc">Our dedicated team of over 25 talented designers, architects, and specialists brings diverse expertise and passion to every project, ensuring unparalleled craftsmanship and attention to detail.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">1M+</p>
+            <p class="stat-desc">More than 1 million square feet of spaces have been designed and transformed by our studio, from intimate homes to expansive commercial environments, all with a focus on sustainability and beauty.</p>
+          </div>
+          <div class="stat-item">
+            <p class="stat-number">98%</p>
+            <p class="stat-desc">Achieving a 98% client satisfaction rate through our collaborative process, transparent communication, and commitment to exceeding expectations on every interior design endeavor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-stats {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media screen and (min-width: 990px) {
+    .stats-grid {
+      grid-template-columns: 1fr 2fr;
+    }
+    .sandstone-stats {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  .stats-sticky {
+    position: sticky;
+    top: 6rem;
+    max-width: 400px;
+  }
+  .stats-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  .stats-kicker {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 500;
+  }
+  .stats-heading {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+  }
+  .stats-subheading {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+  }
+  .stats-list {
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    margin-top: 2rem;
+  }
+  .stat-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    background: var(--color-background);
+  }
+  .stat-item:last-child {
+    border-bottom: none;
+  }
+  @media screen and (min-width: 768px) {
+    .stat-item {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1;
+    margin: 0;
+  }
+  .stat-desc {
+    color: #4b5563;
+    font-size: 1rem;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Stats",
+  "presets": [
+    {
+      "name": "Sandstone Stats"
+    }
+  ]
+}
+{% endschema %}

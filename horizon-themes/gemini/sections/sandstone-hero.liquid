@@ -1,0 +1,98 @@
+<section class="sandstone-hero">
+  <div class="sandstone-hero__inner">
+    <div class="sandstone-hero__ticker">
+      <div class="sandstone-hero__ticker-track">
+        <span>(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM // </span>
+        <span>(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM // </span>
+        <span>(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM // </span>
+        <span>(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM // </span>
+      </div>
+    </div>
+
+    <div class="sandstone-hero__logo">
+      {% render 'sandstone-big-logo', class: "sandstone-hero__logo-svg" %}
+    </div>
+
+    <video autoplay muted loop playsinline class="sandstone-hero__video">
+      <source src="{{ 'sandstone-hero.mp4' | asset_url }}" type="video/mp4" />
+    </video>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-hero {
+    padding: 1rem;
+    overflow: hidden;
+  }
+  .sandstone-hero__inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    height: calc(100vh - 2rem);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: #f3f4f6;
+  }
+  .sandstone-hero__ticker {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    overflow: hidden;
+    position: relative;
+    z-index: 20;
+    width: 100%;
+  }
+  .sandstone-hero__ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: #111827;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .sandstone-hero__logo {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: #1f2937;
+  }
+  .sandstone-hero__logo-svg {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+  }
+  .sandstone-hero__video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Hero",
+  "presets": [
+    {
+      "name": "Sandstone Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{%- doc -%}
+  Floating search trigger used by the OpenAI Sandstone restyle.
+{%- enddoc -%}
+
+<button
+  type="button"
+  class="button-secondary sandstone-search-fab"
+  on:click="#search-modal/showDialog"
+  aria-label="Search site"
+>
+  <span class="svg-wrapper">
+    {{ 'icon-search.svg' | inline_asset_content }}
+  </span>
+</button>

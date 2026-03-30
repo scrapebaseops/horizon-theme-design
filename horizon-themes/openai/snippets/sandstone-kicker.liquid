@@ -1,0 +1,10 @@
+{%- doc -%}
+  Render Sandstone-style eyebrow text.
+
+  @param {string} text - Kicker copy
+  @param {string} [class] - Additional classes
+{%- enddoc -%}
+
+<p class="sandstone-kicker{% if class != blank %} {{ class }}{% endif %}">
+  {{ text }}
+</p>

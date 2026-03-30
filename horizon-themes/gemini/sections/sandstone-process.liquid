@@ -1,0 +1,161 @@
+<section class="sandstone-process padding-block">
+  <div class="page-width">
+    <div class="process-grid">
+      <div class="process-left">
+        <div class="process-sticky">
+          <p class="kicker">The Process</p>
+          <h3 class="process-heading">A proven methodology that transforms visions into beautiful interiors through collaboration, creativity, and meticulous attention to detail.</h3>
+        </div>
+      </div>
+      <div class="process-right">
+        <div class="process-step">
+          <p class="step-number">01.</p>
+          <div class="step-content">
+            <h3 class="step-title">Discovery</h3>
+            <p class="step-desc">Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs.</p>
+          </div>
+          <img src="{{ 'sandstone-service-1.png' | asset_url }}" alt="Discovery" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="process-step">
+          <p class="step-number">02.</p>
+          <div class="step-content">
+            <h3 class="step-title">Design Development</h3>
+            <p class="step-desc">Design development drives the creative process. Our interior designers work closely with you through mood boards, material samples, and 3D visualizations to refine concepts with clarity and intention.</p>
+          </div>
+          <img src="{{ 'sandstone-service-2.png' | asset_url }}" alt="Design Development" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="process-step">
+          <p class="step-number">03.</p>
+          <div class="step-content">
+            <h3 class="step-title">Communication</h3>
+            <p class="step-desc">Throughout the process, we maintain open communication and detailed planning. Regular check-ins, design presentations, and feedback sessions keep us aligned while allowing flexibility as your vision evolves.</p>
+          </div>
+          <img src="{{ 'sandstone-service-3.png' | asset_url }}" alt="Communication" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="process-step">
+          <p class="step-number">04.</p>
+          <div class="step-content">
+            <h3 class="step-title">Implementation</h3>
+            <p class="step-desc">As we move from design to implementation, our focus shifts to execution and quality. Careful material sourcing, artisan coordination, and on-site supervision ensure the finished interior not only meets your expectations but creates a space you'll love for years to come.</p>
+          </div>
+          <img src="{{ 'sandstone-service-4.png' | asset_url }}" alt="Implementation" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="process-step">
+          <p class="step-number">05.</p>
+          <div class="step-content">
+            <h3 class="step-title">Procurement</h3>
+            <p class="step-desc">Procurement involves carefully selecting and acquiring all the materials, furniture, and finishes needed for your project. We work with trusted suppliers to ensure quality, sustainability, and timely delivery while staying within budget.</p>
+          </div>
+          <img src="{{ 'sandstone-service-5.png' | asset_url }}" alt="Procurement" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+        <div class="process-step">
+          <p class="step-number">06.</p>
+          <div class="step-content">
+            <h3 class="step-title">Installation</h3>
+            <p class="step-desc">During installation, our team oversees the careful placement and assembly of all elements. From furniture arrangement to lighting installation, we ensure every detail is executed flawlessly to bring your vision to life.</p>
+          </div>
+          <img src="{{ 'sandstone-service-6.png' | asset_url }}" alt="Installation" class="step-img" loading="lazy" width="500" height="500">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sandstone-process {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media screen and (min-width: 990px) {
+    .process-grid {
+      grid-template-columns: 1fr 2fr;
+    }
+    .sandstone-process {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+    }
+  }
+  .process-sticky {
+    position: sticky;
+    top: 6rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    max-width: 400px;
+  }
+  .process-heading {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 500;
+    margin-top: 3rem;
+  }
+  .process-right {
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .process-step {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    background: var(--color-background);
+  }
+  .process-step:last-child {
+    border-bottom: none;
+  }
+  @media screen and (min-width: 768px) {
+    .process-step {
+      grid-template-columns: auto 1fr auto;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+  }
+  .step-number {
+    font-size: 3rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1;
+    margin: 0;
+  }
+  .step-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .step-desc {
+    color: #4b5563;
+    font-size: 0.875rem;
+    max-width: 400px;
+  }
+  .step-img {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  @media screen and (min-width: 768px) {
+    .step-img {
+      width: 12rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sandstone Process",
+  "presets": [
+    {
+      "name": "Sandstone Process"
+    }
+  ]
+}
+{% endschema %}

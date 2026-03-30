@@ -1,0 +1,158 @@
+<section class="sandstone-benchmark-section">
+  <div class="sandstone-shell">
+    <div class="sandstone-stats-grid">
+      <div class="sandstone-stats-sidebar">
+        {% if section.settings.sidebar_image != blank %}
+          <img
+            class="sandstone-stats-image"
+            src="{{ section.settings.sidebar_image | image_url: width: 1200 }}"
+            alt="{{ section.settings.sidebar_image.alt | escape }}"
+            width="{{ section.settings.sidebar_image.width }}"
+            height="{{ section.settings.sidebar_image.height }}"
+            loading="lazy"
+          >
+        {% else %}
+          <img
+            class="sandstone-stats-image"
+            src="{{ 'sandstone-team.png' | asset_url }}"
+            alt="{{ section.settings.sidebar_image_alt | default: 'Team' | escape }}"
+            loading="eager"
+          >
+        {% endif %}
+        {% if section.settings.sidebar_caption != blank %}
+          <p class="sandstone-stats-caption">{{ section.settings.sidebar_caption }}</p>
+        {% endif %}
+      </div>
+
+      <div class="sandstone-stats-content">
+        {% if section.settings.lead != blank %}
+          <div class="sandstone-stats-lead rte">{{ section.settings.lead }}</div>
+        {% endif %}
+        {% if section.settings.body != blank %}
+          <div class="sandstone-stats-body rte">{{ section.settings.body }}</div>
+        {% endif %}
+
+        <div class="sandstone-stats-list">
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'stat' %}
+                <article class="sandstone-stat-row" {{ block.shopify_attributes }}>
+                  <p class="sandstone-stat-number">{{ block.settings.number }}</p>
+                  <p class="sandstone-stat-copy">{{ block.settings.copy }}</p>
+                </article>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <article class="sandstone-stat-row">
+              <p class="sandstone-stat-number">500+</p>
+              <p class="sandstone-stat-copy">
+                Over 500 interior design projects have been successfully completed, each one transforming spaces into
+                beautiful, functional environments.
+              </p>
+            </article>
+            <article class="sandstone-stat-row">
+              <p class="sandstone-stat-number">15+</p>
+              <p class="sandstone-stat-copy">
+                With more than 15 years of experience, we create timeless and modern spaces that stand the test of time.
+              </p>
+            </article>
+            <article class="sandstone-stat-row">
+              <p class="sandstone-stat-number">200+</p>
+              <p class="sandstone-stat-copy">
+                We have served over 200 happy clients through quality, creativity, and tailored design solutions.
+              </p>
+            </article>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Stats",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "sidebar_image",
+      "label": "Sidebar image",
+      "info": "Optional. Defaults to theme asset sandstone-team.png when blank."
+    },
+    {
+      "type": "text",
+      "id": "sidebar_image_alt",
+      "label": "Sidebar image alt text",
+      "default": "Team"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_caption",
+      "label": "Image caption",
+      "default": "Purposeful in vision. Meticulous in craft. Bold in innovation."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "Lead paragraph",
+      "default": "<p>At our core is a belief in creative intention. Every space, every material, every design choice — it all matters.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Supporting copy",
+      "default": "<p>We’re not just interior designers — we’re thinkers, creators, and collaborators.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Figure",
+          "default": "100+"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Description",
+          "default": "Describe what this figure represents."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Stats",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "500+",
+            "copy": "Over 500 interior design projects completed, each transforming spaces into beautiful, functional environments."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "15+",
+            "copy": "More than 15 years of experience creating timeless, modern spaces."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "200+",
+            "copy": "Happy clients and lasting relationships built through quality and creativity."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

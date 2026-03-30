@@ -1,0 +1,191 @@
+{% capture project_panel %}
+  <div class="sandstone-project-metadata">
+    <p class="sandstone-project-year" data-project-year></p>
+    <h3 class="sandstone-project-title" data-project-title></h3>
+    <p class="sandstone-project-location" data-project-location></p>
+  </div>
+  <div class="sandstone-project-actions">
+    <button
+      type="button"
+      class="button-secondary sandstone-icon-button"
+      aria-label="{{ 'accessibility.slideshow_previous' | t }}"
+      data-project-prev
+    >
+      <span class="svg-wrapper">{{ 'icon-chevron-left.svg' | inline_asset_content }}</span>
+    </button>
+    <button
+      type="button"
+      class="button-secondary sandstone-icon-button"
+      aria-label="{{ 'accessibility.slideshow_next' | t }}"
+      data-project-next
+    >
+      <span class="svg-wrapper">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+    </button>
+  </div>
+{% endcapture %}
+
+<section class="sandstone-benchmark-section" data-sandstone-projects>
+  <div class="sandstone-shell">
+    <div class="sandstone-benchmark-heading">
+      {% if section.settings.kicker != blank %}
+        {% render 'sandstone-kicker', text: section.settings.kicker %}
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="sandstone-display-lg">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% liquid
+        assign project_link = section.settings.link_url
+        if project_link == blank
+          assign project_link = routes.collections_url
+        endif
+      %}
+      {% if section.settings.link_label != blank %}
+        {% render 'sandstone-rolling-link',
+          href: project_link,
+          initial_text: section.settings.link_label,
+          hover_text: section.settings.link_hover
+        %}
+      {% endif %}
+    </div>
+
+    <div class="sandstone-project-grid">
+      {% render 'sandstone-panel', content: project_panel, class: 'sandstone-project-panel' %}
+      <div class="sandstone-project-slider" data-project-slider>
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'project' %}
+              <article
+                class="sandstone-project-slide"
+                data-year="{{ block.settings.year | escape }}"
+                data-title="{{ block.settings.title | escape }}"
+                data-location="{{ block.settings.location | escape }}"
+                {{ block.shopify_attributes }}
+              >
+                {% if block.settings.image != blank %}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 1600 }}"
+                    alt="{{ block.settings.image_alt | default: block.settings.title | escape }}"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <img src="{{ 'sandstone-project-cover-1.png' | asset_url }}" alt="{{ block.settings.title | escape }}">
+                {% endif %}
+              </article>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <article
+            class="sandstone-project-slide"
+            data-year="2025"
+            data-title="Luxury Residential Complex"
+            data-location="Downtown Metropolitan Area"
+          >
+            <img src="{{ 'sandstone-project-cover-1.png' | asset_url }}" alt="Luxury Residential Complex">
+          </article>
+          <article
+            class="sandstone-project-slide"
+            data-year="2025"
+            data-title="Modern Office Headquarters"
+            data-location="Silicon Valley, CA"
+          >
+            <img src="{{ 'sandstone-project-cover-2.png' | asset_url }}" alt="Modern Office Headquarters">
+          </article>
+          <article
+            class="sandstone-project-slide"
+            data-year="2025"
+            data-title="Boutique Hotel Interior"
+            data-location="Downtown Manhattan, NY"
+          >
+            <img src="{{ 'sandstone-project-cover-3.png' | asset_url }}" alt="Boutique Hotel Interior">
+          </article>
+          <article
+            class="sandstone-project-slide"
+            data-year="2025"
+            data-title="Contemporary Art Gallery"
+            data-location="Arts District, Chicago"
+          >
+            <img src="{{ 'sandstone-project-cover-4.png' | asset_url }}" alt="Contemporary Art Gallery">
+          </article>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Projects",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Latest works"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore our latest interior design projects and transformative spaces."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "See all projects"
+    },
+    {
+      "type": "text",
+      "id": "link_hover",
+      "label": "Link hover label",
+      "default": "Explore now"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "project",
+      "name": "Project",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year",
+          "default": "2025"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Project title"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "City, Region"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Projects" }]
+}
+{% endschema %}

@@ -1,0 +1,131 @@
+<div class="sandstone-section--tight">
+  <div class="sandstone-container--wide">
+    <div class="sandstone-fullbleed">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'sandstone-fullbleed__media',
+            loading: 'lazy',
+            widths: '600, 900, 1200, 1800, 2400'
+        }}
+      {%- else -%}
+        <video autoplay muted loop playsinline preload="none" class="sandstone-fullbleed__media">
+          <source src="{{ 'sandstone-hero.mp4' | asset_url }}" type="video/mp4">
+        </video>
+      {%- endif -%}
+
+      <div class="sandstone-fullbleed__overlay">
+        <div class="sandstone-fullbleed__panel">
+          <div>
+            <a href="/" class="sandstone-hero-nav__logo">
+              {{ section.settings.logo_text | default: 'Sandstone&co&reg;' }}
+            </a>
+
+            {%- if section.blocks.size > 0 -%}
+              <div class="sandstone-mt-xl">
+                {%- for block in section.blocks -%}
+                  <div {% unless forloop.first %}class="sandstone-mt-md"{% endunless %} {{ block.shopify_attributes }}>
+                    <h3 class="sandstone-text-base sandstone-heading">{{ block.settings.role }}</h3>
+                    <p class="sandstone-text-xs sandstone-subtitle">{{ block.settings.name }}</p>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.body_text != blank -%}
+              <div class="sandstone-mt-xl">
+                <p class="sandstone-text-lg sandstone-body sandstone-text-pretty">
+                  {{ section.settings.body_text }}
+                </p>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.secondary_text != blank -%}
+              <p class="sandstone-text-sm sandstone-body sandstone-text-pretty sandstone-mt-md">
+                {{ section.settings.secondary_text }}
+              </p>
+            {%- endif -%}
+          </div>
+
+          <p class="sandstone-text-xs sandstone-muted">
+            &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text | default: 'All rights reserved.' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sandstone Footer",
+  "class": "sandstone-footer-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "Sandstone&co®"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "Pioneering sustainable architecture that harmonizes with nature and creates spaces of enduring beauty. Building the future, one innovative design at a time.\n\nWe believe in creating environments that inspire and endure, blending innovation with tradition to shape the world around us for generations to come."
+    },
+    {
+      "type": "textarea",
+      "id": "secondary_text",
+      "label": "Secondary text",
+      "default": "Our commitment to excellence drives every project, ensuring that each space we create not only meets the highest standards of sustainability but also fosters a deeper connection between people and their surroundings."
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "All rights reserved."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team member",
+      "settings": [
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Principal Architect"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Jane Smith"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "presets": [
+    {
+      "name": "Sandstone Footer",
+      "blocks": [
+        { "type": "team_member", "settings": { "role": "Principal Architect", "name": "James Mitchell" } },
+        { "type": "team_member", "settings": { "role": "Design Director", "name": "Sarah Chen" } },
+        { "type": "team_member", "settings": { "role": "Project Lead", "name": "Michael Torres" } },
+        { "type": "team_member", "settings": { "role": "Interior Specialist", "name": "Emma Williams" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

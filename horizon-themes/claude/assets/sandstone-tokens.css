@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Sandstone — Layer 1: Design tokens (CSS custom properties only)
+   Load first. No component classes in this file.
+   ========================================================================== */
+
+:root {
+  --sandstone-font-features: "liga" 1, "calt" 1, "dlig" 1, "ss07" 1, "ss08" 1, "zero" 1, "tnum" 1, "cv03" 1, "cv04" 1, "cv01" 1, "cv09", "cv02" 1;
+
+  --sandstone-weight-regular: 400;
+  --sandstone-weight-medium: 500;
+  --sandstone-weight-semibold: 600;
+  --sandstone-weight-bold: 700;
+
+  --sandstone-base-50: #fafafa;
+  --sandstone-base-100: #f5f5f5;
+  --sandstone-base-200: #e5e5e5;
+  --sandstone-base-300: #d4d4d4;
+  --sandstone-base-400: #a3a3a3;
+  --sandstone-base-500: #737373;
+  --sandstone-base-600: #525252;
+  --sandstone-base-700: #404040;
+  --sandstone-base-800: #262626;
+  --sandstone-base-900: #171717;
+  --sandstone-base-950: #0a0a0a;
+
+  --sandstone-section-py: clamp(3rem, 5vw, 6rem);
+  --sandstone-section-py-sm: clamp(0.75rem, 2vw, 1.5rem);
+  --sandstone-card-padding: 2rem;
+  --sandstone-card-padding-sm: 1rem;
+  --sandstone-container-px: 2rem;
+  --sandstone-container-px-sm: 1rem;
+  --sandstone-gap-xl: 2rem;
+  --sandstone-gap-lg: 2rem;
+  --sandstone-gap-md: 1rem;
+  --sandstone-gap-sm: 0.5rem;
+  --sandstone-stack-xs: 0.25rem;
+  --sandstone-stack-sm: 0.5rem;
+  --sandstone-stack-md: 1rem;
+  --sandstone-stack-lg: 2rem;
+  --sandstone-stack-xl: 3rem;
+  --sandstone-stack-2xl: 4rem;
+  --sandstone-stack-3xl: 6rem;
+
+  --sandstone-radius-container: 1.5rem;
+  --sandstone-radius-card-lg: 1rem;
+  --sandstone-radius-card: 0.75rem;
+  --sandstone-radius-image: 0.75rem;
+  --sandstone-radius-button: 9999px;
+  --sandstone-radius-nav: 0.75rem;
+
+  --sandstone-display-2xl: clamp(3rem, 1.714rem + 4.286vw, 4.5rem);
+  --sandstone-display-xl: clamp(2.25rem, 1.393rem + 2.857vw, 3.75rem);
+  --sandstone-display-lg: clamp(1.875rem, 1.232rem + 2.143vw, 3rem);
+  --sandstone-display-md: clamp(1.5rem, 1.071rem + 1.429vw, 2.25rem);
+  --sandstone-display-sm: clamp(1.125rem, 0.696rem + 1.429vw, 1.875rem);
+  --sandstone-display-xs: clamp(1rem, 0.714rem + 0.952vw, 1.5rem);
+  --sandstone-text-xl: clamp(1.125rem, 0.911rem + 0.714vw, 1.5rem);
+  --sandstone-text-lg: clamp(1rem, 0.857rem + 0.476vw, 1.25rem);
+  --sandstone-text-base: 1rem;
+  --sandstone-text-sm: 0.875rem;
+  --sandstone-text-xs: 0.75rem;
+
+  --sandstone-hero-height: calc(100vh - 2rem);
+  --sandstone-sidebar-max-width: 24rem;
+  --sandstone-content-max-width: 36rem;
+
+  --sandstone-transition-fast: 0.25s ease-out;
+  --sandstone-transition-base: 0.5s ease-in-out;
+  --sandstone-transition-menu: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  --sandstone-focus-outline: 2px solid var(--sandstone-base-300);
+  --sandstone-focus-offset: 4px;
+
+  --sandstone-shadow-none: none;
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    --font-body--family: 'InterVariable', 'Inter', sans-serif;
+    --font-subheading--family: 'InterVariable', 'Inter', sans-serif;
+    --font-heading--family: 'InterVariable', 'Inter', sans-serif;
+    --font-accent--family: 'InterVariable', 'Inter', sans-serif;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sandstone-container-px: 1rem;
+    --sandstone-card-padding: 1.5rem;
+    --sandstone-hero-height: calc(100vh - 1rem);
+    --sandstone-radius-container: 1rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --sandstone-container-px: 1.5rem;
+    --sandstone-hero-height: calc(100vh - 1.5rem);
+  }
+}

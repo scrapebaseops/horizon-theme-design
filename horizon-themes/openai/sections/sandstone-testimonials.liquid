@@ -1,0 +1,128 @@
+{% capture testimonial_panel %}
+  <div>
+    {% if section.settings.panel_heading != blank %}
+      <h2 class="sandstone-display-lg">{{ section.settings.panel_heading }}</h2>
+    {% endif %}
+  </div>
+  <div class="sandstone-project-actions">
+    <button
+      type="button"
+      class="button-secondary sandstone-icon-button"
+      aria-label="{{ 'accessibility.slideshow_previous' | t }}"
+      data-testimonial-prev
+    >
+      <span class="svg-wrapper">{{ 'icon-chevron-left.svg' | inline_asset_content }}</span>
+    </button>
+    <button
+      type="button"
+      class="button-secondary sandstone-icon-button"
+      aria-label="{{ 'accessibility.slideshow_next' | t }}"
+      data-testimonial-next
+    >
+      <span class="svg-wrapper">{{ 'icon-chevron-right.svg' | inline_asset_content }}</span>
+    </button>
+  </div>
+{% endcapture %}
+
+<section class="sandstone-benchmark-section" data-sandstone-testimonials>
+  <div class="sandstone-shell sandstone-shell--wide">
+    <div class="sandstone-testimonial-grid">
+      {% render 'sandstone-panel', content: testimonial_panel, class: 'sandstone-testimonial-panel' %}
+      <div class="sandstone-testimonial-slider" data-testimonial-slider>
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'quote' %}
+              <article class="sandstone-testimonial-card" {{ block.shopify_attributes }}>
+                <span class="sandstone-testimonial-mark" aria-hidden="true">"</span>
+                <p class="sandstone-testimonial-quote">{{ block.settings.quote }}</p>
+                <div class="sandstone-testimonial-footer">
+                  {% if block.settings.avatar != blank %}
+                    <img
+                      class="sandstone-testimonial-avatar"
+                      src="{{ block.settings.avatar | image_url: width: 200 }}"
+                      alt="{{ block.settings.name | escape }}"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    <img
+                      class="sandstone-testimonial-avatar"
+                      src="{{ 'sandstone-testimonial-sara.png' | asset_url }}"
+                      alt="{{ block.settings.name | escape }}"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                  <div>
+                    <p class="sandstone-testimonial-name">{{ block.settings.name }}</p>
+                    <p class="sandstone-testimonial-role">{{ block.settings.role }}</p>
+                  </div>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <article class="sandstone-testimonial-card">
+            <span class="sandstone-testimonial-mark" aria-hidden="true">"</span>
+            <p class="sandstone-testimonial-quote">
+              Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance.
+            </p>
+            <div class="sandstone-testimonial-footer">
+              <img class="sandstone-testimonial-avatar" src="{{ 'sandstone-testimonial-sara.png' | asset_url }}" alt="" loading="lazy">
+              <div>
+                <p class="sandstone-testimonial-name">Sarah Johnson</p>
+                <p class="sandstone-testimonial-role">Homeowner, Austin, TX</p>
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Quotes",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "panel_heading",
+      "label": "Panel heading",
+      "default": "Real partner stories, brought to life through creativity, strategy, and brand experiences that stick."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Share a client story."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Name"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role / location",
+          "default": "Title, City"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Photo"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Sandstone Quotes" }]
+}
+{% endschema %}

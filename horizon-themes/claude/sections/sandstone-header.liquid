@@ -1,0 +1,134 @@
+<nav class="sandstone-header" aria-label="Sandstone navigation" data-sandstone-header>
+  <div class="sandstone-header__bar">
+    <a href="/" class="sandstone-hero-nav__logo">
+      {{ section.settings.logo_text | default: 'Sandstone&co&reg;' }}
+    </a>
+    <button type="button" class="sandstone-hero-nav__toggle" aria-label="Toggle menu" aria-expanded="false" data-sandstone-header-toggle>
+      <svg class="sandstone-header__icon-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="12" cy="8" r="1.5" fill="currentColor"/><circle cx="16" cy="8" r="1.5" fill="currentColor"/>
+        <circle cx="8" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="16" cy="12" r="1.5" fill="currentColor"/>
+        <circle cx="8" cy="16" r="1.5" fill="currentColor"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+      </svg>
+      <svg class="sandstone-header__icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:none;">
+        <circle cx="8" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="16" cy="12" r="1.5" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+  <div class="sandstone-header__dropdown" data-sandstone-header-menu aria-hidden="true">
+    <div class="sandstone-hero-nav__menu-inner">
+      <div class="sandstone-hero-nav__menu-grid">
+        <div>
+          <p class="sandstone-hero-nav__menu-title">{{ section.settings.primary_menu_title }}</p>
+          {%- for link in section.settings.menu.links -%}
+            <a href="{{ link.url }}" class="sandstone-hero-nav__menu-link"
+              {%- if link.url contains 'http' %} target="_blank" rel="noopener noreferrer"{% endif -%}
+            >{{ link.title }}</a>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.secondary_menu != blank -%}
+          <div>
+            <p class="sandstone-hero-nav__menu-title">{{ section.settings.secondary_menu_title | default: 'Connect' }}</p>
+            {%- for link in section.settings.secondary_menu.links -%}
+              <a href="{{ link.url }}" class="sandstone-hero-nav__menu-link"
+                {%- if link.url contains 'http' %} target="_blank" rel="noopener noreferrer"{% endif -%}
+              >{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.phone != blank or section.settings.email != blank -%}
+        <div class="sandstone-hero-nav__menu-contact">
+          {%- if section.settings.phone != blank -%}
+            <a href="tel:{{ section.settings.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' }}" class="sandstone-hero-nav__menu-link">{{ section.settings.phone }}</a>
+          {%- endif -%}
+          {%- if section.settings.phone != blank and section.settings.email != blank -%}
+            <span class="sandstone-hero-nav__dot">&middot;</span>
+          {%- endif -%}
+          {%- if section.settings.email != blank -%}
+            <a href="mailto:{{ section.settings.email }}" class="sandstone-hero-nav__menu-link">{{ section.settings.email }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    var header = document.querySelector('[data-sandstone-header]');
+    var toggle = document.querySelector('[data-sandstone-header-toggle]');
+    var menu = document.querySelector('[data-sandstone-header-menu]');
+    if (!toggle || !menu) return;
+    var iconClosed = toggle.querySelector('.sandstone-header__icon-closed');
+    var iconOpen = toggle.querySelector('.sandstone-header__icon-open');
+    var isOpen = false;
+    function set(open) {
+      isOpen = open;
+      toggle.setAttribute('aria-expanded', open);
+      menu.setAttribute('aria-hidden', !open);
+      if (iconClosed) iconClosed.style.display = open ? 'none' : '';
+      if (iconOpen) iconOpen.style.display = open ? '' : 'none';
+    }
+    toggle.addEventListener('click', function() { set(!isOpen); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && isOpen) set(false); });
+    document.addEventListener('click', function(e) { if (isOpen && !header.contains(e.target)) set(false); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sandstone Header",
+  "class": "sandstone-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "Sandstone&co®"
+    },
+    {
+      "type": "text",
+      "id": "primary_menu_title",
+      "label": "Primary menu heading",
+      "default": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Secondary menu (social links etc.)"
+    },
+    {
+      "type": "text",
+      "id": "secondary_menu_title",
+      "label": "Secondary menu title",
+      "default": "Connect"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "(415) 555-1234"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "hello@sandstone.com"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "presets": [
+    {
+      "name": "Sandstone Header"
+    }
+  ]
+}
+{% endschema %}

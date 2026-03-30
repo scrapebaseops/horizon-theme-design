@@ -1,0 +1,80 @@
+{%- liquid
+  assign title = section.settings.heading
+  if title == blank
+    case template.name
+      when 'collection'
+        assign title = collection.title
+      when 'list-collections'
+        assign title = 'Collections'
+      when 'blog'
+        assign title = blog.title
+      when 'article'
+        assign title = article.title
+      when 'search'
+        assign title = 'Search'
+      when 'cart'
+        assign title = 'Cart'
+      when '404'
+        assign title = 'Page not found'
+      when 'page'
+        assign title = page.title
+      when 'product'
+        assign title = product.title
+      else
+        assign title = page_title | default: shop.name
+    endcase
+  endif
+
+  assign subheading_display = section.settings.subheading
+  if subheading_display == blank and template.name == 'collection' and collection.description != blank
+    assign subheading_display = collection.description
+  endif
+-%}
+
+<section
+  class="sandstone-benchmark-section sandstone-page-hero-section"
+  id="sandstone-page-hero-{{ section.id }}"
+>
+  <div class="sandstone-shell">
+    {% if section.settings.kicker != blank %}
+      <p class="sandstone-kicker">{{ section.settings.kicker }}</p>
+    {% endif %}
+    <h1 class="sandstone-display-lg sandstone-page-hero__title">{{ title }}</h1>
+    {% if subheading_display != blank %}
+      <div class="sandstone-page-hero__sub rte">{{ subheading_display }}</div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Page hero",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "info": "Optional label above the title (e.g. Journal, Shop)."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the page, collection, blog, product, or cart title automatically."
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Optional. On collection pages, collection description is used when this is blank."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Page hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,4 +1,7 @@
 {% # theme-check-disable %}
+{% comment %} Sandstone: Load InterVariable for full OpenType feature support {% endcomment %}
+<link rel="preconnect" href="https://rsms.me/" />
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css" fetchpriority="high" />
 {%- unless settings.type_body_font.system? -%}
   <link
     rel="preload"

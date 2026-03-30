@@ -1,0 +1,178 @@
+{% liquid
+  assign legal_out = section.settings.legal_line
+  assign y = 'now' | date: '%Y'
+  if legal_out == blank
+    assign legal_out = '© ' | append: y | append: ' ' | append: shop.name | append: '. All rights reserved.'
+  else
+    assign legal_out = legal_out | replace: '[year]', y
+  endif
+%}
+
+{% capture contact_content %}
+  <div>
+    {% render 'sandstone-logo' %}
+    <h2 class="sandstone-contact-title">{{ section.settings.title | default: 'Get in Touch' }}</h2>
+    {% if section.settings.intro != blank %}
+      <p class="sandstone-contact-meta">{{ section.settings.intro }}</p>
+    {% endif %}
+    <div class="sandstone-contact-list">
+      {% if section.settings.email_label != blank %}
+        <div>
+          <p class="sandstone-contact-label">{{ section.settings.email_label }}</p>
+          <a class="sandstone-contact-value" href="mailto:{{ section.settings.email | escape }}">{{ section.settings.email }}</a>
+        </div>
+      {% endif %}
+      {% if section.settings.phone_label != blank %}
+        <div>
+          <p class="sandstone-contact-label">{{ section.settings.phone_label }}</p>
+          <a class="sandstone-contact-value" href="tel:{{ section.settings.phone_href | default: section.settings.phone | replace: ' ', '' }}">{{ section.settings.phone }}</a>
+        </div>
+      {% endif %}
+      {% if section.settings.social_label != blank %}
+        <div>
+          <p class="sandstone-contact-label">{{ section.settings.social_label }}</p>
+          {% if section.settings.social_instagram_url != blank %}
+            <a class="sandstone-contact-value" href="{{ section.settings.social_instagram_url }}" target="_blank" rel="noopener noreferrer">{{ section.settings.social_instagram_text }}</a>
+          {% endif %}
+          {% if section.settings.social_linkedin_url != blank %}
+            <a class="sandstone-contact-value" href="{{ section.settings.social_linkedin_url }}" target="_blank" rel="noopener noreferrer">{{ section.settings.social_linkedin_text }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div>
+    {% if section.settings.body_copy != blank %}
+      <p class="sandstone-contact-copy">{{ section.settings.body_copy }}</p>
+    {% endif %}
+    <p class="sandstone-contact-legal">{{ legal_out }}</p>
+  </div>
+{% endcapture %}
+
+<section class="sandstone-benchmark-section">
+  <div class="sandstone-shell sandstone-shell--wide">
+    <div class="sandstone-media-stage sandstone-contact-stage">
+      <video
+        class="sandstone-media-stage__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        {% if section.settings.video_poster != blank %}
+          poster="{{ section.settings.video_poster | image_url: width: 1920 }}"
+        {% endif %}
+      >
+        <source src="{{ section.settings.video_asset | default: 'sandstone-benchmark-hero.mp4' | asset_url }}" type="video/mp4">
+      </video>
+      <div class="sandstone-contact-wrap">
+        {% render 'sandstone-panel', content: contact_content, class: 'sandstone-contact-panel' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Contact",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_asset",
+      "label": "Background video filename",
+      "default": "sandstone-benchmark-hero.mp4"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster",
+      "label": "Video poster"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro line",
+      "default": "A calm, editorial contact surface that mirrors the Sandstone benchmark shell."
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "hello@sandstone.com"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone (display)",
+      "default": "+1 (415) 555-1234"
+    },
+    {
+      "type": "text",
+      "id": "phone_href",
+      "label": "Phone (tel: href)",
+      "info": "Optional. E.g. +14155551234",
+      "default": "+14155551234"
+    },
+    {
+      "type": "text",
+      "id": "social_label",
+      "label": "Social heading",
+      "default": "Social Media"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "text",
+      "id": "social_instagram_text",
+      "label": "Instagram label",
+      "default": "Instagram: @sandstone"
+    },
+    {
+      "type": "url",
+      "id": "social_linkedin_url",
+      "label": "LinkedIn URL"
+    },
+    {
+      "type": "text",
+      "id": "social_linkedin_text",
+      "label": "LinkedIn label",
+      "default": "LinkedIn: Sandstone Interior Design"
+    },
+    {
+      "type": "textarea",
+      "id": "body_copy",
+      "label": "Closing paragraph",
+      "default": "Pioneering sustainable architecture that harmonizes with nature and creates spaces of enduring beauty."
+    },
+    {
+      "type": "textarea",
+      "id": "legal_line",
+      "label": "Legal line",
+      "info": "Use [year] for the current year.",
+      "default": "© [year] Sandstone Architecture. All rights reserved."
+    }
+  ],
+  "presets": [{ "name": "Sandstone Contact" }]
+}
+{% endschema %}

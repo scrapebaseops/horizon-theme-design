@@ -1,290 +1,124 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+    "sandstone_hero": {
+      "type": "sandstone-hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "show_logo_overlay": true,
+        "logo_text": "SNDST",
+        "ticker_text": "(415) 555-1234 // hello@sandstone.com // San Francisco, CA // Mon - Fri: 9AM - 6PM //"
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
-      "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
-        }
-      },
-      "name": "Featured collection",
+    "sandstone_intro": {
+      "type": "sandstone-intro",
       "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "text": "<p>We are a <em>multidisciplinary interior design</em> studio dedicated to creating <em>timeless interiors</em> that enhance living spaces and inspire everyday experiences.</p>"
       }
+    },
+    "sandstone_projects": {
+      "type": "sandstone-project-preview",
+      "settings": {
+        "kicker": "Latest works",
+        "heading": "Explore our latest interior design projects and transformative spaces."
+      },
+      "blocks": {
+        "project_1": { "type": "project", "settings": { "title": "Luxury Residential Complex", "location": "Downtown Metropolitan Area", "year": "2025" } },
+        "project_2": { "type": "project", "settings": { "title": "Modern Office Headquarters", "location": "Silicon Valley, CA", "year": "2025" } },
+        "project_3": { "type": "project", "settings": { "title": "Boutique Hotel Interior", "location": "Downtown Manhattan, NY", "year": "2025" } },
+        "project_4": { "type": "project", "settings": { "title": "Contemporary Art Gallery", "location": "Arts District, Chicago", "year": "2025" } }
+      },
+      "block_order": ["project_1", "project_2", "project_3", "project_4"]
+    },
+    "sandstone_stats": {
+      "type": "sandstone-stats",
+      "settings": {
+        "sidebar_text": "Purposeful in vision. Meticulous in craft. Bold in innovation.",
+        "intro_heading": "At our core is a belief in creative intention. Every space, every material, every design choice \u2014 it all matters. Because in a world saturated with options, we believe thoughtful design wins. When you work with Sandstone, you\u2019re not just hiring a designer \u2014 you\u2019re gaining a partner who\u2019s invested in your vision, your lifestyle, and your impact.",
+        "intro_body": "We\u2019re not just interior designers \u2014 we\u2019re thinkers, creators, and collaborators. Our team blends global trends with personal sensibility, crafting spaces that feel authentic yet inspiring. Whether it\u2019s a home transformation, a commercial space, or a bespoke environment, our goal is always the same: to make your space feel truly yours."
+      },
+      "blocks": {
+        "stat_1": { "type": "stat", "settings": { "number": "500+", "description": "Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments that reflect our clients' unique visions and lifestyles." } },
+        "stat_2": { "type": "stat", "settings": { "number": "15+", "description": "With more than 15 years of experience in the interior design industry, we have honed our skills in creating timeless and modern spaces that stand the test of time." } },
+        "stat_3": { "type": "stat", "settings": { "number": "200+", "description": "We have served over 200 happy clients, building lasting relationships through our commitment to quality, creativity, and exceptional design solutions tailored to their needs." } },
+        "stat_4": { "type": "stat", "settings": { "number": "50+", "description": "Our work has been recognized with over 50 awards, celebrating our innovative approaches and outstanding contributions to the field of interior design excellence." } },
+        "stat_5": { "type": "stat", "settings": { "number": "25+", "description": "Our dedicated team of over 25 talented designers, architects, and specialists brings diverse expertise and passion to every project, ensuring unparalleled craftsmanship and attention to detail." } },
+        "stat_6": { "type": "stat", "settings": { "number": "1M+", "description": "More than 1 million square feet of spaces have been designed and transformed by our studio, from intimate homes to expansive commercial environments, all with a focus on sustainability and beauty." } },
+        "stat_7": { "type": "stat", "settings": { "number": "98%", "description": "Achieving a 98% client satisfaction rate through our collaborative process, transparent communication, and commitment to exceeding expectations on every interior design endeavor." } }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3", "stat_4", "stat_5", "stat_6", "stat_7"]
+    },
+    "sandstone_services": {
+      "type": "sandstone-services-preview",
+      "settings": {
+        "kicker": "Services",
+        "heading": "Leading sustainable interior design services that integrate ecofriendly materials and energy efficient solutions."
+      },
+      "blocks": {
+        "service_1": { "type": "service", "settings": { "title": "Eco-Materials Selection", "description": "Curated selection of sustainable, low-impact interior materials that meet both environmental and aesthetic standards." } },
+        "service_2": { "type": "service", "settings": { "title": "Energy-Efficient Systems", "description": "Design and integration of high-performance lighting, smart home, and energy systems for optimal interior performance." } },
+        "service_3": { "type": "service", "settings": { "title": "Environmental Impact Assessment", "description": "Comprehensive evaluation of environmental impacts of interior design choices and development of sustainable strategies." } }
+      },
+      "block_order": ["service_1", "service_2", "service_3"]
+    },
+    "sandstone_philosophy": {
+      "type": "sandstone-philosophy",
+      "settings": {
+        "text": "<p>At Sandstone, we believe great <em>interior design</em> creates environments that nurture and inspire. Our approach blends <em>timeless principles</em> with <em>contemporary innovation</em>, ensuring every space serves its inhabitants while telling a unique story.</p>"
+      }
+    },
+    "sandstone_process": {
+      "type": "sandstone-process",
+      "settings": {
+        "kicker": "The Process",
+        "sidebar_heading": "A proven methodology that transforms visions into beautiful interiors through collaboration, creativity, and meticulous attention to detail."
+      },
+      "blocks": {
+        "step_1": { "type": "step", "settings": { "title": "Discovery", "description": "Every project begins with discovery. We explore your vision, assess your space, and understand your lifestyle so we can create interiors that truly reflect your personality and needs." } },
+        "step_2": { "type": "step", "settings": { "title": "Design Development", "description": "Design development drives the creative process. Our interior designers work closely with you through mood boards, material samples, and 3D visualizations to refine concepts with clarity and intention." } },
+        "step_3": { "type": "step", "settings": { "title": "Communication", "description": "Throughout the process, we maintain open communication and detailed planning. Regular check-ins, design presentations, and feedback sessions keep us aligned while allowing flexibility as your vision evolves." } },
+        "step_4": { "type": "step", "settings": { "title": "Implementation", "description": "As we move from design to implementation, our focus shifts to execution and quality. Careful material sourcing, artisan coordination, and on-site supervision ensure the finished interior meets our exacting standards." } },
+        "step_5": { "type": "step", "settings": { "title": "Procurement", "description": "Procurement involves carefully selecting and acquiring all the materials, furniture, and finishes needed for your project. We work with trusted suppliers to ensure quality, sustainability, and timely delivery." } },
+        "step_6": { "type": "step", "settings": { "title": "Installation", "description": "During installation, our team oversees the careful placement and assembly of all elements. From furniture arrangement to lighting installation, we ensure every detail is executed flawlessly to bring your vision to life." } }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4", "step_5", "step_6"]
+    },
+    "sandstone_testimonials": {
+      "type": "sandstone-testimonials",
+      "settings": {
+        "heading": "Real partner stories, brought to life through creativity, strategy, and brand experiences that stick."
+      },
+      "blocks": {
+        "testimonial_1": { "type": "testimonial", "settings": { "quote": "Sandstone transformed our home into a sanctuary that perfectly blends modern comfort with timeless elegance. Their attention to detail and sustainable approach exceeded our expectations.", "author": "Sarah Johnson", "role": "Homeowner, Austin, TX" } },
+        "testimonial_2": { "type": "testimonial", "settings": { "quote": "Working with Sandstone on our office redesign was incredible. They created a space that boosts productivity while maintaining a warm, inviting atmosphere for our team.", "author": "Michael Chen", "role": "CEO, San Francisco, CA" } },
+        "testimonial_3": { "type": "testimonial", "settings": { "quote": "The boutique hotel project with Sandstone was a masterpiece. They understood our vision perfectly and delivered interiors that tell a story and create unforgettable experiences.", "author": "Emma Rodriguez", "role": "Hotel Owner, Santa Fe, NM" } },
+        "testimonial_4": { "type": "testimonial", "settings": { "quote": "Sandstone's sustainable approach to our restaurant design not only looks beautiful but also aligns perfectly with our commitment to eco-friendly dining.", "author": "David Park", "role": "Restaurant Owner, Portland, OR" } },
+        "testimonial_5": { "type": "testimonial", "settings": { "quote": "From concept to completion, Sandstone brought our retail space vision to life. Their innovative design solutions and flawless execution made our store a destination for customers.", "author": "Lisa Thompson", "role": "Retail Owner, Seattle, WA" } },
+        "testimonial_6": { "type": "testimonial", "settings": { "quote": "Sandstone's expertise in commercial spaces is unmatched. They transformed our outdated office into a modern, functional workspace that our employees love coming to every day.", "author": "Robert Martinez", "role": "Operations Director, Denver, CO" } }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3", "testimonial_4", "testimonial_5", "testimonial_6"]
+    },
+    "sandstone_blog": {
+      "type": "sandstone-blog-preview",
+      "settings": {
+        "kicker": "Journal",
+        "heading": "Explore our latest articles and insights on design, technology, and creative innovation"
+      },
+      "blocks": {
+        "article_1": { "type": "article", "settings": { "title": "Human-Centered Architecture", "description": "How architects translate vision into space, blending context, materiality, and technology to shape environments that elevate daily life.", "date": "November 12, 2025" } },
+        "article_2": { "type": "article", "settings": { "title": "Breathing new life into existing structures", "description": "Strategies for transforming legacy buildings into high-performance spaces without erasing their character.", "date": "October 22, 2025" } },
+        "article_3": { "type": "article", "settings": { "title": "Architecture that supports well-being", "description": "Evidence-based design moves that help healthcare and workplace projects nurture calm, connection, and recovery.", "date": "September 14, 2025" } }
+      },
+      "block_order": ["article_1", "article_2", "article_3"]
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "sandstone_hero",
+    "sandstone_intro",
+    "sandstone_projects",
+    "sandstone_stats",
+    "sandstone_services",
+    "sandstone_philosophy",
+    "sandstone_process",
+    "sandstone_testimonials",
+    "sandstone_blog"
   ]
 }

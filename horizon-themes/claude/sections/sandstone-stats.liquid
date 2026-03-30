@@ -1,0 +1,80 @@
+<section class="sandstone-section">
+  <div class="sandstone-container">
+    <div class="sandstone-sidebar-grid">
+      <div class="sandstone-sidebar-grid__sidebar sandstone-sidebar-grid__sidebar--sticky sandstone-sidebar-max">
+        {%- if section.settings.sidebar_image != blank -%}
+          {{
+            section.settings.sidebar_image
+            | image_url: width: 800
+            | image_tag:
+              class: 'sandstone-image sandstone-image--square',
+              loading: 'eager',
+              widths: '400, 600, 800'
+          }}
+        {%- else -%}
+          <img
+            src="{{ 'sandstone-team.png' | asset_url }}"
+            alt="Studio team"
+            class="sandstone-image sandstone-image--square"
+            loading="eager"
+          >
+        {%- endif -%}
+        <p class="sandstone-text-sm sandstone-body sandstone-mt-md sandstone-text-balance sandstone-font-medium">
+          {{ section.settings.sidebar_text | default: 'Purposeful in vision. Meticulous in craft. Bold in innovation.' }}
+        </p>
+      </div>
+
+      <div>
+        <p class="sandstone-display-sm sandstone-heading">
+          {{ section.settings.intro_heading | default: 'At our core is a belief in creative intention. Every space, every material, every design choice — it all matters.' }}
+        </p>
+        <p class="sandstone-text-sm sandstone-body sandstone-mt-xl">
+          {{ section.settings.intro_body | default: "We're not just interior designers — we're thinkers, creators, and collaborators. Our team blends global trends with personal sensibility, crafting spaces that feel authentic yet inspiring." }}
+        </p>
+
+        <div class="sandstone-divider-list sandstone-mt-xl">
+          {%- for block in section.blocks -%}
+            <div class="sandstone-divider-list__item sandstone-stat-row" {{ block.shopify_attributes }}>
+              <p class="sandstone-stat-number">{{ block.settings.number }}</p>
+              <p class="sandstone-text-base sandstone-body sandstone-text-balance">{{ block.settings.description }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sandstone Stats",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "sidebar_image", "label": "Sidebar image" },
+    { "type": "text", "id": "sidebar_text", "label": "Sidebar caption", "default": "Purposeful in vision. Meticulous in craft. Bold in innovation." },
+    { "type": "textarea", "id": "intro_heading", "label": "Intro heading", "default": "At our core is a belief in creative intention. Every space, every material, every design choice — it all matters. Because in a world saturated with options, we believe thoughtful design wins." },
+    { "type": "textarea", "id": "intro_body", "label": "Intro body", "default": "We're not just interior designers — we're thinkers, creators, and collaborators. Our team blends global trends with personal sensibility, crafting spaces that feel authentic yet inspiring." }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "500+" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sandstone Stats",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "500+", "description": "Over 500 interior design projects have been successfully completed, each one transforming spaces into beautiful, functional environments." } },
+        { "type": "stat", "settings": { "number": "15+", "description": "With more than 15 years of experience in the interior design industry, we have honed our skills in creating timeless and modern spaces." } },
+        { "type": "stat", "settings": { "number": "200+", "description": "We have served over 200 happy clients, building lasting relationships through our commitment to quality, creativity, and exceptional design solutions." } },
+        { "type": "stat", "settings": { "number": "50+", "description": "Our work has been recognized with over 50 awards, celebrating our innovative approaches and outstanding contributions to design excellence." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

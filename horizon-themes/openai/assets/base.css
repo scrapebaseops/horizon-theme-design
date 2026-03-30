@@ -10,6 +10,7 @@ body {
   margin: 0;
   min-height: 100svh;
   font-variation-settings: 'slnt' 0;
+  line-height: 1.4;
 }
 
 :root {
@@ -140,6 +141,12 @@ select {
   transition: transform var(--hover-transition-duration) var(--hover-transition-timing),
     box-shadow var(--hover-transition-duration) var(--hover-transition-timing);
   z-index: var(--layer-flat);
+}
+
+.product-card__image,
+.collection-card__image,
+.featured-blog-posts-card__image {
+  overflow: hidden;
 }
 
 .product-card__link {

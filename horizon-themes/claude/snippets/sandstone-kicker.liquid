@@ -1,0 +1,18 @@
+{% comment %}
+  Sandstone Kicker — section label/category text
+  Usage: {% render 'sandstone-kicker', text: 'The Process' %}
+  Optional: variant ('light' or 'dark', default 'light')
+{% endcomment %}
+
+{%- liquid
+  assign variant = variant | default: 'light'
+  if variant == 'dark'
+    assign color_class = 'color: white;'
+  else
+    assign color_class = ''
+  endif
+-%}
+
+<p class="sandstone-kicker" {% if color_class != '' %}style="{{ color_class }}"{% endif %}>
+  {{ text }}
+</p>

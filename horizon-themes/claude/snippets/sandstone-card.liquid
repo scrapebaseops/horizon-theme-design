@@ -1,0 +1,15 @@
+{% comment %}
+  Sandstone Card — white surface card with consistent styling
+  Usage: {% render 'sandstone-card', content: card_html %}
+  Optional: size ('default' or 'lg'), class (extra classes), sticky (boolean)
+{% endcomment %}
+
+{%- liquid
+  assign size = size | default: 'default'
+  assign sticky = sticky | default: false
+-%}
+
+<div class="sandstone-card{% if size == 'lg' %} sandstone-card--lg{% endif %}{% if class %} {{ class }}{% endif %}"
+     {% if sticky %}style="position: sticky; top: 6rem; align-self: start;"{% endif %}>
+  {{ content }}
+</div>

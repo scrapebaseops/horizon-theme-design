@@ -1,0 +1,18 @@
+{% comment %}
+  Sandstone Rolling Link — text-swap hover animation link
+  Usage: {% render 'sandstone-rolling-link', href: '/projects', text: 'See all projects', hover_text: 'Explore now' %}
+  Optional: variant ('light' or 'dark', default 'light'), class (extra classes)
+{% endcomment %}
+
+{%- liquid
+  assign variant = variant | default: 'light'
+  assign href = href | default: '#'
+  assign text = text | default: 'Learn more'
+  assign hover_text = hover_text | default: text
+-%}
+
+<a href="{{ href }}"
+   class="sandstone-rolling-link{% if variant == 'dark' %} sandstone-rolling-link--dark{% endif %}{% if class %} {{ class }}{% endif %}">
+  <span>{{ text }}</span>
+  <span>{{ hover_text }}</span>
+</a>

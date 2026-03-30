@@ -1,0 +1,213 @@
+/* ==========================================================================
+   Sandstone — Layer 2: Base layout + typography + utilities
+   Depends on: sandstone-tokens.css
+   ========================================================================== */
+
+body {
+  font-feature-settings: var(--sandstone-font-features);
+  background-color: var(--sandstone-base-100);
+}
+
+#header-group {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+#header-group > * {
+  pointer-events: auto;
+}
+
+.sandstone-header-section {
+  background: transparent;
+  border: none;
+}
+
+.sandstone-footer-section {
+  background: transparent;
+  border: none;
+}
+
+.sandstone-section {
+  padding-block: var(--sandstone-section-py);
+}
+
+.sandstone-section--tight {
+  padding-block: var(--sandstone-section-py-sm);
+}
+
+.sandstone-container {
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--sandstone-container-px);
+  width: 100%;
+}
+
+.sandstone-container--wide {
+  padding-inline: var(--sandstone-container-px-sm);
+}
+
+.sandstone-container--narrow {
+  max-width: 36rem;
+  padding-inline: var(--sandstone-container-px-sm);
+}
+
+.sandstone-display-2xl { font-size: var(--sandstone-display-2xl); }
+.sandstone-display-xl { font-size: var(--sandstone-display-xl); }
+.sandstone-display-lg { font-size: var(--sandstone-display-lg); }
+.sandstone-display-md { font-size: var(--sandstone-display-md); }
+.sandstone-display-sm { font-size: var(--sandstone-display-sm); }
+.sandstone-display-xs { font-size: var(--sandstone-display-xs); }
+.sandstone-text-xl { font-size: var(--sandstone-text-xl); }
+.sandstone-text-lg { font-size: var(--sandstone-text-lg); }
+.sandstone-text-base { font-size: var(--sandstone-text-base); }
+.sandstone-text-sm { font-size: var(--sandstone-text-sm); }
+.sandstone-text-xs { font-size: var(--sandstone-text-xs); }
+
+.sandstone-heading {
+  color: var(--sandstone-base-900);
+  font-weight: var(--sandstone-weight-medium);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.sandstone-body {
+  color: var(--sandstone-base-600);
+  font-weight: var(--sandstone-weight-regular);
+  line-height: 1.6;
+}
+
+.sandstone-muted {
+  color: var(--sandstone-base-500);
+}
+
+.sandstone-accent {
+  color: var(--sandstone-base-500);
+  font-weight: 300;
+  font-style: italic;
+}
+
+.sandstone-kicker {
+  font-size: var(--sandstone-text-lg);
+  font-weight: var(--sandstone-weight-medium);
+  color: var(--sandstone-base-600);
+}
+
+.sandstone-stat-number {
+  font-size: var(--sandstone-display-2xl);
+  font-weight: var(--sandstone-weight-semibold);
+  font-style: italic;
+  color: var(--sandstone-base-900);
+  line-height: 1;
+}
+
+.sandstone-display-text em {
+  color: var(--sandstone-base-500);
+  font-weight: 300;
+  font-style: italic;
+}
+
+.sandstone-display-text p {
+  margin: 0;
+}
+
+.sandstone-mt-xs  { margin-top: var(--sandstone-stack-xs); }
+.sandstone-mt-sm  { margin-top: var(--sandstone-stack-sm); }
+.sandstone-mt-md  { margin-top: var(--sandstone-stack-md); }
+.sandstone-mt-lg  { margin-top: var(--sandstone-stack-lg); }
+.sandstone-mt-xl  { margin-top: var(--sandstone-stack-xl); }
+.sandstone-mt-2xl { margin-top: var(--sandstone-stack-2xl); }
+
+.sandstone-text-balance { text-wrap: balance; }
+.sandstone-text-pretty  { text-wrap: pretty; }
+.sandstone-overflow-hidden { overflow: hidden; }
+
+.sandstone-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.sandstone-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: var(--sandstone-gap-sm);
+}
+
+.sandstone-meta {
+  font-size: var(--sandstone-text-xs);
+  color: var(--sandstone-base-400);
+}
+
+.sandstone-subtitle {
+  font-size: var(--sandstone-text-sm);
+  color: var(--sandstone-base-600);
+}
+
+.sandstone-section--overflow {
+  overflow: hidden;
+}
+
+.sandstone-display-text--tight {
+  line-height: 1.15;
+}
+
+.sandstone-sidebar-max {
+  max-width: var(--sandstone-sidebar-max-width);
+}
+
+.sandstone-font-medium {
+  font-weight: var(--sandstone-weight-medium);
+}
+
+.sandstone-section--project-top {
+  padding-bottom: var(--sandstone-section-py);
+  padding-top: clamp(6rem, 5vw, 6rem);
+}
+
+.sandstone-testimonials-layout__sidebar-inner {
+  padding: var(--sandstone-card-padding);
+}
+
+/* Prose / rich text (pages, articles, legal) */
+.sandstone-prose {
+  font-size: var(--sandstone-text-base);
+  color: var(--sandstone-base-600);
+  line-height: 1.65;
+  max-width: 65ch;
+}
+
+.sandstone-prose h1,
+.sandstone-prose h2,
+.sandstone-prose h3 {
+  color: var(--sandstone-base-900);
+  font-weight: var(--sandstone-weight-medium);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.sandstone-prose h1 { font-size: var(--sandstone-display-2xl); margin-top: 0; margin-bottom: var(--sandstone-stack-lg); }
+.sandstone-prose h2 { font-size: var(--sandstone-display-lg); margin-top: var(--sandstone-stack-2xl); margin-bottom: var(--sandstone-stack-md); }
+.sandstone-prose h3 { font-size: var(--sandstone-display-sm); margin-top: var(--sandstone-stack-xl); margin-bottom: var(--sandstone-stack-sm); }
+
+.sandstone-prose p {
+  margin: 0 0 var(--sandstone-stack-md);
+}
+
+.sandstone-prose a {
+  color: var(--sandstone-base-900);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.sandstone-prose ul,
+.sandstone-prose ol {
+  margin: 0 0 var(--sandstone-stack-md);
+  padding-inline-start: 1.25rem;
+}
+
+.sandstone-inline-link {
+  display: inline;
+}
