@@ -320,6 +320,7 @@ mkdir -p "$THEME_ROOT/.workflow/screenshots"
 mkdir -p "$THEME_ROOT/.workflow/logs"
 mkdir -p "$THEME_ROOT/.workflow/artifacts"
 mkdir -p "$THEME_ROOT/.workflow/comparisons"
+mkdir -p "$THEME_ROOT/.workflow/checklists"
 ```
 
 **Also:** Add `.workflow/` to `.shopifyignore` so it doesn't get pushed to Shopify:
@@ -358,6 +359,18 @@ grep ".workflow/" "$THEME_ROOT/.shopifyignore"
 ## Current Status
 
 Ready to begin Phase 1.
+
+## Phase Gate Log
+
+| Phase | Checklist | Result | Timestamp | Notes |
+|-------|-----------|--------|-----------|-------|
+| Pre-Flight | [path] | [PASS/FAIL] | [timestamp] | [notes] |
+
+## Sub-Agent Sessions
+
+| Agent / Batch | Phase | Scope | Checklist Path | Started | Completed | Result | Notes |
+|---------------|-------|-------|----------------|---------|-----------|--------|-------|
+| [Agent name] | [Phase] | [Assigned pages/components] | [path] | [timestamp] | [timestamp] | [PASS/FAIL] | [notes] |
 ```
 
 ### Step 5: Determine Dev Server Strategy
@@ -628,6 +641,11 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
    - `$THEME_ROOT/.workflow/progress.md` shows all phases complete
    - `$THEME_ROOT/.workflow/store-readiness.md` documents preview routes and dependencies
    - `$THEME_ROOT/.workflow/deviations.md` documents any intentional departures from the reference/design system
+   - `$THEME_ROOT/.workflow/reference-page-manifest.md` defines every audited reference layout/state and required screenshot artifact
+   - `$THEME_ROOT/.workflow/clone-template-map.md` maps every clonable layout to a template file and preview route
+   - `$THEME_ROOT/.workflow/design-system-coverage.md` proves every documented component/state is rendered on the design system reference page
+   - `$THEME_ROOT/.workflow/page-content-verification.md` proves every real page section, route, and content requirement was verified in Phase 4
+   - `$THEME_ROOT/.workflow/qa-interactive-states.md` documents final state-by-state QA evidence
    - All phase deliverables documented
    - `.shopifyignore` includes `.workflow/`
    - Theme files are complete and verified locally (deployment is a human-only decision)
@@ -647,7 +665,8 @@ Follow these rules throughout the entire workflow. They are non-negotiable.
 2. Generate a detailed working checklist listing EVERY individual deliverable, component, page, section, and item required by the phase. The agent executing the phase MUST generate the checklist as its FIRST action — before any other work. This is not optional and not delegated to a sub-agent (unless that sub-agent executes the entire phase). The checklist must be a file at `THEME_ROOT/.workflow/checklists/phase-N-checklist.md` and must exist before ANY code is written.
 3. Include specific acceptance criteria for each item (e.g., "pixel-perfect at 3 viewports", "all 8 blocks populated", "screenshot comparison logged")
 4. Save to `THEME_ROOT/.workflow/checklists/phase-N-checklist.md`
-5. Present the checklist to the user before starting work
+5. If a sub-agent executes a page, batch, or other scoped subset of a phase, it MUST create its own scoped checklist file (for example `phase-4-batch-b-checklist.md`) before starting work
+6. Persist the checklist and continue working — user sign-off is not required
 
 **During each phase:**
 - Work through the checklist item by item
@@ -655,11 +674,12 @@ Follow these rules throughout the entire workflow. They are non-negotiable.
 - "I wrote the code" is NOT the same as "I verified it works" — take screenshots, count sections, compare against spec
 - Update the checklist file after each item so progress is persisted
 - Never declare an item complete without verification evidence
+- If the workflow defines a manifest, mapping file, or coverage table, update it as the source of truth during the phase instead of relying on ad hoc file counts
 
 **Before moving to the next phase (SELF-ENFORCING GATE):**
 - Read the checklist file and count `[x]` items against total required items
 - If ANY items are `[ ]` or `[~]`, go back and finish them — do not proceed, do not ask permission to skip
-- If items are `[!]`, document why they're blocked and continue only if genuinely not completable
+- If items are `[!]`, document why they're blocked and continue only if the phase explicitly marks that deliverable optional or unblockable
 - Log the gate result: "GATE: X/Y items complete. [PASS/FAIL]"
 - If the gate FAILS, loop back and complete remaining items. No exceptions.
 
@@ -702,6 +722,8 @@ All screenshot comparisons must follow the approach in `docs/workflows/skills/vi
 
 **How to verify:** Document all screenshot comparisons in `$THEME_ROOT/.workflow/comparisons/`
 
+**Evidence standard:** Store comparisons in phase-scoped directories (for example `THEME_ROOT/.workflow/comparisons/phase-1/<layout-id>/`) and include the reference image path, implementation image path, issue found, fix made, and retest result. No evidence file means the comparison was not completed.
+
 ### Rule 4: Run Code Quality Checks Regularly
 
 After each major phase (and certainly before completion), run:
@@ -721,12 +743,13 @@ Zero errors required for completion. (Warnings are OK.)
 If a single phase is too large (multiple pages, hundreds of components) or you're running low on context:
 1. Break the phase into smaller sub-tasks
 2. Create clear handoff instructions
-3. Spawn a sub-agent with those instructions
-4. The sub-agent reports completion back
+3. Create a scoped checklist and source-of-truth artifact set for that sub-task
+4. Spawn a sub-agent with those instructions
+5. The sub-agent reports completion back only after its scoped checklist ends with `GATE: PASS`
 
 **Why:** Prevents context overflow and allows parallel work.
 
-**How to verify:** Sub-agent sessions should be documented in progress.md with completion timestamps.
+**How to verify:** Sub-agent sessions should be documented in progress.md with assignment scope, checklist path, start/end timestamps, and PASS/FAIL result.
 
 ### Rule 6: Document Progress After Each Phase
 

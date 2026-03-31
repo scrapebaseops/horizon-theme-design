@@ -67,6 +67,40 @@ If any of these are missing, stop and ask the user to provide them. The agent ca
 
 ---
 
+## Working Rules
+
+### Rule 0: Working Checklists & Progress Gates (HIGHEST PRIORITY)
+
+Every execution phase in Workflow 1 MUST use a persisted checklist and a self-enforcing gate. Do not wait for user sign-off at gates.
+
+**Required phase checklists:**
+- `OUTPUT_DIR/checklists/phase-a-analysis-planning.md`
+- `OUTPUT_DIR/checklists/phase-b-page-specs.md`
+- `OUTPUT_DIR/checklists/phase-c-consistency-review.md`
+- `OUTPUT_DIR/checklists/phase-d-consolidation-gap-analysis.md`
+
+**Before starting a phase:**
+1. Read the full step/phase instructions
+2. Create or update the phase checklist before writing deliverables
+3. List every required page, artifact, or review item as its own checklist entry
+4. Include acceptance criteria for every item
+
+**During a phase:**
+- Update the checklist as work progresses
+- If a sub-agent owns a page batch, it MUST also create a scoped checklist in `OUTPUT_DIR/checklists/`
+- Use `OUTPUT_DIR/page-spec-coverage.md` as the source of truth for page-spec completeness in Phase B and later gates
+
+**At the gate:**
+- Required outputs are blocking and may not be marked as deferred
+- If the checklist is incomplete, loop back and finish the work before moving on
+- Only explicitly optional research context may be marked degraded or skipped
+
+### Rule 1: Required Outputs Are Blocking
+
+Workflow 1 may not be marked complete while any required page spec, consistency correction, site content map update, or gap-analysis repair remains missing or partial. "Flag for human review and continue" is allowed only for optional supporting context, never for required page specifications.
+
+---
+
 ## Agent Execution Architecture
 
 This section defines how the workflow should be executed by AI agents to maximize output quality. The architecture is written for high-capability agentic models and accounts for context window management, parallelism opportunities, and consistency requirements.
@@ -195,7 +229,9 @@ Spawn sub-agents for page spec writing. Each sub-agent receives:
 2. `site-structure.md` (so they know what pages exist and how nav works — ~1000 tokens)
 3. The page spec template (from `templates/page-content-spec-template.md` — ~800 tokens)
 4. Their specific page assignments
-5. Any trait-specific research excerpts that are particularly relevant to their assigned pages (not all research — just the parts that matter)
+5. The relevant rows from `OUTPUT_DIR/page-spec-coverage.md`
+6. Their scoped checklist path in `OUTPUT_DIR/checklists/`
+7. Any trait-specific research excerpts that are particularly relevant to their assigned pages (not all research — just the parts that matter)
 
 **Total context budget per sub-agent**: ~4000–5500 tokens of input, leaving the vast majority of the context window for producing high-quality output.
 
@@ -209,6 +245,8 @@ Spawn sub-agents for page spec writing. Each sub-agent receives:
 - **Batch 6: 404 + Password** — utility pages. Low complexity, can share a sub-agent.
 
 **Run all batches in parallel.** For a typical store with 10–15 pages, this means 4–6 sub-agents running simultaneously.
+
+**Sub-agent completion rule:** A page-spec batch is not complete until its scoped checklist ends with `GATE: PASS` and its `page-spec-coverage.md` rows are updated to reflect completed specs.
 
 ### Phase C: Consistency Review (Step 5)
 
@@ -286,6 +324,7 @@ Write detailed page specs for: [Page 1], [Page 2]
 [Any research findings specifically relevant to these pages]
 
 ## Instructions
+- Create/update your scoped checklist before writing specs
 - Write each page spec as a separate markdown document
 - Follow the format exactly
 - Write draft copy in the brand's voice (see example sentences in brand context)
@@ -294,6 +333,8 @@ Write detailed page specs for: [Page 1], [Page 2]
 - Use [MERCHANT: instructions] for content the merchant must provide
 - Document configurable settings for each section
 - Include responsive behavior notes
+- Update the assigned rows in `page-spec-coverage.md` with spec file path, section count, and completion status
+- End your scoped checklist with `GATE: PASS` before reporting completion
 - Output each spec as a complete markdown document
 ```
 
@@ -758,6 +799,24 @@ If any required page is missing, add it to `site-structure.md` before continuing
 
 ## Step 4: Create Page Content Specs
 
+### First Action: Create Phase B Checklist And Coverage File
+
+Before spawning any page-spec sub-agent or writing any spec:
+
+1. Create `OUTPUT_DIR/checklists/phase-b-page-specs.md`
+2. Create `OUTPUT_DIR/page-spec-coverage.md` using `templates/page-spec-coverage-template.md`
+3. Add one row per page in `site-structure.md` with:
+   - page name
+   - template
+   - required / optional
+   - spec file path
+   - expected section count
+   - status
+
+`expected_section_count` may be filled as soon as the draft section structure is known, but it must be populated before the Step 4 gate passes.
+
+`page-spec-coverage.md` is the source of truth for Step 4, Step 5, and Step 7 gates. If a page is required in `site-structure.md`, it must appear here before any specs are written.
+
 **Objective**: For every page identified in Step 3, create a detailed content specification with section-by-section structure and draft copy.
 
 ### What Goes in a Page Spec
@@ -919,6 +978,25 @@ OUTPUT_DIR/pages/
 
 ---
 
+### Step 4 Completion Gate
+
+Before moving to Step 5, verify all of the following:
+
+- Every required page in `site-structure.md` has a corresponding row in `OUTPUT_DIR/page-spec-coverage.md`
+- Every required row in `page-spec-coverage.md` has a spec file present in `OUTPUT_DIR/pages/`
+- Every required spec includes:
+  - page metadata
+  - an ordered section list
+  - draft copy
+  - content sources
+  - configurable settings
+  - responsive notes
+- Every scoped Phase B checklist ends with `GATE: PASS`
+
+If any required page is missing, partial, or still flagged for later follow-up, loop back and finish Step 4 before starting Step 5.
+
+---
+
 ## Step 5: Consistency Review
 
 **Objective**: Ensure all page specs produced in Step 4 are consistent in naming, voice, cross-references, and section conventions. This step produces a named deliverable documenting what was checked and changed.
@@ -959,6 +1037,19 @@ Write to `OUTPUT_DIR/consistency-review.md`:
 ## Unresolved Questions
 [Anything that couldn't be resolved without user input — marked with [DECISION: ...] in the specs]
 ```
+
+---
+
+### Step 5 Completion Gate
+
+Before moving to Step 6, verify all of the following:
+
+- `OUTPUT_DIR/consistency-review.md` exists and documents what was checked and changed
+- Any spec corrections discovered during review have been applied to the page spec files, not just noted in the report
+- `OUTPUT_DIR/page-spec-coverage.md` still shows every required page as complete after consistency changes
+- `OUTPUT_DIR/checklists/phase-c-consistency-review.md` exists and ends with `GATE: PASS`
+
+If the review finds missing sections, inconsistent naming, or off-brand copy, loop back to Step 4, repair the specs, update coverage, and re-run Step 5.
 
 ---
 
@@ -1181,6 +1272,22 @@ Write to `OUTPUT_DIR/gap-analysis.md`:
 
 ---
 
+### Step 7 Completion Gate
+
+Before marking Workflow 1 complete, verify all of the following:
+
+- Every required page in `site-structure.md` is still present and complete in `OUTPUT_DIR/page-spec-coverage.md`
+- Any loop-back changes triggered during Step 7 have been applied to:
+  - `site-structure.md`
+  - affected page specs in `OUTPUT_DIR/pages/`
+  - `consistency-review.md`
+  - `site-content-map.md`
+- `OUTPUT_DIR/checklists/phase-d-consolidation-gap-analysis.md` exists and ends with `GATE: PASS`
+
+If Step 7 uncovers a missing required page, partial spec, or stale site-content map, the workflow must loop back and repair the artifacts before completion.
+
+---
+
 ## Complete Deliverables
 
 Upon completion of Workflow 1, the following documents exist in `OUTPUT_DIR`:
@@ -1226,6 +1333,7 @@ Workflow 1 produces many documents, but Workflow 2 depends on them at different 
 | `research-findings.md` | Optional | CRO rationale for layout, hierarchy, and content ordering |
 | `_handoff-brief.md` | Optional | Compact brand context for sub-agents working in Workflow 2 |
 | `consistency-review.md` | Optional | Naming and voice decisions established during Workflow 1 |
+| `page-spec-coverage.md` | Internal | Source-of-truth page/spec completeness matrix used by Workflow 1 gates |
 | `_status.md` | Internal | Execution metadata and staleness tracking; not needed to run Workflow 2 |
 
 ### Quality Checklist
@@ -1240,6 +1348,7 @@ Before marking the workflow complete, verify:
 - [ ] Recommended pages (about, contact, FAQ, blog/list-collections, explainers) are either included or explicitly noted as not needed
 - [ ] Policy handling distinguishes Shopify-native policy URLs from any custom explainer pages
 - [ ] Every page in the site structure has a corresponding spec document
+- [ ] `page-spec-coverage.md` matches the site structure and the actual files in `pages/`
 - [ ] Every page spec includes section-by-section breakdown with draft copy
 - [ ] Draft copy is written in the brand's voice (not generic placeholder text)
 - [ ] Consistency review completed — naming, voice, and cross-references aligned across all specs
@@ -1266,10 +1375,12 @@ Before marking the workflow complete, verify:
 - [ ] Obtained `THEME_ROOT` path and validated theme structure
 - [ ] Verified or created `OUTPUT_DIR` (created automatically if it doesn't exist)
 - [ ] Read and understood this entire ENTRY.md (including Agent Execution Architecture)
+- [ ] Created `OUTPUT_DIR/checklists/`
 
 ### Phase A: Analysis & Planning (Main Agent)
 
 **Step 1: Analyze Brand Traits**
+- [ ] Created/updated `OUTPUT_DIR/checklists/phase-a-analysis-planning.md`
 - [ ] Extracted traits across all dimensions (catalog, purchase model, product type, positioning, audience, content, conversion)
 - [ ] Checked existing skills in `docs/workflows/skills/store-traits/`
 - [ ] Identified which traits need specialized research
@@ -1294,6 +1405,7 @@ Before marking the workflow complete, verify:
 - [ ] Planned navigation structure
 - [ ] Completed the Step 3 page inventory check before moving to Step 4
 - [ ] Written `site-structure.md`
+- [ ] Phase A checklist ends with `GATE: PASS`
 
 **Handoff Brief**
 - [ ] Created `_handoff-brief.md` (distilled context for sub-agents, ~1500–2500 tokens)
@@ -1302,6 +1414,8 @@ Before marking the workflow complete, verify:
 ### Phase B: Page Specs (Parallel Sub-Agents)
 
 **Step 4: Create Page Specs**
+- [ ] Created `OUTPUT_DIR/checklists/phase-b-page-specs.md`
+- [ ] Created `OUTPUT_DIR/page-spec-coverage.md`
 - [ ] Spawned page spec sub-agents with handoff brief + site structure + template
 - [ ] Batch 1: Homepage spec complete
 - [ ] Batch 2: Product + Cart specs complete
@@ -1310,10 +1424,13 @@ Before marking the workflow complete, verify:
 - [ ] Batch 5: Custom content page specs complete
 - [ ] Batch 6: 404 + Password specs complete
 - [ ] All specs written to `OUTPUT_DIR/pages/`
+- [ ] Every required row in `page-spec-coverage.md` points to a completed spec file
+- [ ] Phase B checklist ends with `GATE: PASS`
 
 ### Phase C: Consistency Review
 
 **Step 5: Consistency Review**
+- [ ] Created `OUTPUT_DIR/checklists/phase-c-consistency-review.md`
 - [ ] Read all page specs
 - [ ] Checked section naming consistency across all pages
 - [ ] Checked voice/tone consistency across all draft copy
@@ -1322,10 +1439,12 @@ Before marking the workflow complete, verify:
 - [ ] Verified cross-page references (links, breadcrumbs, shared components)
 - [ ] Applied corrections to any inconsistent specs
 - [ ] Written `consistency-review.md`
+- [ ] Phase C checklist ends with `GATE: PASS`
 
 ### Phase D: Consolidation & Gap Analysis
 
 **Step 6: Create Site Content Map**
+- [ ] Created `OUTPUT_DIR/checklists/phase-d-consolidation-gap-analysis.md`
 - [ ] Consolidated all page specs into site map
 - [ ] Documented shared components
 - [ ] Created section reuse matrix
@@ -1345,12 +1464,14 @@ Before marking the workflow complete, verify:
 - [ ] Documented theme configuration status
 - [ ] Written implementation recommendations
 - [ ] Written `gap-analysis.md`
+- [ ] Phase D checklist ends with `GATE: PASS`
 
 ### Post-Execution
 - [ ] All deliverables created in `OUTPUT_DIR`
 - [ ] Quality checklist passed
 - [ ] Micro-skills created for researched traits
 - [ ] `_handoff-brief.md` retained in `OUTPUT_DIR` (useful reference for Workflow 2)
+- [ ] `page-spec-coverage.md` retained in `OUTPUT_DIR`
 - [ ] Written `_status.md` (see below)
 - [ ] Ready to hand off to Workflow 2
 
@@ -1376,6 +1497,7 @@ As the final post-execution step, write `OUTPUT_DIR/_status.md` to record the ru
 - [x] consistency-review.md
 - [x] site-content-map.md
 - [x] gap-analysis.md
+- [x] page-spec-coverage.md
 - [x] pages/ (list count: X page specs)
 - [x] _status.md
 
@@ -1439,9 +1561,9 @@ If the brand brief is ambiguous on a point:
 If a sub-agent fails or returns poor results during the workflow:
 
 1. **Research sub-agent returns empty or insufficient results** — Fall back to training knowledge for that trait. Note reduced confidence in the research output (e.g., "Source: training knowledge — live research unavailable"). Do not block other traits on this failure.
-2. **Page spec sub-agent produces off-brand or generic copy** — Re-run the sub-agent with more explicit voice examples from the handoff brief. If the second attempt is still poor, flag the page for human review and continue with other pages.
-3. **Sub-agent timeout or crash** — Retry once. If it fails again, flag the page(s) for manual spec writing and continue. Record the failure in `consistency-review.md` or `_status.md`.
-4. **General principle** — Never block the entire workflow on a single sub-agent failure. Complete what you can, document what failed, and let the user decide how to handle gaps.
+2. **Page spec sub-agent produces off-brand or generic copy** — Re-run the sub-agent with more explicit voice examples from the handoff brief. If the second attempt is still poor, the main agent or a fresh replacement sub-agent MUST complete the required page spec before Workflow 1 can pass its gate.
+3. **Sub-agent timeout or crash** — Retry once. If it fails again, the main agent or a fresh replacement sub-agent MUST complete the required page(s) before Workflow 1 can continue. Record the failure and recovery action in `consistency-review.md` or `_status.md`.
+4. **General principle** — Required outputs are blocking. Never mark Workflow 1 complete while a required page spec, coverage row, or loop-back repair remains unresolved. Only optional supporting context may be marked degraded, and that reduced confidence must be documented.
 
 ### Reusable Skills Growth
 

@@ -14,7 +14,7 @@ By the end of this phase, you will have:
 
 **Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-5-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, the workflow is not complete.
 
-Checklist must separately cover: (1) Screenshot audit — every page at 3 viewports, (2) Clone regression — clone pages still match reference, (3) Code quality — theme-check, CSS validation, Liquid formatting, (4) Interactive states — every button, link, input, accordion, modal tested, (5) Responsive — all breakpoints verified, (6) Accessibility — keyboard nav, focus states, alt text, (7) Documentation — final report, deviations, store-readiness.
+Checklist must separately cover: (1) Screenshot audit — every page listed in `qa-page-list.md` at 3 viewports, (2) Clone regression — every row in `clone-template-map.md` still matches reference, (3) Code quality — theme-check, CSS validation, Liquid formatting, (4) Interactive states — every button, link, input, accordion, modal tested and logged in `qa-interactive-states.md`, (5) Responsive — all breakpoints verified, (6) Accessibility — keyboard nav, focus states, alt text, (7) Documentation — final report, deviations, store-readiness.
 
 ### Naming Convention
 
@@ -30,7 +30,19 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
 
 **Instructions:**
 
-1. First, create `THEME_ROOT/.workflow/qa-page-list.md` enumerating EVERY page in the theme: list every `templates/*.json`, every page route, every clone page. Use this list to drive screenshot capture. Screenshot count must equal: pages_in_list × 3 viewports.
+1. First, create `THEME_ROOT/.workflow/qa-page-list.md` enumerating EVERY previewable page in the theme. Do NOT list both a template and a route as separate rows for the same page. Use one row per preview target with these columns:
+   - `page_id`
+   - `page_kind` (`real`, `clone`, `design-system`)
+   - `template_file`
+   - `preview_route`
+   - `screenshot_base_name`
+
+   Build this list from:
+   - `THEME_ROOT/.workflow/store-readiness.md` for real pages
+   - `THEME_ROOT/.workflow/clone-template-map.md` for clone pages
+   - `templates/page.design-system.json` for the design system page
+
+   Screenshot count must equal: rows_in_qa_page_list × 3 viewports.
 
 2. Create directory: `THEME_ROOT/.workflow/final-screenshots/`
 
@@ -59,10 +71,8 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
      - Any other custom pages
 
    - Clone pages (from Phase 1):
-     - `page.clone-homepage`
-     - `page.clone-product`
-     - `page.clone-collection`
-     - etc.
+     - Use the exact rows in `THEME_ROOT/.workflow/clone-template-map.md`
+     - Do not invent clone names from memory; use the recorded `template_file`, `preview_route`, and `screenshot_base_name`
 
    - Design system page:
      - Design system reference page
@@ -127,6 +137,8 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
 **Instructions:**
 
 1. For each clone page:
+   - Open the matching row(s) in `THEME_ROOT/.workflow/clone-template-map.md`
+   - Open the matching reference row(s) in `THEME_ROOT/.workflow/reference-page-manifest.md`
    - Open the reference screenshot (from Phase 1)
    - Open the final screenshot from Step 1
    - Compare side-by-side at all 3 viewports
@@ -171,6 +183,12 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
    - Update documentation
 
 5. **All clone pages must pass** before moving forward.
+
+6. A clone page cannot pass if:
+   - its `clone-template-map.md` row is missing
+   - its referenced `reference-page-manifest.md` row is missing
+   - any required reference screenshot or final screenshot is missing
+   - comparison evidence from Phase 1 does not exist for that layout
 
 ---
 
@@ -265,8 +283,11 @@ For each real page (homepage, product, collection, cart, etc.):
 **Instructions:**
 
 1. Open the Design System reference page in browser.
+2. Open `THEME_ROOT/.workflow/design-system-coverage.md`.
 
-2. **Review each component category:**
+3. Confirm every row in `THEME_ROOT/.workflow/design-system-coverage.md` points to a visible rendered demo on the page before reviewing categories.
+
+4. **Review each component category:**
 
    **Typography Section:**
    - [ ] H1, H2, H3, H4 all display
@@ -321,14 +342,14 @@ For each real page (homepage, product, collection, cart, etc.):
    - [ ] Price display shows (with sale pricing)
    - [ ] Stock status shows
 
-3. **Component consistency check:**
+5. **Component consistency check:**
    - Do button colors match the design tokens?
    - Do card borders match the design tokens?
    - Is spacing consistent across components?
    - Do colors look cohesive?
    - Are there any orphaned or broken components?
 
-4. **Document findings**: `THEME_ROOT/.workflow/qa-design-system.md`
+6. **Document findings**: `THEME_ROOT/.workflow/qa-design-system.md`
    ```markdown
    # Design System Reference Page QA
 
@@ -364,7 +385,13 @@ For each real page (homepage, product, collection, cart, etc.):
    - Reference page is comprehensive and well-organized
    ```
 
-5. **Fix any issues** if found.
+7. **Create interactive state log**: `THEME_ROOT/.workflow/qa-interactive-states.md`
+   - Use the template at `docs/workflows/workflow-2-design-replication/templates/qa-interactive-states-template.md`
+   - Add one row per interactive element/state combination tested across real pages and the design system page
+   - Required columns: `Element | Page | Default | Hover | Focus | Active | Disabled | Loading | Error | Success | Evidence | Notes`
+   - Empty cells are incomplete unless the state is explicitly `N/A`
+
+8. **Fix any issues** if found.
 
 ---
 
@@ -1082,10 +1109,11 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
 **Before Phase 5 completion, verify:**
 
 - [ ] All pages screenshotted at all 3 viewports
+- [ ] `THEME_ROOT/.workflow/qa-page-list.md` is the canonical page count source
 - [ ] Screenshots saved to `.workflow/final-screenshots/`
-- [ ] Clone pages verified (visual parity confirmed)
+- [ ] Clone pages verified against `clone-template-map.md` and `reference-page-manifest.md`
 - [ ] Real pages reviewed (consistency confirmed)
-- [ ] Design system reference page reviewed (all components present)
+- [ ] Design system reference page reviewed against `design-system-coverage.md`
 - [ ] Theme check completed (0 errors)
 - [ ] CSS organization verified
 - [ ] Liquid code quality verified
@@ -1096,6 +1124,7 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
 - [ ] `THEME_ROOT/.workflow/progress.md` updated
 - [ ] `THEME_ROOT/.workflow/final-report.md` created
 - [ ] `THEME_ROOT/.workflow/deviations.md` created or explicitly states none
+- [ ] `THEME_ROOT/.workflow/qa-interactive-states.md` created and complete
 - [ ] `THEME_ROOT/.workflow/qa-*.md` documents completed
 - [ ] Component inventory finalized
 - [ ] Executive summary created
@@ -1153,9 +1182,11 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
 **Checklist file:** `THEME_ROOT/.workflow/checklists/phase-5-checklist.md` must exist and show all items as `[x]`.
 
 **Count checks:**
-- Every page (real pages, clone pages, design system page) has been screenshotted at all 3 viewports (1440px, 768px, 390px) — count the pages in `THEME_ROOT/.workflow/final-screenshots/index.md` and confirm 3 screenshots per page exist. Count source: `ls THEME_ROOT/templates/*.json | wc -l` for template count. Add DS reference page and any clone pages. Final screenshot count must equal: total_pages × 3.
+- Every row in `THEME_ROOT/.workflow/qa-page-list.md` has been screenshotted at all 3 viewports (1440px, 768px, 390px) — count the rows in `qa-page-list.md` and confirm 3 screenshots per row exist in `THEME_ROOT/.workflow/final-screenshots/`
+- Every clone row in `THEME_ROOT/.workflow/clone-template-map.md` has a passing entry in `THEME_ROOT/.workflow/qa-clone-verification.md` and a matching reference row in `THEME_ROOT/.workflow/reference-page-manifest.md`
+- Every row in `THEME_ROOT/.workflow/design-system-coverage.md` is still valid in Phase 5 — if a row lacks a visible rendered state demo or screenshot evidence, the design system gate fails
 - `shopify theme check` passes with zero errors — warnings are acceptable per ENTRY.md Rule 4, but errors are not
-- All interactive states have been verified (hover, focus, active, disabled, loading, error, success) — the QA documents (`qa-real-pages.md`, `qa-design-system.md`) must confirm each state was tested. Interactive state verification must be documented in `THEME_ROOT/.workflow/qa-interactive-states.md` with a table: | Element | Page | Default | Hover | Focus | Active | Disabled | Notes |. Every row must have evidence (screenshot or 'N/A' if state doesn't apply). Empty cells are incomplete.
+- All interactive states have been verified (hover, focus, active, disabled, loading, error, success) — the QA documents (`qa-real-pages.md`, `qa-design-system.md`) must confirm each state was tested. Interactive state verification must be documented in `THEME_ROOT/.workflow/qa-interactive-states.md` with a table: | Element | Page | Default | Hover | Focus | Active | Disabled | Loading | Error | Success | Evidence | Notes |. Every row must have evidence (screenshot or 'N/A' if state doesn't apply). Empty cells are incomplete.
 - `THEME_ROOT/.workflow/final-report.md` exists and contains the complete project summary, deliverables checklist, and quality metrics
 - `THEME_ROOT/.workflow/deviations.md` exists — it either lists every intentional deviation from the reference design with justification, or explicitly states "None"
 

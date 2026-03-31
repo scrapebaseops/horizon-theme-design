@@ -14,7 +14,7 @@ By the end of this phase, you will have:
 
 **Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-4-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 5.
 
-Each checklist item must have acceptance criteria: '[Page Name]: [ ] All sections from content spec present (count: N), [ ] All blocks populated with content, [ ] Responsive at 1440/768/390px, [ ] Screenshot taken, [ ] No console errors.' Count sections in each content plan page spec and include the expected count.
+Each checklist item must have acceptance criteria: '[Page Name]: [ ] All sections from content spec present in the correct order (count: N), [ ] All blocks populated with content from the spec or approved dynamic/[MERCHANT] sources, [ ] Preview route documented and renders the intended template, [ ] Responsive at 1440/768/390px, [ ] Screenshot taken, [ ] No console errors.' Count sections in each content plan page spec and include the expected count.
 
 ### Naming Convention
 
@@ -47,6 +47,9 @@ All custom files and CSS classes use the project prefix from `THEME_ROOT/.workfl
 2. Do NOT build any page template without first completing its entry in `THEME_ROOT/.workflow/page-implementation-plan.md`. The plan entry must list every section, its type (existing/new/Horizon native), content source, and responsive behavior. Review the plan against the content spec — section counts must match.
 
 3. Create a planning document: `THEME_ROOT/.workflow/page-implementation-plan.md`
+4. Create a verification document: `THEME_ROOT/.workflow/page-content-verification.md`
+   - Use the template at `docs/workflows/workflow-2-design-replication/templates/page-content-verification-template.md`
+   - This file becomes the gate for Phase 4 completion and must contain one verification row per page section
 
 3. For each page, document:
    ```markdown
@@ -819,8 +822,14 @@ Build pages in this order:
    - `templates/blog.json` / `templates/article.json` require a real blog and article
    - `templates/page.json` / `templates/page.contact.json` require Shopify pages assigned as needed
    - Policies and menus require store-side admin configuration
-3. If working with a dev store, create/assign any missing resources now and record the final handles.
-4. If working locally only, document the missing resources as blockers. Do not mark Phase 5 as fully complete for routes that cannot be previewed.
+3. Add or update rows in `THEME_ROOT/.workflow/page-content-verification.md` with:
+   - page name
+   - preview route
+   - template file
+   - assigned Shopify resource / handle
+   - verification status
+4. If working with a dev store, create/assign any missing resources now and record the final handles.
+5. If working locally only, document the missing resources as blockers. Do not mark Phase 5 as fully complete for routes that cannot be previewed.
 
 ---
 
@@ -915,10 +924,12 @@ For each page, before considering it "done":
    - Tablet (768px)
    - Mobile (390px)
    - Save to: `THEME_ROOT/.workflow/implementation-screenshots/{page-name}-{viewport}.png`
+   - Record all three screenshot paths in `THEME_ROOT/.workflow/page-content-verification.md`
 
 2. **Compare against design spec** from Workflow 1:
    - Is the layout correct?
    - Are all sections present?
+   - Are the sections in the correct top-to-bottom order?
    - Are all content elements visible?
    - Do proportions match?
 
@@ -949,6 +960,26 @@ For each page, before considering it "done":
    - Verify no console errors
 
 7. **Fix any issues** before moving to next page.
+
+8. **Update `THEME_ROOT/.workflow/page-content-verification.md`** for every section on the page:
+   - `Page`
+   - `Preview Route`
+   - `Template File`
+   - `Spec Section Name`
+   - `Template Section ID`
+   - `Order Index`
+   - `Content Source`
+   - `1440 Screenshot`
+   - `768 Screenshot`
+   - `390 Screenshot`
+   - `Console Status`
+   - `Verified`
+
+   A row fails verification if:
+   - the section order does not match the content spec
+   - a required field is empty
+   - the content is generic filler (for example `Heading`, `Lorem ipsum`, blank CTA) and is not explicitly marked `[MERCHANT: ...]` or dynamic `{{ ... }}`
+   - the preview route does not render the intended template
 
 ### 3.2 Visual QA Checklist
 
@@ -1025,6 +1056,14 @@ If a sub-agent discovers that a shared primitive or token in `{prefix}primitives
 2. Flag it clearly in "SHARED FIXES" in its completion report
 3. The main agent applies the real fix during merge
 
+**Conflict Avoidance — Per-Batch Verification Files:**
+
+Each batch also owns:
+- `THEME_ROOT/.workflow/checklists/phase-4-batch-[batch].md`
+- `THEME_ROOT/.workflow/page-content-verification-[batch].md`
+
+The batch checklist must end with `GATE: PASS` before the batch can be merged. The main agent consolidates all batch verification files into `THEME_ROOT/.workflow/page-content-verification.md` during Post-Stage 2 merge.
+
 **Provide each Sub-Agent with:**
    - `THEME_ROOT/.workflow/design-system-handoff.md` (**updated** with homepage learnings — this is the primary styling guide)
    - The actual CSS source files to read (not just the brief):
@@ -1037,23 +1076,31 @@ If a sub-agent discovers that a shared primitive or token in `{prefix}primitives
    - Code-architecture skill reference (`docs/workflows/skills/code-architecture/SKILL.md`)
    - Visual comparison skill reference (`docs/workflows/skills/visual-comparison/SKILL.md`)
    - Theme root path
+   - Assigned preview routes / handles from `THEME_ROOT/.workflow/store-readiness.md`
    - The completed homepage implementation (as a pattern to follow: `templates/index.json` and its sections)
    - The batch-specific CSS file name to write overrides to (e.g., `{prefix}overrides-product-cart.css`)
+   - The batch-specific checklist path and batch-specific page-content verification file path
 
 **Sub-Agent Tasks:**
+   - Create the batch checklist and batch verification file before editing
    - Build the page template JSON
    - Build any new sections needed
    - Write Horizon overrides to the assigned **batch-specific CSS file** (not `{prefix}primitives.css`)
    - Register the batch CSS file in `snippets/stylesheets.liquid` (append only)
    - Run visual QA
+   - Update the batch verification file with one row per section
    - Fix issues
    - If a shared primitive or token needs fixing, write a workaround in the batch file and flag it under "SHARED FIXES"
+   - End the batch checklist with `GATE: PASS`
    - Report: template created, sections created/modified, shared fixes (if any), issues found
 
 **Sub-Agent Reporting Template:**
    ```
+   Checklist: THEME_ROOT/.workflow/checklists/phase-4-batch-[batch].md
+   Verification File: THEME_ROOT/.workflow/page-content-verification-[batch].md
    Page: [Page Name]
    Template: templates/[name].json
+   Preview Route: [route]
 
    Sections Created:
    - [section-name].liquid
@@ -1082,10 +1129,12 @@ If a sub-agent discovers that a shared primitive or token in `{prefix}primitives
 #### Post-Stage 2: Merge Review
 
 After all sub-agents complete, the main agent:
-1. Reviews all "SHARED FIXES" from sub-agent reports
-2. Applies shared fixes to `{prefix}primitives.css` and `{prefix}tokens.liquid`
-3. **Consolidates batch CSS files:** Merge all `assets/{prefix}overrides-*.css` rules into `assets/{prefix}primitives.css`, resolving any duplicate selectors or conflicting declarations. Then delete the batch-specific files and remove their entries from `snippets/stylesheets.liquid`.
-4. Loads the design system reference page — verifies everything still works together
+1. Verifies every batch checklist ends with `GATE: PASS`
+2. Consolidates `THEME_ROOT/.workflow/page-content-verification-[batch].md` files into `THEME_ROOT/.workflow/page-content-verification.md`
+3. Reviews all "SHARED FIXES" from sub-agent reports
+4. Applies shared fixes to `{prefix}primitives.css` and `{prefix}tokens.liquid`
+5. **Consolidates batch CSS files:** Merge all `assets/{prefix}overrides-*.css` rules into `assets/{prefix}primitives.css`, resolving any duplicate selectors or conflicting declarations. Then delete the batch-specific files and remove their entries from `snippets/stylesheets.liquid`.
+6. Loads the design system reference page — verifies everything still works together
 5. Screenshots every completed page at all breakpoints for Phase 5 QA baseline
 
 ---
@@ -1149,9 +1198,8 @@ After all sub-agents complete, the main agent:
    - Don't modify the clone section
 
 3. Clone pages remain in templates as:
-   - `templates/page.clone-homepage.json`
-   - `templates/page.clone-product.json`
-   - etc.
+   - the files listed in `THEME_ROOT/.workflow/clone-template-map.md`
+   - for example `templates/page.clone-homepage.json` or `templates/product.clone-{prefix}product.json`
 
 4. Real pages use different templates:
    - `templates/index.json` (homepage)
@@ -1242,7 +1290,8 @@ After all sub-agents complete, the main agent:
 - [ ] All interactive elements work correctly
 - [ ] All forms work and submit
 - [ ] All buttons and links are clickable/functional
-- [ ] All pages load without console errors. For each page, verification means: (1) section count in template JSON matches content plan spec, (2) every block in every section is populated with content from the spec, (3) screenshot at desktop viewport confirms sections render, (4) page loads without console errors. Mark a page complete ONLY after all 4 checks pass.
+- [ ] `THEME_ROOT/.workflow/page-content-verification.md` exists and contains one verified row per page section
+- [ ] All pages load without console errors. For each page, verification means: (1) section count in template JSON matches content plan spec, (2) section order matches the content plan, (3) every block in every section is populated with content from the spec or approved dynamic/[MERCHANT] source, (4) screenshots at 1440px, 768px, and 390px confirm the page renders, (5) page loads without console errors. Mark a page complete ONLY after all 5 checks pass.
 - [ ] No one-off CSS in sections (all design system)
 - [ ] Code follows code-architecture skill
 - [ ] All screenshots taken and saved
@@ -1256,11 +1305,12 @@ After all sub-agents complete, the main agent:
 **Checklist file:** `THEME_ROOT/.workflow/checklists/phase-4-checklist.md` must exist and show all items as `[x]`.
 
 **Count checks:**
-- Every page template listed in the Workflow 1 content plans exists as a `templates/*.json` file — enumerate the content plan pages and confirm each has a corresponding template
-- Every template contains the correct number of sections — for each page, count the sections specified in the content plan and compare against the sections array in the template JSON. Template JSON validation: for each template, verify `sections` object key count equals `order` array length. If they differ, orphaned sections exist. Run: `python3 -c "import json; d=json.load(open('template.json')); print(len(d['sections']), len(d['order']))"` and confirm the two numbers match.
-- Every section in every template has all required blocks populated — open each template JSON and verify block counts against the content plan spec (no empty or placeholder blocks). Block population check: for each section in each template, if the section schema defines block types and the content plan specifies block content, the template JSON must instantiate those blocks with populated settings. Empty `blocks: {}` in a section that should have blocks is incomplete.
-- Screenshots have been taken of every real page at all 3 viewports (1440px, 768px, 390px) — count the page list and confirm 3 screenshots per page exist in `THEME_ROOT/.workflow/screenshots/` or equivalent
+- Every page listed in the Workflow 1 content plans exists in `THEME_ROOT/.workflow/page-content-verification.md` with a `template_file`, `preview_route`, and verified section rows
+- Every template contains the correct number of sections and the correct section order — for each page, compare the ordered sections in the content plan against the ordered rows in `THEME_ROOT/.workflow/page-content-verification.md`
+- Every section in every template has all required blocks populated and verified — empty settings, placeholder text, placeholder CTAs, or placeholder images fail unless explicitly marked `[MERCHANT: ...]` or dynamic `{{ ... }}`
+- Screenshots have been taken of every real page at all 3 viewports (1440px, 768px, 390px) — count the verified page list and confirm 3 screenshots per page exist in `THEME_ROOT/.workflow/implementation-screenshots/`
 - `THEME_ROOT/.workflow/store-readiness.md` has been updated with actual preview routes, handles, and resource dependencies for every page built in this phase
+- Every preview route listed in `THEME_ROOT/.workflow/page-content-verification.md` renders the intended template file; if the route cannot be previewed, the page cannot pass the gate
 
 **If ANY count is wrong or ANY checklist item is not `[x]`, loop back and complete the missing work. No exceptions.**
 

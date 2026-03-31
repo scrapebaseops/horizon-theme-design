@@ -1,13 +1,20 @@
 # Visual Parity Log Template
 
 <!-- INSTRUCTIONS: Use this template to track screenshot comparison loops during design replication.
+Each file should represent one comparison level for one unique_layout_id, for example:
+- `.workflow/comparisons/phase-1/layout-homepage/level-1-properties.md`
+- `.workflow/comparisons/phase-1/layout-homepage/level-4-sections.md`
 Each loop documents a single round of comparing the reference design against the implementation,
 identifying differences, making changes, and verifying the result. Fill in all [PLACEHOLDER] sections.
-Keep one log per major component or page for clarity. -->
+No evidence file means the comparison level is incomplete. -->
 
 ---
 
 ## Log Overview
+
+**Unique Layout ID**: [PLACEHOLDER: e.g., "layout-homepage"]
+
+**Comparison Level**: [PLACEHOLDER: e.g., "Level 4 - Full Sections"]
 
 **Component/Section/Page**: [PLACEHOLDER: e.g., "Product Card Component"]
 

@@ -11,6 +11,12 @@ By the end of this phase, you will have:
 - A comprehensive design tokens map
 - A component inventory
 
+### First Action: Generate Working Checklist
+
+**Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-1-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 2.
+
+The checklist must explicitly list: every reference catalog entry, every row in `reference-page-manifest.md`, every required reference screenshot, every token category, every component/state inventory item, every clone layout to build, every clone preview route, every header/footer comparison state, and every required comparison evidence file for Levels 1-5. Generate this BEFORE auditing or cloning.
+
 ### Naming Convention
 
 All custom files and CSS classes created in this phase must use the project prefix defined during Pre-Flight (stored in `THEME_ROOT/.workflow/prefix.txt`). For example, if the prefix is `lxn-`:
@@ -51,12 +57,26 @@ This prefix carries forward into all subsequent phases.
    - **Footer** (link columns, newsletter, social icons, copyright, payment icons)
 
 3. Create a file: `THEME_ROOT/.workflow/reference-pages-catalog.md`
-4. Document each page with:
+4. Create a file: `THEME_ROOT/.workflow/reference-page-manifest.md`
+   - Use the template at `docs/workflows/workflow-2-design-replication/templates/reference-page-manifest-template.md`
+   - This is the source of truth for counts and completion checks in Phase 1 and Phase 5
+5. Document each page with:
    - Page name
    - Page type (homepage, product, collection, etc.)
    - Key sections present on that page
    - Unique features or behavior
    - Data requirements (dynamic content, product lists, etc.)
+6. For every row in `reference-page-manifest.md`, assign:
+   - `reference_id` — stable slug for the row
+   - `kind` — `page`, `header`, or `footer`
+   - `unique_layout_id` — shared id for visually identical layouts
+   - `implementation_target` — `clone-template` or `header-footer-override`
+   - `clonable` — `yes` or `no`
+   - `required_reference_artifacts` — exact screenshot ids that must exist
+   - `required_clone_artifacts` — exact clone/override screenshot ids that must exist
+   - `notes` — counting logic, especially when multiple reference pages map to one layout
+
+If two reference pages share the same visual layout, keep separate catalog entries but give them the same `unique_layout_id` in the manifest. The manifest, not raw page count, determines how many clone templates are required.
 
 **Example entry:**
 ```
@@ -93,24 +113,23 @@ This prefix carries forward into all subsequent phases.
 **Instructions:**
 
 1. Create directory: `THEME_ROOT/.workflow/reference-screenshots/`
-2. For each page in your catalog:
-   - Capture at viewport **1440px** (desktop)
-   - Capture at viewport **768px** (tablet)
-   - Capture at viewport **390px** (mobile)
+2. For each row in `THEME_ROOT/.workflow/reference-page-manifest.md`, capture the exact viewport/state artifacts listed in `required_reference_artifacts`
+   - Standard page rows normally require **1440px**, **768px**, and **390px**
+   - Global chrome/state rows may require a subset (for example `header-mobile-nav-390`)
 3. Name files consistently: `{page-name}-{viewport}.png`
    - Example: `homepage-1440.png`, `homepage-768.png`, `homepage-390.png`
 4. Ensure screenshots show:
    - The full page (scroll to capture entire page if needed)
    - All interactive states if visible (hover, active, etc.)
    - Color schemes/light-dark modes if they exist
-5. **Header and footer screenshots** — capture these separately:
+5. **Header and footer screenshots** — list these explicitly in `reference-page-manifest.md` and capture them separately:
    - Header in default state: `header-default-{viewport}.png`
    - Header sticky/scrolled state (if different): `header-sticky-{viewport}.png`
    - Header on homepage (if transparent/different): `header-homepage-{viewport}.png`
    - Mobile navigation open state: `header-mobile-nav-390.png`
    - Footer: `footer-{viewport}.png`
 
-**Count validation:** Screenshots must equal: page_count × 3 viewports. Run `ls THEME_ROOT/.workflow/reference-screenshots/*.png | wc -l` and verify. Do NOT proceed to Step 3 until the count matches.
+**Count validation:** Do NOT use `page_count × 3` as a shortcut. The manifest is the source of truth. Every screenshot id listed in `reference-page-manifest.md` must have a corresponding file in `THEME_ROOT/.workflow/reference-screenshots/`. If even one required artifact is missing, do NOT proceed to Step 3.
 
 **Required reading:** Before taking any screenshots, read `docs/workflows/skills/visual-comparison/SKILL.md` completely. Your viewport sizes and methodology MUST match that skill exactly. If the reference is a live website, use your available screenshot tooling — prefer built-in browser tools if available, otherwise use Playwright/Puppeteer (see the visual comparison skill for setup). If the reference is a Figma file or images, ensure you have exports at each breakpoint.
 
@@ -284,11 +303,16 @@ This prefix carries forward into all subsequent phases.
 **Before proceeding to Part B, verify ALL of the following exist:**
 
 - [ ] `THEME_ROOT/.workflow/reference-pages-catalog.md` — lists every page in the reference
+- [ ] `THEME_ROOT/.workflow/reference-page-manifest.md` — lists every required reference/clone artifact and counting rule
 - [ ] `THEME_ROOT/.workflow/reference-screenshots/` — contains screenshots of EVERY page at 3 viewports
 - [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — all color, typography, spacing, border, shadow tokens
 - [ ] `THEME_ROOT/.workflow/component-inventory.md` — every component cataloged
 
-**Count check:** The number of pages in the reference catalog must match the number of screenshot sets (each page × 3 viewports). If the count doesn't match, go back and complete the missing work. Count unique page TEMPLATES (not instances). If the reference has one product-page layout used by many products, that's 1 template. But if there are 2 distinct product-page layouts, count both. Document your counting logic.
+**Count check:** The manifest is the source of truth. Before Part B:
+- Every row in `reference-page-manifest.md` exists in `reference-pages-catalog.md`
+- Every artifact listed under `required_reference_artifacts` exists in `THEME_ROOT/.workflow/reference-screenshots/`
+- Every `unique_layout_id` marked `clonable=yes` has a documented counting note explaining whether it is a unique template or shared layout
+- Header/footer rows are counted separately from page-clone rows; do not collapse them into `page_count × 3`
 
 **Do NOT proceed to Part B until every item above is confirmed.**
 
@@ -296,11 +320,15 @@ This prefix carries forward into all subsequent phases.
 
 ### Step 5: Create Clone Page Templates
 
-**Objective:** Build Shopify page templates that replicate the reference pages — ONE clone for EVERY page in the reference catalog. No exceptions. One clone template per unique page TEMPLATE TYPE. If two reference pages share identical layouts, one template suffices — but document which pages it covers and why they're identical.
+**Objective:** Build Shopify page templates that replicate the reference pages — ONE clone template for EVERY unique clonable layout in `reference-page-manifest.md`. No exceptions. If two reference pages share identical layouts, one template suffices — but the shared `unique_layout_id` and covered reference pages MUST be documented in `clone-template-map.md`.
 
 **Instructions:**
 
-1. For each page type in your reference catalog, create a Shopify template JSON. **Choose the correct template type** based on the data the page needs:
+1. Create `THEME_ROOT/.workflow/clone-template-map.md`
+   - Use the template at `docs/workflows/workflow-2-design-replication/templates/clone-template-map-template.md`
+   - This file maps every `unique_layout_id` with `clonable=yes` to a clone template file, preview route, screenshot base name, and covered reference ids
+
+2. For each `unique_layout_id` with `clonable=yes`, create a Shopify template JSON. **Choose the correct template type** based on the data the page needs:
 
    | Reference page | Template file | Why |
    |---|---|---|
@@ -313,12 +341,19 @@ This prefix carries forward into all subsequent phases.
 
    > **Rule of thumb:** If the reference page displays data from a Shopify resource (product, collection, article, cart, etc.), use that resource's template type. Otherwise, use `page.*`.
 
-2. **Template structure** follows code-architecture skill:
+3. **Template structure** follows code-architecture skill:
    - Use `settings`, `blocks`, and `order` fields
    - Define section settings for all configurable content
    - Keep template JSON clean and readable
 
-3. **Initial template example (homepage):**
+4. Record the finished template in `clone-template-map.md` with:
+   - `unique_layout_id`
+   - `template_file`
+   - `preview_route`
+   - `screenshot_base_name`
+   - `covered_reference_ids`
+
+5. **Initial template example (homepage):**
    ```json
    {
      "sections": {
@@ -489,7 +524,14 @@ This prefix carries forward into all subsequent phases.
    - Full page level: < 1.0% visual difference
    - Any difference above threshold requires investigation and fix
 
-   **Logging requirement:** Log EVERY comparison round (not just failures) to `THEME_ROOT/.workflow/visual-parity-log.md`. Use the template at `docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`. If a section has 0.2% difference, log it. Full transparency — the log is the evidence that comparison was done.
+   **Logging requirement:** Store comparison evidence in `THEME_ROOT/.workflow/comparisons/phase-1/{unique_layout_id}/` using the template at `docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`. Each clonable layout must have these files:
+   - `level-1-properties.md`
+   - `level-2-elements.md`
+   - `level-3-components.md`
+   - `level-4-sections.md`
+   - `level-5-pages.md`
+
+   Each file must include: reference image path, implementation image path, issue found, fix made, retest result, and the specific page/section/component covered. If a file is missing, that comparison level is incomplete.
 
 9. **Comparison Checklist Per Section:**
    - [ ] Typography: sizes, weights, colors, line-height, letter-spacing
@@ -503,7 +545,7 @@ This prefix carries forward into all subsequent phases.
    - [ ] All three viewports verified (1440px, 768px, 390px)
    - [ ] Hover/focus states match (where applicable)
 
-10. **Log results** for each comparison round using the template at **`docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`**. Save each entry to `THEME_ROOT/.workflow/visual-parity-log.md`.
+10. **Log results** for each comparison round using the template at **`docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`**. Save each entry inside the layout's directory under `THEME_ROOT/.workflow/comparisons/phase-1/{unique_layout_id}/`.
 
 ### Step 8: Sub-Agent Strategy for Scaling
 
@@ -521,6 +563,7 @@ This prefix carries forward into all subsequent phases.
    - The reference screenshots for their assigned page
    - The component inventory
    - The design tokens map
+   - The `reference-page-manifest.md` row(s) and `clone-template-map.md` row for the assigned layout
    - The theme root path
    - The template JSON for that page
    - Any section types that already exist
@@ -534,20 +577,22 @@ This prefix carries forward into all subsequent phases.
    If ANY of these is missing or empty, STOP and report to the main agent. Do NOT start cloning without these inputs.
 
 4. **Sub-Agent Responsibilities:**
+   - Create `THEME_ROOT/.workflow/checklists/phase-1-{unique_layout_id}-checklist.md` before editing any files
    - Build any missing sections for their page
    - Run the visual comparison loop until pixel-perfect at all 3 viewports
+   - Populate `THEME_ROOT/.workflow/comparisons/phase-1/{unique_layout_id}/` with Level 1-5 evidence files
    - Document any new design tokens discovered
-   - Report back: files created, tokens found, any blockers
+   - Report back only after the scoped checklist ends with `GATE: PASS`
 
 4. **Handoff Template for Sub-Agent:**
    ```
    Page Assignment: [Page Name]
 
-   Template: templates/page.clone-[name].json
+   Checklist: THEME_ROOT/.workflow/checklists/phase-1-[unique_layout_id]-checklist.md
+   Template: [value from clone-template-map.md]
+   Preview Route: [value from clone-template-map.md]
    Reference Screenshots:
-   - [name]-1440.png
-   - [name]-768.png
-   - [name]-390.png
+   - [artifact ids from reference-page-manifest.md]
 
    Resources:
    - Design Tokens: design-tokens-map.md
@@ -559,7 +604,8 @@ This prefix carries forward into all subsequent phases.
    1. Build/complete sections for this page
    2. Follow visual comparison loop for each section
    3. Test all 3 viewports
-   4. Report: files created, issues found
+   4. Populate comparison evidence files for Levels 1-5
+   5. End the checklist with `GATE: PASS` before reporting completion
 
    Rules for sub-agents:
    (1) Header and footer are NOT cloned — override CSS only, never fork section files.
@@ -585,6 +631,8 @@ A clone page is complete when:
    - Reference and clone overlaid at 1440px show no visible differences
    - Reference and clone overlaid at 768px show no visible differences
    - Reference and clone overlaid at 390px show no visible differences
+   - `clone-template-map.md` contains a preview route and screenshot base name for the layout
+   - `THEME_ROOT/.workflow/comparisons/phase-1/{unique_layout_id}/level-1-properties.md` through `level-5-pages.md` all exist and are populated
 
 2. **All Content Present:**
    - Every section from the reference is present
@@ -650,25 +698,15 @@ A clone page is complete when:
 
 **Do NOT proceed to Phase 2 until EVERY item below is confirmed. No exceptions.**
 
-**Count check:** Run these commands and verify the counts match:
+**Count check:** Use the manifest files as the source of truth. Before proceeding:
+- Every row in `THEME_ROOT/.workflow/reference-page-manifest.md` has its required reference artifacts present in `THEME_ROOT/.workflow/reference-screenshots/`
+- Every row with `implementation_target=clone-template` and `clonable=yes` appears exactly once in `THEME_ROOT/.workflow/clone-template-map.md`
+- Every `template_file` listed in `clone-template-map.md` exists
+- Every `preview_route` listed in `clone-template-map.md` is documented and previewable
+- Every required clone artifact listed in `reference-page-manifest.md` or `clone-template-map.md` exists in `THEME_ROOT/.workflow/clone-screenshots/`
+- Header/footer rows with `implementation_target=header-footer-override` have matching implementation screenshots and comparison evidence
 
-```bash
-# Count pages in reference catalog
-grep -c "^##\|^| " THEME_ROOT/.workflow/reference-pages-catalog.md
-
-# Count clone templates (must match number of clonable reference pages)
-ls templates/page.clone-*.json templates/*.clone-*.json 2>/dev/null | wc -l
-
-# Count reference screenshots (must be pages × 3 viewports)
-ls THEME_ROOT/.workflow/reference-screenshots/*.png | wc -l
-
-# Count clone screenshots (must match reference screenshot count)
-ls THEME_ROOT/.workflow/clone-screenshots/*.png | wc -l
-```
-
-If ANY count is wrong, go back and complete the missing work before proceeding.
-
-**Per-page verification:** For EVERY clone page, confirm visual parity at all 3 viewports. The count of visually verified pages must equal the count of clone templates. If any page was built but not visually verified, go back and verify it.
+**Per-page verification:** For EVERY clonable layout, confirm visual parity at all 3 viewports and confirm the comparison evidence directory contains Level 1-5 logs. If any layout was built but not evidenced, go back and verify it.
 
 ### Step 11: Deliverables Checklist
 
@@ -677,12 +715,15 @@ If ANY count is wrong, go back and complete the missing work before proceeding.
 By the end of Phase 1, you MUST have ALL of the following (not some, ALL):
 
 - [ ] `THEME_ROOT/.workflow/reference-pages-catalog.md` — EVERY reference page documented
+- [ ] `THEME_ROOT/.workflow/reference-page-manifest.md` — EVERY reference layout/state documented with required artifact ids
 - [ ] `THEME_ROOT/.workflow/reference-screenshots/` — EVERY reference page at 1440, 768, 390px
 - [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — ALL color, typography, spacing, border, shadow tokens
 - [ ] `THEME_ROOT/.workflow/component-inventory.md` — EVERY component documented
-- [ ] `templates/page.clone-*.json` — Clone templates for EVERY page in reference catalog
+- [ ] `THEME_ROOT/.workflow/clone-template-map.md` — EVERY clonable layout mapped to a template file and preview route
+- [ ] `templates/page.clone-*.json` and `templates/*.clone-*.json` — Clone templates for EVERY clonable layout in the manifest
 - [ ] `sections/clone-{prefix}*.liquid` — ALL clone sections built and styled
 - [ ] `THEME_ROOT/.workflow/clone-screenshots/` — EVERY clone page at all 3 viewports
+- [ ] `THEME_ROOT/.workflow/comparisons/phase-1/{unique_layout_id}/` — Level 1-5 evidence exists for EVERY clonable layout
 - [ ] ALL clone pages pass visual parity at all viewports. Visual parity means: differences below the thresholds defined in `docs/workflows/skills/visual-comparison/SKILL.md` (< 0.5% at section level, < 1.0% at full page). If unsure, apply the most conservative threshold.
 - [ ] ALL code follows code-architecture skill conventions
 - [ ] Header CSS overrides complete and matching reference

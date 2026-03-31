@@ -16,7 +16,7 @@ By the end of this phase, you will have:
 
 **Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-2-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 3.
 
-The checklist must explicitly list: every token category (colors by palette, font families, font sizes, font weights, line heights, spacing values, border radii, shadows, transitions), every primitive component from the component inventory, the DS reference page with every component shown, header/footer CSS overrides, and clone page refactoring verification. Generate this BEFORE writing any CSS.
+The checklist must explicitly list: every token category (colors by palette, font families, font sizes, font weights, line heights, spacing values, border radii, shadows, transitions), every primitive component from the component inventory, every component/variant/state row that must appear in `design-system-coverage.md`, header/footer CSS overrides, and clone page refactoring verification. Generate this BEFORE writing any CSS.
 
 ### Naming Convention
 
@@ -1068,6 +1068,11 @@ section.{prefix}section-large {
 
 1. Create file: `templates/page.design-system.json`
 
+1b. Create file: `THEME_ROOT/.workflow/design-system-coverage.md`
+   - Use the template at `docs/workflows/workflow-2-design-replication/templates/design-system-coverage-template.md`
+   - This file is the source of truth for design system completeness in Phases 2 and 5
+   - Create one row for every `component + variant + state` documented in `THEME_ROOT/.workflow/component-inventory.md`
+
 2. **Important:** Replace `{prefix}` with your actual project prefix (e.g., `lxn-`) in the template JSON — Shopify requires literal section type names, not placeholders.
 
 3. Structure it with multiple section types. Example using `lxn-` prefix:
@@ -1147,6 +1152,8 @@ section.{prefix}section-large {
 
 **Instructions:**
 
+0. **Coverage rule:** Every component/variant/state row in `THEME_ROOT/.workflow/design-system-coverage.md` must map to a visible demo on the reference page. If a state normally requires interaction (hover, focus, active), create a labeled forced-state demo (`is-hover`, `is-focus`, `is-active`, disabled attribute, loading modifier, etc.) so QA does not rely on memory or manual hovering.
+
 1. **Typography Showcase Section** (`sections/{prefix}ds-typography.liquid`):
 
 ```liquid
@@ -1218,6 +1225,8 @@ section.{prefix}section-large {
 
 2. **Color Showcase Section** (`sections/{prefix}ds-colors.liquid`):
 
+   **Important:** Do NOT use duplicate flat color settings like `settings.color_primary` or `settings.color_secondary` if your system is based on Horizon color schemes. Read from the CSS custom properties emitted by `snippets/{prefix}tokens.liquid` and only use direct setting ids for semantic status colors that are intentionally separate (for example success/error).
+
 ```liquid
 <section class="{prefix}ds-section">
   <div class="{prefix}container">
@@ -1225,15 +1234,15 @@ section.{prefix}section-large {
 
     <div class="{prefix}color-grid">
       <div class="{prefix}color-item">
-        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_primary }}"></div>
+        <div class="{prefix}color-swatch" style="background-color: var(--color-primary)"></div>
         <p class="{prefix}color-label">Primary</p>
-        <p class="{prefix}color-code">{{ settings.color_primary }}</p>
+        <p class="{prefix}color-code">var(--color-primary)</p>
       </div>
 
       <div class="{prefix}color-item">
-        <div class="{prefix}color-swatch" style="background-color: {{ settings.color_secondary }}"></div>
+        <div class="{prefix}color-swatch" style="background-color: var(--color-secondary)"></div>
         <p class="{prefix}color-label">Secondary</p>
-        <p class="{prefix}color-code">{{ settings.color_secondary }}</p>
+        <p class="{prefix}color-code">var(--color-secondary)</p>
       </div>
 
       <div class="{prefix}color-item">
@@ -1398,6 +1407,17 @@ section.{prefix}section-large {
 
 5. **Add any other component showcase sections** (forms, alerts, badges, etc.) following the same pattern.
 
+6. As you add or refine demo sections, update `THEME_ROOT/.workflow/design-system-coverage.md`:
+   - `Component`
+   - `Variant`
+   - `State`
+   - `DS Section`
+   - `Demo Selector / Anchor`
+   - `Screenshot Path`
+   - `Verified`
+
+If a component exists in CSS but does not have a row in `design-system-coverage.md` pointing to a rendered demo, it is NOT complete.
+
 ---
 
 ## Step 5: Refactor Clone Pages to Use Design System
@@ -1545,10 +1565,11 @@ section.{prefix}section-large {
 - [ ] `assets/{prefix}primitives.css` includes all needed components (buttons, cards, forms, etc.)
 - [ ] All primitives have been tested by refactoring clone sections
 - [ ] `templates/page.design-system.json` and sections exist
-- [ ] Design system reference page displays all components correctly
+- [ ] `THEME_ROOT/.workflow/design-system-coverage.md` exists and covers every component/variant/state from the component inventory
+- [ ] Design system reference page displays every covered component/state correctly
 - [ ] All clone pages have been refactored to use design system
 - [ ] All clone pages still match their reference screenshots at all 3 viewports
-- [ ] **Component count check:** Count components in `THEME_ROOT/.workflow/component-inventory.md`. Count CSS class blocks in `assets/{prefix}primitives.css`. Every inventory component must have corresponding CSS. If inventory has 38 components and CSS has 20, 18 are missing — go back and build them.
+- [ ] **Coverage count check:** Every component/variant/state row in `THEME_ROOT/.workflow/component-inventory.md` has a matching row in `THEME_ROOT/.workflow/design-system-coverage.md`, and every coverage row points to a visible demo on the DS reference page
 - [ ] Code follows code-architecture skill (no CSS in wrong places)
 - [ ] Horizon section overrides are in place and working
 - [ ] Header CSS overrides match reference at all viewports
@@ -1568,8 +1589,12 @@ section.{prefix}section-large {
 - `snippets/{prefix}tokens.liquid` exists and contains CSS custom properties for colors, typography, spacing, borders, and shadows
 - `assets/{prefix}base.css` exists and contains typography, spacing, and layout utility styles
 - `assets/{prefix}primitives.css` exists and contains component styles (buttons, cards, forms, etc.)
-- `templates/page.design-system.json` exists and the DS reference page has at least one section per component category (typography, colors, buttons, cards, forms)
-- Every component listed in `THEME_ROOT/.workflow/component-inventory.md` has a corresponding class or rule in `{prefix}primitives.css`
+- `templates/page.design-system.json` exists and the DS reference page renders every component/variant/state row listed in `THEME_ROOT/.workflow/design-system-coverage.md`
+- `THEME_ROOT/.workflow/design-system-coverage.md` exists and every row maps to:
+  - a component in `THEME_ROOT/.workflow/component-inventory.md`
+  - a visible demo on the DS reference page
+  - a screenshot path
+- Every component listed in `THEME_ROOT/.workflow/component-inventory.md` has both a corresponding implementation in `{prefix}primitives.css` and a rendered DS coverage row
 - Every clone page still renders correctly after refactoring — compare current screenshots against Phase 1 reference screenshots at all 3 viewports (1440px, 768px, 390px) with zero regressions
 - Clone page refactoring threshold: every clone page must still match the reference at all 3 viewports. Compare Phase 2 clone screenshots against Phase 1 reference screenshots. If ANY clone differs by more than 0.5% at section level, the refactoring broke something — fix before proceeding.
 - Design system handoff brief (`THEME_ROOT/.workflow/design-system-handoff.md`) exists and is under 3000 tokens

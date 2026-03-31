@@ -14,9 +14,17 @@
 
 6. **When in doubt, do more, not less.** If the scope of a step is ambiguous, do the broader interpretation. If genuinely unclear, ask — but default to more, not less.
 
+7. **No evidence, no completion.** If a workflow requires screenshots, manifests, coverage tables, comparison logs, or verification documents, the deliverable is incomplete until those artifacts exist and are populated.
+
+8. **Use the workflow's source-of-truth artifacts.** If a workflow defines a manifest, coverage matrix, checklist, or mapping file, use that artifact for counts and completion checks. Do not substitute ad hoc `ls`, `grep`, or memory-based counting.
+
+9. **Required outputs are blocking.** A required page, component, spec, screenshot set, or verification artifact may not be marked `[!]` and carried forward unless the workflow explicitly marks it optional. "We'll fix it later" is not a valid completion state.
+
 ## Working Checklist Protocol
 
 Every workflow phase MUST follow this protocol. This is self-enforcing — do not wait for user approval at gates. Run the gate, and if it fails, go back and fix it yourself.
+
+If a sub-agent executes a page, page batch, or other scoped subset of a phase, that sub-agent MUST create its own scoped checklist and gate before handing work back.
 
 ### Before Starting a Phase:
 1. **Read the full phase document** and all referenced skill documents.
@@ -25,6 +33,7 @@ Every workflow phase MUST follow this protocol. This is self-enforcing — do no
    - Derive items from input documents (e.g., if a reference has 12 pages, list all 12 by name)
    - Include specific acceptance criteria for each item (e.g., "pixel-perfect at 1440px, 768px, 390px", "all 8 blocks populated per content plan spec")
    - Be saved to `THEME_ROOT/.workflow/checklists/phase-N-checklist.md`
+   - Reference any manifest or coverage artifact that serves as the count source for this phase
 
 ### During a Phase:
 3. **Work through the checklist item by item.** Mark each item with its status:
@@ -34,17 +43,17 @@ Every workflow phase MUST follow this protocol. This is self-enforcing — do no
    - `[!]` — Blocked (with documented reason)
 4. **Verify each item meets its acceptance criteria before marking it `[x]`.** Verification means:
    - For visual work: take a screenshot, compare against reference, log the comparison
-   - For page templates: count sections against the content plan spec, verify blocks are populated
-   - For components: confirm all states render (default, hover, focus, active, disabled)
+   - For page templates: count sections against the content plan spec, verify order, verify blocks are populated, and verify the intended preview route renders the intended template
+   - For components: confirm all states render (default, hover, focus, active, disabled) and that coverage artifacts are updated
    - "I wrote the code" is NOT verification. "I screenshotted it and it matches" IS verification.
 5. **Update the checklist file after completing each item** so progress is persisted and recoverable.
 
 ### Completion Gate (Self-Enforcing):
 6. **Before moving to the next phase, run the gate:**
    - Read the checklist file
-   - Count `[x]` items against total required items
+   - Count `[x]` items against total required items, using any manifest or coverage file defined by the workflow as the source of truth
    - If ANY items are `[ ]` or `[~]`, go back and finish them — do not proceed
-   - If items are `[!]`, document why they're blocked and continue only if they are genuinely not completable (e.g., requires store data that doesn't exist)
+   - If items are `[!]`, document why they're blocked and continue only if the workflow explicitly allows that artifact to be optional
    - Log the gate result in the checklist file: "GATE: X/Y items complete. [PASS/FAIL]"
 7. **If the gate fails, loop back** and complete the remaining items. Do not ask the user for permission to skip — just do the work.
 
