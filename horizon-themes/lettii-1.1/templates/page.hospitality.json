@@ -1,0 +1,229 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>The lamp your guests notice.</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Premium cordless table lamps for restaurants, bars, and boutique hotels. Rechargeable. Waterproof. Designed to disappear into the room and transform the atmosphere.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "padding-block-end": 16
+          }
+        },
+        "cta": {
+          "type": "button",
+          "settings": {
+            "label": "Get a Quote",
+            "link": "#enquiry-form",
+            "style_class": "button"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading", "cta"],
+      "settings": {
+        "media_type_1": "image",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "medium",
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000040",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "benefits": {
+      "type": "clone-let-features",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "title": "No battery costs", "description": "USB-C rechargeable. No disposable batteries, no ongoing replacement costs. Charge the entire fleet from a standard USB station." } },
+        "f2": { "type": "feature", "settings": { "title": "No fire risk", "description": "Replace candles with zero fire risk. No wax, no smoke, no open flame. Straightforward for insurance and health & safety." } },
+        "f3": { "type": "feature", "settings": { "title": "Indoor and outdoor", "description": "IP54 rated. Terraces, patios, courtyard dining — rain, condensation, and spilled drinks are all handled." } },
+        "f4": { "type": "feature", "settings": { "title": "12 hours per charge", "description": "Charge during the day, lamp through service. Up to 12 hours means lunch and dinner on a single charge." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {
+        "heading": "Why venues choose Lettii",
+        "description": ""
+      }
+    },
+    "pricing": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Volume pricing</h2>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "h3"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The more you order, the more you save. No hidden fees.</p>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "rte",
+            "padding-block-end": 16
+          }
+        },
+        "table": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>1–9 lamps</strong> · £39–69 (retail pricing)</p><p><strong>10–24 lamps</strong> · From ~£29–55 per lamp · ~25% off</p><p><strong>25–49 lamps</strong> · From ~£25–49 per lamp · ~30% off</p><p><strong>50+ lamps</strong> · Custom quote · Best pricing</p><p><em>Exact pricing depends on design selection and quantities. We'll confirm everything in a detailed proposal within 24 hours.</em></p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        },
+        "cta": {
+          "type": "button",
+          "settings": {
+            "label": "Request a Quote",
+            "link": "#enquiry-form",
+            "style_class": "button",
+            "width": "fit-content"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading", "table", "cta"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "how_it_works": {
+      "type": "clone-let-features",
+      "blocks": {
+        "s1": { "type": "feature", "settings": { "title": "1. Tell us what you need", "description": "Fill in the enquiry form with your venue details and estimated quantity. Takes two minutes." } },
+        "s2": { "type": "feature", "settings": { "title": "2. Get a proposal within 24 hours", "description": "We'll send you a detailed quote with pricing, design options, and delivery timeline." } },
+        "s3": { "type": "feature", "settings": { "title": "3. Sample or go all in", "description": "Order a sample at retail price to test on your tables. Or commit to your full order — either way, every lamp is covered by our 30-day guarantee." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "heading": "How it works",
+        "description": ""
+      }
+    },
+    "enquiry_form": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Request a quote</h2>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "h3"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tell us about your venue. We'll have a proposal in your inbox within 24 hours.</p>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "rte",
+            "padding-block-end": 16
+          }
+        },
+        "form": {
+          "type": "contact-form",
+          "settings": {
+            "width": "custom",
+            "custom_width": 50,
+            "width_mobile": "custom",
+            "custom_width_mobile": 100,
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
+              "settings": {
+                "label": "Send Enquiry",
+                "style_class": "button",
+                "width": "fit-content"
+              }
+            }
+          },
+          "block_order": []
+        },
+        "note": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Want to try one first? <a href=\"/collections/all-lamps\">Browse our full range</a> and order a sample at retail price. 30-day guarantee on every lamp.</p>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font_size": "0.875rem"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading", "form", "note"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "faq": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Can I order a sample before committing?", "answer": "Yes. Order any lamp from our shop at retail price. If you proceed with a volume order, we'll credit the sample cost against your total." } },
+        "q2": { "type": "question", "settings": { "question": "What are lead times for bulk orders?", "answer": "Stock orders (10-49 units) typically dispatch within 3-5 business days. Larger orders (50+) within 7-10 business days. We'll confirm the exact timeline in your proposal." } },
+        "q3": { "type": "question", "settings": { "question": "Can I mix different designs in one order?", "answer": "Absolutely. Volume pricing is based on total quantity, not per design. Mix and match freely." } },
+        "q4": { "type": "question", "settings": { "question": "Do you offer custom colours or branding?", "answer": "Not at launch. It's on our roadmap. If you have specific requirements, mention them in your enquiry." } },
+        "q5": { "type": "question", "settings": { "question": "Do you offer ongoing supply or replacement agreements?", "answer": "Yes. We can set up standing orders with locked-in volume pricing for regular replacements or expansion. Just mention it in your enquiry." } },
+        "q6": { "type": "question", "settings": { "question": "What warranty do you offer for venues?", "answer": "12-month manufacturer warranty on every lamp. For venue customers, we offer priority replacement — a replacement ships the next business day while we arrange collection of the faulty unit." } },
+        "q7": { "type": "question", "settings": { "question": "Do you invoice or require payment upfront?", "answer": "Standard volume orders are paid upfront. For established venue relationships, we can discuss invoice terms. Let us know what works for you." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6", "q7"],
+      "settings": {
+        "heading": "Questions from venue operators",
+        "description": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "benefits",
+    "pricing",
+    "how_it_works",
+    "enquiry_form",
+    "faq"
+  ]
+}

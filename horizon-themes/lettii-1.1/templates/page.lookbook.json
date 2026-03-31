@@ -1,0 +1,301 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>How to light a room. Without a single wire.</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Ideas, settings, and stolen-from-a-restaurant style for every corner of your home.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading"],
+      "settings": {
+        "media_type_1": "image",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "medium",
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000040",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "feature_dinner": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "caption": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Setting 01</p>",
+                "type_preset": "h6"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>The Perfect Dinner Party</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>The table's set. The wine's breathing. Now, the detail that separates a nice dinner from one people talk about — the light. Two or three Lettii lamps down the centre of a table do what candles do, without the wax, the smoke, or the midnight puddle on your tablecloth. Touch to dim as the evening unfolds. Your guests will notice.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Dining & Entertaining",
+                "link": "/collections/dining-entertaining",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["caption", "heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "feature_garden": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "caption": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Setting 02</p>",
+                "type_preset": "h6"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Summer Garden Entertaining</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>The evening's warm. The doors are open. The garden table is set for six. This is where Lettii lamps earn their place — no extension cables running across the lawn, no candles blowing out, no plastic solar stakes. IP54 waterproof means you leave them out even if the weather turns. One charge, one entire evening outside.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Garden & Outdoor",
+                "link": "/collections/garden-outdoor",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["caption", "heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "right",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "feature_bedroom": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "caption": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Setting 03</p>",
+                "type_preset": "h6"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>The Boutique Bedroom</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>You know the bedside lamp in every boutique hotel that makes you think \"why isn't my bedroom like this?\" That's a Lettii lamp. No cord hanging off the nightstand. No fumbling for a switch in the dark — just touch the top. The wireless freedom means you can move it from the bedside to the bathroom shelf to the landing windowsill.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Bedroom & Bedside",
+                "link": "/collections/bedroom-bedside",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["caption", "heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "feature_drinks": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "caption": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Setting 04</p>",
+                "type_preset": "h6"
+              }
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Drinks & Conversation</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Not every evening needs a three-course meal. Sometimes it's two friends, a bottle, and a kitchen island. A Lettii lamp on the counter or side table turns overhead lighting into background noise. It's the difference between \"come over for a drink\" and \"come over for a drink in a place that actually feels good.\"</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop All Lamps",
+                "link": "/collections/all-lamps",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["caption", "heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "right",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "newsletter": {
+      "type": "clone-let-subscribe",
+      "settings": {
+        "heading": "Stay in the glow.",
+        "description": "Styling ideas, new lamp drops, and the occasional offer — straight to your inbox. No spam, just good light.",
+        "label": "Email Address",
+        "placeholder": "Your email address",
+        "button_text": "Subscribe"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "feature_dinner",
+    "feature_garden",
+    "feature_bedroom",
+    "feature_drinks",
+    "newsletter"
+  ]
+}

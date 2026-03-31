@@ -1,0 +1,81 @@
+{{ 'clone-let-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="clone-let-section clone-let-divider-top">
+  <div class="clone-let-wrapper clone-let-pt-12 clone-let-pb-4">
+    <div class="clone-let-max-w-xl clone-let-mx-auto clone-let-text-center clone-let-text-balance">
+      <h2 class="clone-let-display-sm clone-let-text-black">
+        {{ section.settings.heading | default: 'Frequently asked questions' }}
+      </h2>
+      <p class="clone-let-text-base clone-let-text-base-500 clone-let-mt-4">
+        {{ section.settings.description | default: 'Answers to commonly asked questions about our platform' }}
+      </p>
+
+      <div class="clone-let-faq-list">
+        {% for block in section.blocks %}
+          <details class="clone-let-section" {{ block.shopify_attributes }}>
+            <summary>
+              {{ block.settings.question | default: 'Question?' }}
+              <svg class="clone-let-faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+              </svg>
+            </summary>
+            <div class="clone-let-faq-answer">
+              {{ block.settings.answer | default: 'Answer goes here.' }}
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Clone: FAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Answers to commonly asked questions about our platform"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How does this work?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "It works great. Here's how..."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clone: FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "How do you make sure emails actually land?", "answer": "We don't believe in sending emails into the void. With clean IPs, smart routing, and obsessive deliverability practices, your emails show up where they're supposed to." } },
+        { "type": "question", "settings": { "question": "Can I schedule emails to go out later?", "answer": "Absolutely. Queue them up for next week, next month, or whenever. We'll send them when you say so." } },
+        { "type": "question", "settings": { "question": "Is there a limit to how many emails I can send?", "answer": "Only if you're on a free plan. Otherwise, we scale with you — up to millions of emails a month." } },
+        { "type": "question", "settings": { "question": "Can I export my data if I decide to leave?", "answer": "Yes — and we won't guilt-trip you about it. Export everything with a click." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

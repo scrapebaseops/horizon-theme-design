@@ -1,0 +1,294 @@
+{{ 'let-tokens.css' | asset_url | stylesheet_tag }}
+{{ 'let-base.css' | asset_url | stylesheet_tag }}
+{{ 'let-primitives.css' | asset_url | stylesheet_tag }}
+
+<section id="design-system-showcase" style="padding: var(--let-space-12) 0;">
+  <div class="let-wrapper">
+
+    {%- comment -%} ===== TYPOGRAPHY ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4">
+      <h2 class="let-display-sm let-text-black">Typography</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Heading sizes use Noto Serif (medium weight, tight tracking). Body text uses Inter.</p>
+
+      <div class="let-mt-8 let-space-y-4">
+        <div><span class="let-text-xs let-text-base-400">display-xl</span><br><span class="let-display-xl let-text-black">The quick brown fox</span></div>
+        <div><span class="let-text-xs let-text-base-400">display-lg</span><br><span class="let-display-lg let-text-black">The quick brown fox</span></div>
+        <div><span class="let-text-xs let-text-base-400">display-md</span><br><span class="let-display-md let-text-black">The quick brown fox</span></div>
+        <div><span class="let-text-xs let-text-base-400">display-sm</span><br><span class="let-display-sm let-text-black">The quick brown fox</span></div>
+        <div><span class="let-text-xs let-text-base-400">display-xs</span><br><span class="let-display-xs let-text-black">The quick brown fox</span></div>
+      </div>
+
+      <div class="let-mt-8 let-space-y-4">
+        <div><span class="let-text-xs let-text-base-400">text-xl</span><br><span class="let-text-xl let-text-base-900">Body text extra large for lead paragraphs and introductions.</span></div>
+        <div><span class="let-text-xs let-text-base-400">text-lg</span><br><span class="let-text-lg let-text-base-500">Body text large for secondary paragraphs and descriptions.</span></div>
+        <div><span class="let-text-xs let-text-base-400">text-base</span><br><span class="let-text-base let-text-base-500">Body text base size for general content and paragraphs.</span></div>
+        <div><span class="let-text-xs let-text-base-400">text-sm</span><br><span class="let-text-sm let-text-base-500">Small text for card descriptions, captions, and metadata.</span></div>
+        <div><span class="let-text-xs let-text-base-400">text-xs</span><br><span class="let-text-xs let-text-base-500">Extra small text for labels, dates, and fine print.</span></div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== COLORS ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Colors</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Three palettes: Accent (orange/coral), Sand (warm neutral), Base (grayscale).</p>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Accent</h3>
+        <div class="let-grid let-lg-grid-5 let-md-grid-3 let-gap-2 let-mt-4" style="grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));">
+          <div><div style="background: var(--let-accent-50); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">50</span></div>
+          <div><div style="background: var(--let-accent-100); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">100</span></div>
+          <div><div style="background: var(--let-accent-200); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">200</span></div>
+          <div><div style="background: var(--let-accent-300); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">300</span></div>
+          <div><div style="background: var(--let-accent-400); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">400</span></div>
+          <div><div style="background: var(--let-accent-500); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">500</span></div>
+          <div><div style="background: var(--let-accent-600); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">600</span></div>
+          <div><div style="background: var(--let-accent-700); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">700</span></div>
+          <div><div style="background: var(--let-accent-800); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">800</span></div>
+          <div><div style="background: var(--let-accent-900); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">900</span></div>
+        </div>
+      </div>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Sand</h3>
+        <div class="let-grid let-gap-2 let-mt-4" style="grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));">
+          <div><div style="background: var(--let-sand-50); height: 48px; border-radius: var(--let-radius-md); border: 1px solid var(--let-base-200);"></div><span class="let-text-xs let-text-base-500">50</span></div>
+          <div><div style="background: var(--let-sand-100); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">100</span></div>
+          <div><div style="background: var(--let-sand-200); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">200</span></div>
+          <div><div style="background: var(--let-sand-300); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">300</span></div>
+          <div><div style="background: var(--let-sand-400); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">400</span></div>
+          <div><div style="background: var(--let-sand-500); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">500</span></div>
+          <div><div style="background: var(--let-sand-600); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">600</span></div>
+          <div><div style="background: var(--let-sand-700); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">700</span></div>
+          <div><div style="background: var(--let-sand-800); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">800</span></div>
+          <div><div style="background: var(--let-sand-900); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">900</span></div>
+        </div>
+      </div>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Base</h3>
+        <div class="let-grid let-gap-2 let-mt-4" style="grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));">
+          <div><div style="background: var(--let-base-50); height: 48px; border-radius: var(--let-radius-md); border: 1px solid var(--let-base-200);"></div><span class="let-text-xs let-text-base-500">50</span></div>
+          <div><div style="background: var(--let-base-100); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">100</span></div>
+          <div><div style="background: var(--let-base-200); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">200</span></div>
+          <div><div style="background: var(--let-base-300); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">300</span></div>
+          <div><div style="background: var(--let-base-400); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">400</span></div>
+          <div><div style="background: var(--let-base-500); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">500</span></div>
+          <div><div style="background: var(--let-base-600); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">600</span></div>
+          <div><div style="background: var(--let-base-700); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">700</span></div>
+          <div><div style="background: var(--let-base-800); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">800</span></div>
+          <div><div style="background: var(--let-base-900); height: 48px; border-radius: var(--let-radius-md);"></div><span class="let-text-xs let-text-base-500">900</span></div>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== BUTTONS ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Buttons</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Three variants (default, accent, muted) × six sizes. Always pill-shaped (rounded-full).</p>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Default variant</h3>
+        <div class="let-flex let-flex-wrap let-items-center let-gap-2 let-mt-4">
+          <button class="let-btn let-btn--xs let-btn--default">XS Button</button>
+          <button class="let-btn let-btn--sm let-btn--default">SM Button</button>
+          <button class="let-btn let-btn--base let-btn--default">Base Button</button>
+          <button class="let-btn let-btn--md let-btn--default">MD Button</button>
+          <button class="let-btn let-btn--lg let-btn--default">LG Button</button>
+          <button class="let-btn let-btn--xl let-btn--default">XL Button</button>
+        </div>
+      </div>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Accent variant</h3>
+        <div class="let-flex let-flex-wrap let-items-center let-gap-2 let-mt-4">
+          <button class="let-btn let-btn--xs let-btn--accent">XS Button</button>
+          <button class="let-btn let-btn--sm let-btn--accent">SM Button</button>
+          <button class="let-btn let-btn--base let-btn--accent">Base Button</button>
+          <button class="let-btn let-btn--md let-btn--accent">MD Button</button>
+          <button class="let-btn let-btn--lg let-btn--accent">LG Button</button>
+          <button class="let-btn let-btn--xl let-btn--accent">XL Button</button>
+        </div>
+      </div>
+
+      <div class="let-mt-8">
+        <h3 class="let-text-sm let-font-medium let-text-base-900">Muted variant</h3>
+        <div class="let-flex let-flex-wrap let-items-center let-gap-2 let-mt-4">
+          <button class="let-btn let-btn--xs let-btn--muted">XS Button</button>
+          <button class="let-btn let-btn--sm let-btn--muted">SM Button</button>
+          <button class="let-btn let-btn--base let-btn--muted">Base Button</button>
+          <button class="let-btn let-btn--md let-btn--muted">MD Button</button>
+          <button class="let-btn let-btn--lg let-btn--muted">LG Button</button>
+          <button class="let-btn let-btn--xl let-btn--muted">XL Button</button>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== CARDS ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Cards</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Sand-100 background, hover to white with shadow. Icon rotates and lifts on hover.</p>
+
+      <div class="let-card-grid let-card-grid--4 let-mt-8">
+        <div class="let-card">
+          <div class="let-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" /></svg>
+          </div>
+          <h3 class="let-card__title">Card Title One</h3>
+          <p class="let-card__desc">Description text for the card. Short and informative.</p>
+        </div>
+        <div class="let-card">
+          <div class="let-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0" /></svg>
+          </div>
+          <h3 class="let-card__title">Card Title Two</h3>
+          <p class="let-card__desc">Another card with a different icon and content.</p>
+        </div>
+        <div class="let-card">
+          <div class="let-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+          </div>
+          <h3 class="let-card__title">Card Title Three</h3>
+          <p class="let-card__desc">Third card demonstrating the grid layout.</p>
+        </div>
+        <div class="let-card">
+          <div class="let-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+          </div>
+          <h3 class="let-card__title">Card Title Four</h3>
+          <p class="let-card__desc">Fourth card completing the 4-column grid.</p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== FORMS ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Form Inputs</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Rounded inputs with subtle ring border, accent focus state.</p>
+
+      <div class="let-mt-8 let-max-w-md let-space-y-4">
+        <div>
+          <label class="let-input-label">Email Address</label>
+          <input type="email" placeholder="you@example.com" class="let-input">
+        </div>
+        <div>
+          <label class="let-input-label">Full Name</label>
+          <input type="text" placeholder="Jane Doe" class="let-input">
+        </div>
+        <div>
+          <label class="let-input-label">Message</label>
+          <textarea placeholder="What's on your mind?" class="let-input" style="height: auto; min-height: 100px; padding-top: 8px;"></textarea>
+        </div>
+        <button class="let-btn let-btn--base let-btn--accent">Send Message</button>
+      </div>
+    </div>
+
+    {%- comment -%} ===== CTA BANNER ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">CTA Banner</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Accent-colored full-width box with white text.</p>
+
+      <div class="let-cta-banner let-mt-8">
+        <h3 class="let-display-lg let-text-white">Email, But Actually Good</h3>
+        <p class="let-text-lg let-cta-banner__subtitle let-mt-2">No setup rituals. Just emails that send, land, and look damn good doing it.</p>
+        <div class="let-flex let-justify-center let-mt-8">
+          <button class="let-btn let-btn--base let-btn--muted">Get full access</button>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== FAQ ACCORDION ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">FAQ Accordion</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Native details/summary with rotating plus icon.</p>
+
+      <div class="let-faq-list let-max-w-xl let-mt-8">
+        <details>
+          <summary>
+            How does this component work?
+            <svg class="let-faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" /></svg>
+          </summary>
+          <div class="let-faq-answer">Click the question to expand the answer. The plus icon rotates to an X when open. Built with native HTML details/summary — no JavaScript required.</div>
+        </details>
+        <details>
+          <summary>
+            What colors does the icon use?
+            <svg class="let-faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" /></svg>
+          </summary>
+          <div class="let-faq-answer">The icon uses accent-500 (orange). Question text is base-600, and hovers to accent-500. Answer text is base-500.</div>
+        </details>
+        <details>
+          <summary>
+            Is this accessible?
+            <svg class="let-faq-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" /></svg>
+          </summary>
+          <div class="let-faq-answer">Yes. The details/summary pattern is natively accessible — keyboard navigable, screen reader compatible, and works without JavaScript.</div>
+        </details>
+      </div>
+    </div>
+
+    {%- comment -%} ===== SUBSCRIBE BOX ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Subscribe Box</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Sand-100 rounded box with centered form.</p>
+
+      <div class="let-subscribe-box let-mt-8">
+        <h3 class="let-display-sm let-text-base-900">Stay in the glow.</h3>
+        <p class="let-text-base let-text-base-500 let-mt-2">Styling ideas, new lamp drops, and the occasional offer — straight to your inbox.</p>
+        <div class="let-max-w-md let-mx-auto let-mt-10 let-space-y-4">
+          <div>
+            <label class="let-input-label">Email Address</label>
+            <input type="email" placeholder="you@example.com" class="let-input">
+          </div>
+          <button class="let-btn let-btn--base let-btn--accent">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} ===== TESTIMONIAL ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Testimonial</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">Large centered serif quote with CTA link.</p>
+
+      <div class="let-testimonial let-mt-8">
+        <blockquote class="let-display-md let-text-black let-text-balance">
+          &ldquo;Restaurant lighting, at home. One lamp changed how our dining room feels every evening.&rdquo;
+        </blockquote>
+        <a href="#" class="let-testimonial__cta">
+          Read the full story
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+        </a>
+      </div>
+    </div>
+
+    {%- comment -%} ===== SPACING ===== {%- endcomment -%}
+    <div class="let-divider-top let-pt-12 let-pb-4 let-mt-12">
+      <h2 class="let-display-sm let-text-black">Spacing Scale</h2>
+      <p class="let-text-base let-text-base-500 let-mt-4">All spacing uses the token scale. No hardcoded values.</p>
+
+      <div class="let-mt-8 let-space-y-4">
+        {% assign sizes = "1,2,3,4,6,8,10,12,16,24,32" | split: "," %}
+        {% assign pxvals = "4,8,12,16,24,32,40,48,64,96,128" | split: "," %}
+        {% for size in sizes %}
+          <div class="let-flex let-items-center let-gap-4">
+            <span class="let-text-xs let-text-base-400" style="min-width: 60px;">space-{{ size }}</span>
+            <div style="width: var(--let-space-{{ size }}); height: 16px; background: var(--let-accent-200); border-radius: 2px;"></div>
+            <span class="let-text-xs let-text-base-400">{{ pxvals[forloop.index0] }}px</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "DS: Showcase",
+  "settings": [],
+  "presets": [
+    {
+      "name": "DS: Design System Showcase"
+    }
+  ]
+}
+{% endschema %}

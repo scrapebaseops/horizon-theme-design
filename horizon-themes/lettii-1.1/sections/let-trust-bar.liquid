@@ -1,0 +1,106 @@
+<section class="let-section-divider" style="padding: var(--let-space-4) 0;">
+  <div class="let-wrapper">
+    <div class="let-trust-bar">
+      {% for block in section.blocks %}
+        <div class="let-trust-bar__item" {{ block.shopify_attributes }}>
+          <div class="let-trust-bar__icon">
+            {% case block.settings.icon %}
+              {% when 'shield' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+              {% when 'truck' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
+              {% when 'battery' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10.5h.375c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125H21M3.75 18h15A2.25 2.25 0 0021 15.75v-6a2.25 2.25 0 00-2.25-2.25h-15A2.25 2.25 0 001.5 9.75v6A2.25 2.25 0 003.75 18z" /></svg>
+              {% when 'return' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
+              {% when 'water' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {% endcase %}
+          </div>
+          <span class="let-trust-bar__text">{{ block.settings.text }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .let-trust-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--let-space-4);
+    padding: var(--let-space-4) 0;
+  }
+  @media (min-width: 768px) {
+    .let-trust-bar { grid-template-columns: repeat(4, 1fr); }
+  }
+  .let-trust-bar__item {
+    display: flex;
+    align-items: center;
+    gap: var(--let-space-3);
+    font-family: var(--let-font-sans);
+  }
+  .let-trust-bar__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--let-accent-500);
+  }
+  .let-trust-bar__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .let-trust-bar__text {
+    font-size: 0.8125rem;
+    color: var(--let-base-600);
+    font-weight: var(--let-weight-medium);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield (guarantee)" },
+            { "value": "truck", "label": "Truck (shipping)" },
+            { "value": "battery", "label": "Battery" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "water", "label": "Water/IP rating" },
+            { "value": "check", "label": "Checkmark" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "30-Day Guarantee"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "blocks": [
+        { "type": "trust_item", "settings": { "icon": "shield", "text": "30-Day Guarantee" } },
+        { "type": "trust_item", "settings": { "icon": "truck", "text": "Free UK Shipping Over £50" } },
+        { "type": "trust_item", "settings": { "icon": "battery", "text": "12-Hour Battery, USB-C" } },
+        { "type": "trust_item", "settings": { "icon": "return", "text": "Free Returns" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

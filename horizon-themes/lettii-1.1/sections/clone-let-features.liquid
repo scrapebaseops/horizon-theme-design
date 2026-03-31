@@ -1,0 +1,90 @@
+{{ 'clone-let-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="clone-let-section clone-let-divider-top">
+  <div class="clone-let-wrapper clone-let-pt-12 clone-let-pb-4">
+    <div class="clone-let-max-w-xl clone-let-text-balance">
+      <h2 class="clone-let-display-sm clone-let-text-black">
+        {{ section.settings.heading | default: 'Built by developers who were sick of broken email APIs' }}
+      </h2>
+      <p class="clone-let-text-base clone-let-text-base-500 clone-let-mt-4">
+        {{ section.settings.description | default: 'We got tired of wrestling with clunky tools, so we built the email platform we always wanted — fast, clean, and actually works without swearing at your terminal.' }}
+      </p>
+    </div>
+    <div class="clone-let-card-grid clone-let-card-grid--4col">
+      {% for block in section.blocks %}
+        <div class="clone-let-card" {{ block.shopify_attributes }}>
+          <div class="clone-let-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="{{ block.settings.icon_path | default: 'M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z' }}" />
+            </svg>
+          </div>
+          <h3 class="clone-let-text-sm clone-let-card__title">
+            {{ block.settings.title | default: 'Feature title' }}
+          </h3>
+          <p class="clone-let-text-sm clone-let-card__desc">
+            {{ block.settings.description | default: 'Feature description goes here.' }}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Clone: Feature Cards",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built by developers who were sick of broken email APIs"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Feature description goes here."
+        },
+        {
+          "type": "text",
+          "id": "icon_path",
+          "label": "SVG icon path (d attribute)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clone: Feature Cards",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Test Mode", "description": "Simulate everything, send nothing. Perfect for testing and debugging." } },
+        { "type": "feature", "settings": { "title": "Webhooks", "description": "We ping your server the second something happens — delivery, open, click, bounce." } },
+        { "type": "feature", "settings": { "title": "Live Logs", "description": "Every request, every response — logged in real time." } },
+        { "type": "feature", "settings": { "title": "Retry Logic", "description": "Auto-retries so you don't have to watch your queue." } },
+        { "type": "feature", "settings": { "title": "Tracking", "description": "Know who opened what and clicked where." } },
+        { "type": "feature", "settings": { "title": "Templating", "description": "Markdown, MJML, raw HTML — we'll render it." } },
+        { "type": "feature", "settings": { "title": "Previews", "description": "Preview your masterpiece before it hits the inbox." } },
+        { "type": "feature", "settings": { "title": "Custom Domains", "description": "Send from your own domain." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

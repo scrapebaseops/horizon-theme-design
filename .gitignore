@@ -1,5 +1,8 @@
 .DS_Store
 .shopify/metafields.json
 
+# Local MCP secrets (copy from .cursor/mcp.json.example)
+.cursor/mcp.json
+
 # Lexington reference snapshots: exclude dependencies (install with npm ci in that folder).
 lexington-reference/**/node_modules/

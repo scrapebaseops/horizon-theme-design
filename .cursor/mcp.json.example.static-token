@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "shopify": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "shopify-mcp",
+        "--accessToken",
+        "YOUR_SHPAT_ADMIN_API_TOKEN",
+        "--domain",
+        "theme-dev-store-2038.myshopify.com"
+      ]
+    }
+  }
+}

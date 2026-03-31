@@ -1,288 +1,413 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
- {
+{
   "sections": {
-    "hero_jVaWmY": {
+    "hero": {
       "type": "hero",
       "blocks": {
-        "text_YLPk4p": {
+        "heading": {
           "type": "text",
-          "name": "t:names.heading",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
+            "text": "<h1>Restaurant lighting, at home.</h1>",
             "width": "fit-content",
-            "max_width": "normal",
+            "max_width": "narrow",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)",
             "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "padding-block-end": 0
+          }
         },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
+        "subheading": {
+          "type": "text",
           "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
+            "text": "<p>Cordless rechargeable table lamps. Touch to dim. Place anywhere.</p>",
             "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "padding-block-start": 0,
+            "padding-block-end": 16
+          }
+        },
+        "cta_group": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "gap": 12,
+            "width": "fit",
+            "height": "fit",
+            "inherit_color_scheme": true
           },
-          "blocks": {}
+          "blocks": {
+            "primary_cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop the Collection",
+                "link": "/collections/all-lamps",
+                "style_class": "button"
+              }
+            },
+            "secondary_cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop Sets & Save",
+                "link": "/collections/sets-bundles",
+                "style_class": "button-secondary"
+              }
+            }
+          },
+          "block_order": ["primary_cta", "secondary_cta"]
         }
       },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+      "block_order": ["heading", "subheading", "cta_group"],
       "settings": {
         "media_type_1": "image",
-        "media_type_2": "image",
-        "link": "",
-        "open_in_new_tab": false,
         "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "large",
+        "color_scheme": "scheme-5",
         "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "overlay_color": "#00000040",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
       }
     },
-    "product_list_fa6P9H": {
+    "trust_bar_top": {
+      "type": "let-trust-bar",
+      "blocks": {
+        "item_1": { "type": "trust_item", "settings": { "icon": "shield", "text": "30-Day Guarantee" } },
+        "item_2": { "type": "trust_item", "settings": { "icon": "truck", "text": "Free UK Shipping Over £50" } },
+        "item_3": { "type": "trust_item", "settings": { "icon": "battery", "text": "12-Hour Battery, USB-C" } },
+        "item_4": { "type": "trust_item", "settings": { "icon": "return", "text": "Free Returns" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"],
+      "settings": {}
+    },
+    "shop_by_setting": {
+      "type": "collection-list",
+      "blocks": {
+        "header_group": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 8,
+            "width": "fill",
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Find Your Setting</h2>",
+                "width": "fit-content",
+                "alignment": "center",
+                "type_preset": "h3",
+                "padding-block-end": 8
+              }
+            },
+            "subheading": {
+              "type": "text",
+              "settings": {
+                "text": "<p>One lamp. Every room. Every occasion.</p>",
+                "width": "fit-content",
+                "alignment": "center",
+                "type_preset": "rte",
+                "padding-block-end": 16
+              }
+            }
+          },
+          "block_order": ["heading", "subheading"]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "static": true,
+          "settings": {
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-end",
+            "placement": "on_image",
+            "inherit_color_scheme": true,
+            "border_radius": 16
+          },
+          "blocks": {
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "static": true,
+              "settings": {
+                "image_ratio": "portrait"
+              }
+            },
+            "collection-title": {
+              "type": "collection-title",
+              "settings": {
+                "type_preset": "h5",
+                "alignment": "left",
+                "background": true,
+                "background_color": "#ffffff",
+                "padding-block-start": 6,
+                "padding-block-end": 6,
+                "padding-inline-start": 12,
+                "padding-inline-end": 12
+              }
+            }
+          },
+          "block_order": ["collection-title"]
+        }
+      },
+      "block_order": ["header_group"],
+      "settings": {
+        "collection_list": [],
+        "layout_type": "grid",
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 12,
+        "rows_gap": 12,
+        "section_width": "page-width",
+        "gap": 24,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "featured_bundles": {
       "type": "product-list",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",
-          "name": "t:names.header",
           "static": true,
           "settings": {
             "content_direction": "row",
-            "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "flex-end",
             "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
             "gap": 12,
             "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
             "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "inherit_color_scheme": true
           },
           "blocks": {
-            "product_list_text_YFtzcL": {
+            "title": {
               "type": "_product-list-text",
-              "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+                "text": "<h3>More Lamps, More Atmosphere</h3>",
+                "type_preset": "h3",
+                "alignment": "left"
+              }
             },
-            "product_list_button_MWeP9V": {
+            "view_all": {
               "type": "_product-list-button",
-              "name": "t:names.product_list_button",
               "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
+                "label": "Shop All Sets",
+                "style_class": "link"
+              }
             }
           },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
+          "block_order": ["title", "view_all"]
         },
         "static-product-card": {
           "type": "_product-card",
-          "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "product_card_gap": 8,
+            "border_radius": 16
           },
           "blocks": {
-            "product_card_gallery_677WP3": {
+            "gallery": {
               "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+              "settings": { "image_ratio": "portrait", "border_radius": 16 }
             },
-            "product_title_YXxMTj": {
+            "product_title": {
               "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+              "settings": { "type_preset": "rte", "font": "var(--font-body--family)", "padding-block-start": 8 }
             },
-            "price_JQzVV4": {
+            "price": {
               "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
+              "settings": { "show_sale_price_first": true, "show_installments": false, "type_preset": "h6" }
             }
           },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
+          "block_order": ["gallery", "product_title", "price"]
         }
       },
-      "name": "t:names.featured_collection",
+      "block_order": [],
       "settings": {
-        "collection": "all",
+        "collection": "sets-bundles",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
+        "max_products": 4,
         "columns": 4,
         "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
+        "columns_gap": 12,
         "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
         "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
         "gap": 28,
         "color_scheme": "scheme-1",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "lifestyle_banner": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>No wires. No wax. No compromise.</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>We made the lamp you've seen in every boutique hotel — and made it yours. Place it on a dinner table, a bedside shelf, or a garden wall. Move it when the mood changes. Charge it like your phone.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Our Story",
+                "link": "/pages/our-story",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "featured_all_lamps": {
+      "type": "product-list",
+      "blocks": {
+        "static-header": {
+          "type": "_product-list-content",
+          "static": true,
+          "settings": {
+            "content_direction": "row",
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": true,
+            "gap": 12,
+            "width": "fill",
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "title": {
+              "type": "_product-list-text",
+              "settings": {
+                "text": "<h3>The Collection</h3>",
+                "type_preset": "h3",
+                "alignment": "left"
+              }
+            },
+            "view_all": {
+              "type": "_product-list-button",
+              "settings": {
+                "label": "Shop All Lamps",
+                "style_class": "link"
+              }
+            }
+          },
+          "block_order": ["title", "view_all"]
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "border_radius": 16
+          },
+          "blocks": {
+            "gallery": {
+              "type": "_product-card-gallery",
+              "settings": { "image_ratio": "portrait", "border_radius": 16 }
+            },
+            "product_title": {
+              "type": "product-title",
+              "settings": { "type_preset": "rte", "font": "var(--font-body--family)", "padding-block-start": 8 }
+            },
+            "price": {
+              "type": "price",
+              "settings": { "show_sale_price_first": true, "show_installments": false, "type_preset": "h6" }
+            }
+          },
+          "block_order": ["gallery", "product_title", "price"]
+        }
+      },
+      "block_order": [],
+      "settings": {
+        "collection": "all-lamps",
+        "layout_type": "grid",
+        "max_products": 8,
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 12,
+        "rows_gap": 24,
+        "section_width": "page-width",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "newsletter": {
+      "type": "clone-let-subscribe",
+      "settings": {
+        "heading": "Stay in the glow.",
+        "description": "Styling ideas, new lamp drops, and the occasional offer — straight to your inbox. Plus 10% off your first order.",
+        "label": "Email Address",
+        "placeholder": "Your email address",
+        "button_text": "Sign Up"
+      }
+    },
+    "trust_bar_bottom": {
+      "type": "let-trust-bar",
+      "blocks": {
+        "item_1": { "type": "trust_item", "settings": { "icon": "shield", "text": "30-Day Guarantee" } },
+        "item_2": { "type": "trust_item", "settings": { "icon": "truck", "text": "Free UK Shipping Over £50" } },
+        "item_3": { "type": "trust_item", "settings": { "icon": "battery", "text": "12-Hour Battery, USB-C" } },
+        "item_4": { "type": "trust_item", "settings": { "icon": "return", "text": "Free Returns" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"],
+      "settings": {}
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "hero",
+    "trust_bar_top",
+    "shop_by_setting",
+    "featured_bundles",
+    "lifestyle_banner",
+    "featured_all_lamps",
+    "newsletter",
+    "trust_bar_bottom"
   ]
 }

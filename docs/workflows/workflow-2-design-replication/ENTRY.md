@@ -638,6 +638,33 @@ The workflow is COMPLETE and ready for deployment when ALL of the following are 
 
 Follow these rules throughout the entire workflow. They are non-negotiable.
 
+### Rule 0: Working Checklists & Progress Gates (HIGHEST PRIORITY)
+
+**Every phase MUST use working checklists.** This is the most important rule in the entire workflow.
+
+**Before starting each phase:**
+1. Read the full phase document and all referenced skill documents
+2. Generate a detailed working checklist listing EVERY individual deliverable, component, page, section, and item required by the phase. The agent executing the phase MUST generate the checklist as its FIRST action — before any other work. This is not optional and not delegated to a sub-agent (unless that sub-agent executes the entire phase). The checklist must be a file at `THEME_ROOT/.workflow/checklists/phase-N-checklist.md` and must exist before ANY code is written.
+3. Include specific acceptance criteria for each item (e.g., "pixel-perfect at 3 viewports", "all 8 blocks populated", "screenshot comparison logged")
+4. Save to `THEME_ROOT/.workflow/checklists/phase-N-checklist.md`
+5. Present the checklist to the user before starting work
+
+**During each phase:**
+- Work through the checklist item by item
+- Verify each item meets its acceptance criteria before marking complete
+- "I wrote the code" is NOT the same as "I verified it works" — take screenshots, count sections, compare against spec
+- Update the checklist file after each item so progress is persisted
+- Never declare an item complete without verification evidence
+
+**Before moving to the next phase (SELF-ENFORCING GATE):**
+- Read the checklist file and count `[x]` items against total required items
+- If ANY items are `[ ]` or `[~]`, go back and finish them — do not proceed, do not ask permission to skip
+- If items are `[!]`, document why they're blocked and continue only if genuinely not completable
+- Log the gate result: "GATE: X/Y items complete. [PASS/FAIL]"
+- If the gate FAILS, loop back and complete remaining items. No exceptions.
+
+**Why:** Without this protocol, agents consistently half-complete phases — cloning 1 of 12 pages, building 3 of 8 sections on a product page, skipping visual comparison loops, declaring "pixel-perfect" without screenshots. The checklist makes completeness visible and the self-enforcing gate prevents silent scope reduction without requiring user intervention.
+
 ### Rule 1: Local Only — Never Push to Shopify
 
 **You must NEVER run `shopify theme push`, `shopify theme publish`, or any command that writes to the remote Shopify store.** You must also never run `git push`. These are human-only actions performed outside this workflow.

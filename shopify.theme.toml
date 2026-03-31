@@ -36,5 +36,6 @@ path = "horizon-themes/gemini"
 
 [environments.lettii-1-1]
 store = "theme-dev-store-2038.myshopify.com"
-# theme = "TODO" # push horizon-themes/lettii-1.1 to new store and record ID
+# Live theme (published 2026-03-31). Use `shopify theme push -e lettii-1-1 --development` for the CLI dev theme.
+theme = "184799002658"
 path = "horizon-themes/lettii-1.1"

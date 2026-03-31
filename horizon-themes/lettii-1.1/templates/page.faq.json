@@ -1,0 +1,119 @@
+{
+  "sections": {
+    "intro": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Questions? Sorted.</h1>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Everything you need to know about Lettii lamps — from battery life to returns. If you can't find your answer, <a href=\"/pages/contact\">get in touch</a>.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["heading", "body"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 32
+      }
+    },
+    "faq_product": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "How long does the battery last?", "answer": "Up to 12 hours on low brightness, around 6 hours on full. That's a full dinner party, an evening in the garden, or a few nights on your bedside table — all from one charge. Recharging takes 4-5 hours via USB-C." } },
+        "q2": { "type": "question", "settings": { "question": "Is it bright enough to actually make a difference?", "answer": "Yes. Lettii lamps produce warm, diffused light — the same quality you see in restaurants and boutique hotels. They won't light a room on their own (that's not what they're for), but they transform the atmosphere of any table, shelf, or corner. Stepless dimming means you set exactly the level you want." } },
+        "q3": { "type": "question", "settings": { "question": "Can I use it outside? What if it rains?", "answer": "Every Lettii lamp is rated IP54 — that's protection against splashing water from any direction. Use it on the patio, the garden table, the balcony. A passing rain shower won't cause any problems. We wouldn't recommend submerging it, but normal outdoor use is exactly what it's designed for." } },
+        "q4": { "type": "question", "settings": { "question": "Will it look cheap or plasticky?", "answer": "This is the question we obsessed over. Lettii lamps use premium materials with a weighted base and quality finish. They're designed to look like they belong in a boutique hotel, not a novelty shop. The photos on our site are accurate — what you see is what arrives." } },
+        "q5": { "type": "question", "settings": { "question": "How does the dimming work?", "answer": "Touch the top of the lamp to turn it on and off. Touch and hold to dim smoothly — up and down. No app. No remote. No buttons. Just touch." } },
+        "q6": { "type": "question", "settings": { "question": "How do I charge it?", "answer": "USB-C cable, same as most modern phones. Plug it in, leave it for 4-5 hours, and you're set for the evening. A small LED indicator shows charging status. Cable included with every lamp." } },
+        "q7": { "type": "question", "settings": { "question": "Why should I pay more than an Amazon lamp?", "answer": "Fair question. Amazon has cordless lamps for £15-25. They also have thin plastic bodies, cool-toned LEDs, short battery life, and no design coherence. Lettii sits between those and £100+ designer brands — premium materials, warm light, real design, and a brand that actually answers your emails. The 30-day guarantee means you can compare side by side, risk-free." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6", "q7"],
+      "settings": {
+        "heading": "About the Lamps",
+        "description": ""
+      }
+    },
+    "faq_shipping": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "How much is shipping?", "answer": "Free standard UK shipping on orders over £50. Under £50, it's £3.95. Express next-day delivery is £5.95 on any order." } },
+        "q2": { "type": "question", "settings": { "question": "How long does delivery take?", "answer": "Standard delivery is 2-4 business days via Royal Mail or Evri. Express next-day delivery is available if you order before 2pm on a weekday." } },
+        "q3": { "type": "question", "settings": { "question": "Do you ship internationally?", "answer": "Not yet — we're UK only at launch. International shipping is coming soon. Sign up for our newsletter and we'll let you know when it's available." } },
+        "q4": { "type": "question", "settings": { "question": "Can I track my order?", "answer": "Yes. You'll receive a shipping confirmation email with a tracking link as soon as your order is dispatched. You can also check your order status anytime through your account page." } },
+        "q5": { "type": "question", "settings": { "question": "What payment methods do you accept?", "answer": "Visa, Mastercard, American Express, PayPal, Apple Pay, Google Pay, and Klarna (pay in 3 instalments). All payments are processed securely." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"],
+      "settings": {
+        "heading": "Ordering & Shipping",
+        "description": ""
+      }
+    },
+    "faq_returns": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "What's your return policy?", "answer": "30-day money-back guarantee. No questions asked. If you're not happy with your lamp for any reason, request a return within 30 days of delivery and we'll refund you in full." } },
+        "q2": { "type": "question", "settings": { "question": "Is return shipping free?", "answer": "Yes. We cover return shipping costs. You'll receive a prepaid return label — just pack the lamp, drop it off, and we handle the rest." } },
+        "q3": { "type": "question", "settings": { "question": "How long does a refund take?", "answer": "We process refunds within 5 business days of receiving the return. The refund goes back to your original payment method." } },
+        "q4": { "type": "question", "settings": { "question": "Can I exchange for a different design or colour?", "answer": "Absolutely. If you'd like a different lamp, just let us know when you request the return and we'll arrange the exchange. If the new item costs more, we'll send you a payment link for the difference." } },
+        "q5": { "type": "question", "settings": { "question": "What if my lamp arrives damaged or faulty?", "answer": "Get in touch immediately and we'll send a replacement — no need to wait for the return to arrive back. Email hello@lettii.co.uk with a photo of the damage and we'll sort it the same day." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5"],
+      "settings": {
+        "heading": "Returns & Guarantee",
+        "description": ""
+      }
+    },
+    "faq_care": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "How do I clean my lamp?", "answer": "Wipe with a soft, damp cloth. Avoid abrasive cleaners or solvents. The IP54 rating means it handles water splashes, but don't soak or submerge it." } },
+        "q2": { "type": "question", "settings": { "question": "Can I leave it charging overnight?", "answer": "Yes. The lamp has built-in overcharge protection — it stops drawing power once fully charged. No need to babysit it." } },
+        "q3": { "type": "question", "settings": { "question": "How long will the battery last before it needs replacing?", "answer": "The rechargeable battery is rated for 500+ full charge cycles. With typical use (charging 2-3 times per week), that's several years of life before any noticeable capacity reduction." } },
+        "q4": { "type": "question", "settings": { "question": "Can I replace the bulb?", "answer": "Lettii lamps use integrated LEDs — there's no bulb to replace. LED life is rated at 50,000+ hours. At 4 hours per day of use, that's over 30 years." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4"],
+      "settings": {
+        "heading": "Care & Maintenance",
+        "description": ""
+      }
+    },
+    "contact_cta": {
+      "type": "clone-let-cta",
+      "settings": {
+        "heading": "Still have a question?",
+        "description": "We reply to every email within 12 hours. Live chat is open 9am-6pm, Monday to Friday.",
+        "cta_text": "Contact Us",
+        "cta_url": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "faq_product",
+    "faq_shipping",
+    "faq_returns",
+    "faq_care",
+    "contact_cta"
+  ]
+}

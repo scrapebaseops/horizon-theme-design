@@ -9,6 +9,12 @@ By the end of this phase, you will have:
 - Updated design system reference page with all components
 - Updated component inventory
 
+### First Action: Generate Working Checklist
+
+**Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-3-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 4.
+
+Checklist must explicitly cover: (1) audit every page in content plans against DS, (2) audit Shopify standard needs (empty states, error states, search, filters), (3) design and build every Critical/High priority missing component, (4) add every new component to DS reference page, (5) update component inventory, (6) verify DS reference page renders without regressions.
+
 ### Naming Convention
 
 All CSS classes and files created in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. New component classes follow BEM: `.{prefix}component`, `.{prefix}component--modifier`, `.{prefix}component__element`.
@@ -32,6 +38,8 @@ All CSS classes and files created in this phase use the project prefix from `THE
    - Read through completely
    - List every component mentioned (section, element, state, variant)
    - Note any interactive behaviors
+
+   A 'component' includes: (1) visual elements (buttons, cards, inputs, badges), (2) section patterns (hero, grid, listing, CTA), (3) interactive behaviors (hover, focus, active, disabled, loading, error states), (4) UI states (empty cart, zero search results, form validation), (5) responsive variants (mobile stack, tablet layout). Enumerate ALL categories for each content plan page.
 
 3. **Create a working document**: `THEME_ROOT/.workflow/gap-analysis-content-audit.md`
 
@@ -1047,6 +1055,23 @@ Follow this order (critical first):
 - [ ] Code follows code-architecture skill
 - [ ] All primitives are tested (added to reference page)
 - [ ] Design system handoff brief updated with new component classes (if it exists from Phase 2)
+
+---
+
+### COMPLETION GATE — Phase 3 (SELF-ENFORCING)
+
+**Before proceeding to Phase 4, verify ALL of the following. If any item is incomplete, go back and finish it. Do not ask for permission to skip — just do the work.**
+
+**Checklist file:** `THEME_ROOT/.workflow/checklists/phase-3-checklist.md` must exist and show all items as `[x]`.
+
+**Count checks:**
+- `THEME_ROOT/.workflow/gap-analysis-gaps.md` exists and lists every component needed by the content plans that was not already in the design system
+- Every component listed under "Critical" and "High Priority" in `gap-analysis-gaps.md` has been built — count the missing-component entries and confirm each one now has CSS in `assets/{prefix}primitives.css`. 'Built' means: (1) CSS exists in `{prefix}primitives.css`, (2) the component has a rendered HTML example on the DS reference page, (3) a screenshot confirms it renders correctly at desktop viewport. If a component is in CSS but NOT on the reference page with a visible rendering, it is NOT verified and counts as incomplete.
+- Every newly built component has a corresponding showcase section on the design system reference page (`templates/page.design-system.json`) — count the new components and confirm each appears as a rendered section
+- `THEME_ROOT/.workflow/component-inventory.md` has been updated — every component from the gap list now appears with status "Built" or "Partial" (none left as "Not Built" for Critical/High items)
+- The design system reference page renders correctly at all 3 viewports (1440px, 768px, 390px) with all new component sections visible and no visual regressions to existing sections
+
+**If ANY count is wrong or ANY checklist item is not `[x]`, loop back and complete the missing work. No exceptions.**
 
 ---
 

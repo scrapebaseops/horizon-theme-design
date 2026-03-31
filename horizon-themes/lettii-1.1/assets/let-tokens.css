@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Layer 2: Design Tokens — CSS Custom Properties
+   Prefix: let-
+   Source: Brightlight reference, mapped to Horizon settings where possible
+   ========================================================================== */
+
+:root {
+  /* --------------------------------------------------------------------------
+     COLORS — Semantic roles mapped from Brightlight's 3 palettes
+     These augment Horizon's color scheme system for tokens not covered natively.
+     Primary/secondary button colors, backgrounds, and foregrounds are handled
+     by Horizon's color_scheme settings in settings_data.json.
+     -------------------------------------------------------------------------- */
+
+  /* Accent scale (warm orange/coral — Brightlight accent) */
+  --let-accent-50: #faf3ef;
+  --let-accent-100: #f3e0d4;
+  --let-accent-200: #e5bfa5;
+  --let-accent-300: #d69872;
+  --let-accent-400: #c87445;
+  --let-accent-500: #c45a2d;
+  --let-accent-600: #a8421e;
+  --let-accent-700: #7a3119;
+  --let-accent-800: #522214;
+  --let-accent-900: #2e140d;
+
+  /* Sand scale (warm neutral — Brightlight sand) */
+  --let-sand-50: #faf9f7;
+  --let-sand-100: #f5f3ef;
+  --let-sand-200: #e3ddd2;
+  --let-sand-300: #cec4b3;
+  --let-sand-400: #b9ac95;
+  --let-sand-500: #a19478;
+  --let-sand-600: #847963;
+  --let-sand-700: #64604e;
+  --let-sand-800: #44433a;
+  --let-sand-900: #272623;
+
+  /* Base scale (pure grayscale — Brightlight base) */
+  --let-base-50: #fafafa;
+  --let-base-100: #f5f5f5;
+  --let-base-200: #e5e5e5;
+  --let-base-300: #d4d4d4;
+  --let-base-400: #a3a3a3;
+  --let-base-500: #737373;
+  --let-base-600: #525252;
+  --let-base-700: #404040;
+  --let-base-800: #262626;
+  --let-base-900: #1a1a1a;
+
+  /* --------------------------------------------------------------------------
+     TYPOGRAPHY — Font families loaded via Google Fonts
+     Horizon's font_picker settings handle body/heading fonts natively.
+     These tokens provide the serif/sans/mono split from Brightlight.
+     -------------------------------------------------------------------------- */
+  --let-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --let-font-serif: 'Noto Serif', Georgia, serif;
+  --let-font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* Font weights */
+  --let-weight-normal: 400;
+  --let-weight-medium: 500;
+  --let-weight-semibold: 600;
+
+  /* --------------------------------------------------------------------------
+     SPACING — Scale derived from Brightlight's Tailwind usage
+     -------------------------------------------------------------------------- */
+  --let-space-1: 0.25rem;   /* 4px */
+  --let-space-2: 0.5rem;    /* 8px */
+  --let-space-3: 0.75rem;   /* 12px */
+  --let-space-4: 1rem;      /* 16px */
+  --let-space-6: 1.5rem;    /* 24px */
+  --let-space-8: 2rem;      /* 32px */
+  --let-space-10: 2.5rem;   /* 40px */
+  --let-space-12: 3rem;     /* 48px */
+  --let-space-16: 4rem;     /* 64px */
+  --let-space-24: 6rem;     /* 96px */
+  --let-space-32: 8rem;     /* 128px */
+
+  /* --------------------------------------------------------------------------
+     LAYOUT
+     -------------------------------------------------------------------------- */
+  --let-max-width: 64rem;       /* 1024px — Brightlight max-w-5xl */
+  --let-max-width-wide: 72rem;  /* 1152px — Brightlight 2xl:max-w-6xl */
+  --let-gutter: 1rem;           /* 16px */
+  --let-gutter-wide: 3rem;      /* 48px — at 2xl breakpoint */
+
+  /* --------------------------------------------------------------------------
+     BORDERS & SURFACES
+     -------------------------------------------------------------------------- */
+  --let-radius-sm: 6px;
+  --let-radius-md: 8px;
+  --let-radius-lg: 12px;
+  --let-radius-xl: 16px;
+  --let-radius-full: 9999px;
+
+  --let-border-color: var(--let-base-200);
+  --let-border-style: dashed;   /* Brightlight's signature dashed borders */
+
+  /* --------------------------------------------------------------------------
+     SHADOWS
+     -------------------------------------------------------------------------- */
+  --let-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --let-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --let-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --let-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* --------------------------------------------------------------------------
+     TRANSITIONS
+     -------------------------------------------------------------------------- */
+  --let-duration: 300ms;
+  --let-duration-fast: 200ms;
+  --let-easing: ease-in-out;
+
+  /* --------------------------------------------------------------------------
+     FOCUS
+     -------------------------------------------------------------------------- */
+  --let-focus-ring-width: 2px;
+  --let-focus-ring-offset: 2px;
+  --let-focus-ring-color: var(--let-accent-500);
+}

@@ -10,6 +10,12 @@ By the end of this phase, you will have:
 - All pages responsive and working at all viewports
 - All interactive elements functional
 
+### First Action: Generate Working Checklist
+
+**Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-4-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 5.
+
+Each checklist item must have acceptance criteria: '[Page Name]: [ ] All sections from content spec present (count: N), [ ] All blocks populated with content, [ ] Responsive at 1440/768/390px, [ ] Screenshot taken, [ ] No console errors.' Count sections in each content plan page spec and include the expected count.
+
 ### Naming Convention
 
 All custom files and CSS classes use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. In this phase:
@@ -38,7 +44,9 @@ All custom files and CSS classes use the project prefix from `THEME_ROOT/.workfl
    - About/FAQ/Contact specs
    - Any custom landing pages
 
-2. Create a planning document: `THEME_ROOT/.workflow/page-implementation-plan.md`
+2. Do NOT build any page template without first completing its entry in `THEME_ROOT/.workflow/page-implementation-plan.md`. The plan entry must list every section, its type (existing/new/Horizon native), content source, and responsive behavior. Review the plan against the content spec — section counts must match.
+
+3. Create a planning document: `THEME_ROOT/.workflow/page-implementation-plan.md`
 
 3. For each page, document:
    ```markdown
@@ -1234,10 +1242,27 @@ After all sub-agents complete, the main agent:
 - [ ] All interactive elements work correctly
 - [ ] All forms work and submit
 - [ ] All buttons and links are clickable/functional
-- [ ] All pages load without console errors
+- [ ] All pages load without console errors. For each page, verification means: (1) section count in template JSON matches content plan spec, (2) every block in every section is populated with content from the spec, (3) screenshot at desktop viewport confirms sections render, (4) page loads without console errors. Mark a page complete ONLY after all 4 checks pass.
 - [ ] No one-off CSS in sections (all design system)
 - [ ] Code follows code-architecture skill
 - [ ] All screenshots taken and saved
+
+---
+
+### COMPLETION GATE — Phase 4 (SELF-ENFORCING)
+
+**Before proceeding to Phase 5, verify ALL of the following. If any item is incomplete, go back and finish it. Do not ask for permission to skip — just do the work.**
+
+**Checklist file:** `THEME_ROOT/.workflow/checklists/phase-4-checklist.md` must exist and show all items as `[x]`.
+
+**Count checks:**
+- Every page template listed in the Workflow 1 content plans exists as a `templates/*.json` file — enumerate the content plan pages and confirm each has a corresponding template
+- Every template contains the correct number of sections — for each page, count the sections specified in the content plan and compare against the sections array in the template JSON. Template JSON validation: for each template, verify `sections` object key count equals `order` array length. If they differ, orphaned sections exist. Run: `python3 -c "import json; d=json.load(open('template.json')); print(len(d['sections']), len(d['order']))"` and confirm the two numbers match.
+- Every section in every template has all required blocks populated — open each template JSON and verify block counts against the content plan spec (no empty or placeholder blocks). Block population check: for each section in each template, if the section schema defines block types and the content plan specifies block content, the template JSON must instantiate those blocks with populated settings. Empty `blocks: {}` in a section that should have blocks is incomplete.
+- Screenshots have been taken of every real page at all 3 viewports (1440px, 768px, 390px) — count the page list and confirm 3 screenshots per page exist in `THEME_ROOT/.workflow/screenshots/` or equivalent
+- `THEME_ROOT/.workflow/store-readiness.md` has been updated with actual preview routes, handles, and resource dependencies for every page built in this phase
+
+**If ANY count is wrong or ANY checklist item is not `[x]`, loop back and complete the missing work. No exceptions.**
 
 ---
 

@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Layer 3: Base Styles — Global typography, layout, resets
+   Prefix: let-
+   Depends on: let-tokens.css (Layer 2)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Font loading
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+/* --------------------------------------------------------------------------
+   Container
+   -------------------------------------------------------------------------- */
+.let-wrapper {
+  max-width: var(--let-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: var(--let-gutter);
+  padding-right: var(--let-gutter);
+  border-left: 1px var(--let-border-style) var(--let-border-color);
+  border-right: 1px var(--let-border-style) var(--let-border-color);
+}
+
+@media (min-width: 1536px) {
+  .let-wrapper {
+    max-width: var(--let-max-width-wide);
+    padding-left: var(--let-gutter-wide);
+    padding-right: var(--let-gutter-wide);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Typography — Display (heading) sizes
+   Responsive scale matching Brightlight's Text component variants.
+   All display sizes use serif font with medium weight and tight tracking.
+   -------------------------------------------------------------------------- */
+.let-display-6xl,
+.let-display-5xl,
+.let-display-4xl,
+.let-display-3xl,
+.let-display-2xl,
+.let-display-xl,
+.let-display-lg,
+.let-display-md,
+.let-display-sm,
+.let-display-xs {
+  font-family: var(--let-font-serif);
+  font-weight: var(--let-weight-medium);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+/* Display MD — primary heading size (2xl → 3xl → 4xl) */
+.let-display-md { font-size: 1.5rem; }
+@media (min-width: 768px) { .let-display-md { font-size: 1.875rem; } }
+@media (min-width: 1024px) { .let-display-md { font-size: 2.25rem; } }
+
+/* Display SM — section heading size (lg → xl → 2xl → 3xl) */
+.let-display-sm { font-size: 1.125rem; }
+@media (min-width: 640px) { .let-display-sm { font-size: 1.25rem; } }
+@media (min-width: 768px) { .let-display-sm { font-size: 1.5rem; } }
+@media (min-width: 1024px) { .let-display-sm { font-size: 1.875rem; } }
+
+/* Display LG — large heading (3xl → 4xl → 5xl) */
+.let-display-lg { font-size: 1.875rem; }
+@media (min-width: 768px) { .let-display-lg { font-size: 2.25rem; } }
+@media (min-width: 1024px) { .let-display-lg { font-size: 3rem; } }
+
+/* Display XL — hero heading (4xl → 5xl → 6xl) */
+.let-display-xl { font-size: 2.25rem; }
+@media (min-width: 768px) { .let-display-xl { font-size: 3rem; } }
+@media (min-width: 1024px) { .let-display-xl { font-size: 3.75rem; } }
+
+/* Display XS — small section heading (base → lg → xl → 2xl) */
+.let-display-xs { font-size: 1rem; }
+@media (min-width: 640px) { .let-display-xs { font-size: 1.125rem; } }
+@media (min-width: 768px) { .let-display-xs { font-size: 1.25rem; } }
+@media (min-width: 1024px) { .let-display-xs { font-size: 1.5rem; } }
+
+/* --------------------------------------------------------------------------
+   Typography — Text (body) sizes
+   -------------------------------------------------------------------------- */
+.let-text-base { font-family: var(--let-font-sans); font-size: 1rem; line-height: 1.5; }
+.let-text-sm { font-family: var(--let-font-sans); font-size: 0.875rem; line-height: 1.5; }
+.let-text-xs { font-family: var(--let-font-sans); font-size: 0.75rem; line-height: 1.5; }
+
+.let-text-lg { font-family: var(--let-font-sans); font-size: 1rem; line-height: 1.5; }
+@media (min-width: 640px) { .let-text-lg { font-size: 1.125rem; } }
+@media (min-width: 768px) { .let-text-lg { font-size: 1.25rem; } }
+
+.let-text-xl { font-family: var(--let-font-sans); font-size: 1.125rem; line-height: 1.5; }
+@media (min-width: 640px) { .let-text-xl { font-size: 1.25rem; } }
+@media (min-width: 768px) { .let-text-xl { font-size: 1.5rem; } }
+
+/* --------------------------------------------------------------------------
+   Color utilities
+   -------------------------------------------------------------------------- */
+.let-text-black { color: #000; }
+.let-text-white { color: #fff; }
+.let-text-base-500 { color: var(--let-base-500); }
+.let-text-base-600 { color: var(--let-base-600); }
+.let-text-base-900 { color: var(--let-base-900); }
+.let-text-accent-500 { color: var(--let-accent-500); }
+.let-bg-sand-50 { background-color: var(--let-sand-50); }
+.let-bg-sand-100 { background-color: var(--let-sand-100); }
+.let-bg-accent-500 { background-color: var(--let-accent-500); }
+.let-bg-white { background-color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Layout utilities
+   -------------------------------------------------------------------------- */
+.let-text-center { text-align: center; }
+.let-text-left { text-align: left; }
+.let-text-balance { text-wrap: balance; }
+.let-mx-auto { margin-left: auto; margin-right: auto; }
+.let-max-w-xl { max-width: 36rem; }
+.let-max-w-md { max-width: 28rem; }
+.let-max-w-sm { max-width: 24rem; }
+.let-w-full { width: 100%; }
+.let-font-medium { font-weight: var(--let-weight-medium); }
+
+/* --------------------------------------------------------------------------
+   Spacing utilities
+   -------------------------------------------------------------------------- */
+.let-mt-1 { margin-top: var(--let-space-1); }
+.let-mt-2 { margin-top: var(--let-space-2); }
+.let-mt-4 { margin-top: var(--let-space-4); }
+.let-mt-8 { margin-top: var(--let-space-8); }
+.let-mt-10 { margin-top: var(--let-space-10); }
+.let-mt-12 { margin-top: var(--let-space-12); }
+.let-pt-4 { padding-top: var(--let-space-4); }
+.let-pt-8 { padding-top: var(--let-space-8); }
+.let-pt-12 { padding-top: var(--let-space-12); }
+.let-pt-32 { padding-top: var(--let-space-32); }
+.let-pb-4 { padding-bottom: var(--let-space-4); }
+.let-py-4 { padding-top: var(--let-space-4); padding-bottom: var(--let-space-4); }
+.let-py-12 { padding-top: var(--let-space-12); padding-bottom: var(--let-space-12); }
+.let-py-24 { padding-top: var(--let-space-24); padding-bottom: var(--let-space-24); }
+.let-gap-2 { gap: var(--let-space-2); }
+.let-gap-4 { gap: var(--let-space-4); }
+.let-gap-8 { gap: var(--let-space-8); }
+.let-space-y-4 > * + * { margin-top: var(--let-space-4); }
+
+@media (min-width: 1024px) {
+  .let-lg-py-24 { padding-top: var(--let-space-24); padding-bottom: var(--let-space-24); }
+}
+
+/* --------------------------------------------------------------------------
+   Flex utilities
+   -------------------------------------------------------------------------- */
+.let-flex { display: flex; }
+.let-flex-wrap { display: flex; flex-wrap: wrap; }
+.let-flex-col { display: flex; flex-direction: column; }
+.let-items-center { align-items: center; }
+.let-justify-center { justify-content: center; }
+.let-justify-between { justify-content: space-between; }
+
+/* --------------------------------------------------------------------------
+   Border utilities
+   -------------------------------------------------------------------------- */
+.let-divider-top { border-top: 1px var(--let-border-style) var(--let-border-color); }
+.let-rounded-xl { border-radius: var(--let-radius-xl); }
+.let-rounded-lg { border-radius: var(--let-radius-lg); }
+.let-rounded-full { border-radius: var(--let-radius-full); }
+
+/* --------------------------------------------------------------------------
+   Grid
+   -------------------------------------------------------------------------- */
+.let-grid { display: grid; }
+.let-grid-1 { grid-template-columns: 1fr; }
+
+@media (min-width: 768px) {
+  .let-md-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .let-md-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .let-lg-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .let-lg-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .let-lg-grid-5 { grid-template-columns: repeat(5, 1fr); }
+}

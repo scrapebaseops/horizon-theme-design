@@ -1,0 +1,484 @@
+/* ==========================================================================
+   Layer 4: Component Primitives
+   Prefix: let-
+   Depends on: let-tokens.css (Layer 2), let-base.css (Layer 3)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   BUTTONS
+   Three variants (default/accent/muted) × multiple sizes
+   Shape: always rounded-full (pill shape)
+   -------------------------------------------------------------------------- */
+.let-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--let-radius-full);
+  font-family: var(--let-font-sans);
+  font-weight: var(--let-weight-normal);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all var(--let-duration) var(--let-easing);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.let-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--let-focus-ring-offset) #fff,
+    0 0 0 calc(var(--let-focus-ring-offset) + var(--let-focus-ring-width)) var(--let-focus-ring-color);
+}
+
+/* Sizes */
+.let-btn--xs { height: 2rem; padding: 0.5rem 1rem; font-size: 0.75rem; }
+.let-btn--sm { height: 2.25rem; padding: 0.5rem 1rem; font-size: 0.875rem; }
+.let-btn--base { height: 2.5rem; padding: 0.75rem 1.5rem; font-size: 1rem; }
+.let-btn--md { height: 2.75rem; padding: 0.75rem 1.5rem; font-size: 1rem; }
+.let-btn--lg { height: 3rem; padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+.let-btn--xl { height: 3.5rem; padding: 0.75rem 1.5rem; font-size: 1rem; }
+
+/* Default variant (black) */
+.let-btn--default {
+  background: #000;
+  color: #fff;
+}
+.let-btn--default:hover { background: var(--let-base-700); }
+
+/* Accent variant (orange) */
+.let-btn--accent {
+  background: var(--let-accent-500);
+  color: #fff;
+}
+.let-btn--accent:hover { background: var(--let-accent-600); }
+
+/* Muted variant (sand) */
+.let-btn--muted {
+  background: var(--let-sand-100);
+  color: var(--let-sand-900);
+}
+.let-btn--muted:hover { color: var(--let-accent-500); }
+
+/* Full width modifier */
+.let-btn--full { width: 100%; }
+
+/* --------------------------------------------------------------------------
+   CARDS
+   The universal Brightlight card pattern:
+   sand-100 bg → white bg on hover with shadow + outline
+   Icon box rotates and lifts on card hover
+   -------------------------------------------------------------------------- */
+.let-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--let-space-4);
+  background: var(--let-sand-100);
+  border-radius: var(--let-radius-xl);
+  transition: all var(--let-duration) var(--let-easing);
+  outline: 1px solid transparent;
+}
+
+.let-card:hover {
+  background: #fff;
+  box-shadow: var(--let-shadow-2xl);
+  outline-color: var(--let-sand-100);
+}
+
+.let-card__icon {
+  display: inline-flex;
+  padding: var(--let-space-4);
+  background: #fff;
+  border-radius: var(--let-radius-lg);
+  width: fit-content;
+  transition: all var(--let-duration) var(--let-easing);
+}
+
+.let-card:hover .let-card__icon {
+  background: var(--let-sand-100);
+  transform: rotate(-12deg) translateY(-8px);
+}
+
+.let-card__icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--let-accent-500);
+}
+
+.let-card__title {
+  margin-top: var(--let-space-12);
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  font-weight: var(--let-weight-medium);
+  color: var(--let-base-900);
+}
+
+.let-card__desc {
+  margin-top: var(--let-space-2);
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  color: var(--let-base-500);
+}
+
+/* Card grids */
+.let-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--let-space-2);
+}
+
+@media (min-width: 768px) {
+  .let-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .let-card-grid--4 { grid-template-columns: repeat(4, 1fr); }
+  .let-card-grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* --------------------------------------------------------------------------
+   CTA BANNER
+   Accent-colored full-width box with white text
+   -------------------------------------------------------------------------- */
+.let-cta-banner {
+  padding: var(--let-space-8);
+  padding-top: var(--let-space-24);
+  padding-bottom: var(--let-space-24);
+  text-align: center;
+  border-radius: var(--let-radius-xl);
+  background: var(--let-accent-500);
+}
+
+.let-cta-banner__subtitle {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ ACCORDION
+   Native <details>/<summary> with rotating plus icon
+   -------------------------------------------------------------------------- */
+.let-faq-list {
+  width: 100%;
+  margin-top: var(--let-space-12);
+}
+
+.let-faq-list details {
+  text-align: left;
+  cursor: pointer;
+}
+
+.let-faq-list details + details {
+  margin-top: var(--let-space-4);
+}
+
+.let-faq-list summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 4px;
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  color: var(--let-base-600);
+  list-style: none;
+  user-select: none;
+  transition: color var(--let-duration) var(--let-easing);
+}
+
+.let-faq-list summary:hover {
+  color: var(--let-accent-500);
+}
+
+.let-faq-list summary::-webkit-details-marker { display: none; }
+
+.let-faq-list .let-faq-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--let-accent-500);
+  transition: transform var(--let-duration) ease-out;
+  flex-shrink: 0;
+}
+
+.let-faq-list details[open] .let-faq-icon {
+  transform: rotate(-45deg);
+}
+
+.let-faq-list .let-faq-answer {
+  padding: var(--let-space-2) 0 var(--let-space-4);
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  color: var(--let-base-500);
+}
+
+/* --------------------------------------------------------------------------
+   FORM INPUTS
+   -------------------------------------------------------------------------- */
+.let-input {
+  display: block;
+  width: 100%;
+  padding: var(--let-space-2) var(--let-space-4);
+  font-size: 0.75rem;
+  font-family: var(--let-font-sans);
+  line-height: 1.25;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: var(--let-radius-md);
+  box-shadow: 0 0 0 1px var(--let-base-200), var(--let-shadow-sm);
+  height: 2.25rem;
+  color: var(--let-base-500);
+  transition: all var(--let-duration) var(--let-easing);
+}
+
+.let-input::placeholder {
+  color: var(--let-base-400);
+}
+
+.let-input:focus {
+  outline: none;
+  border-color: var(--let-accent-500);
+  box-shadow: 0 0 0 2px var(--let-accent-100);
+}
+
+.let-input-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  font-weight: var(--let-weight-medium);
+  color: var(--let-base-500);
+  font-family: var(--let-font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   SUBSCRIBE BOX
+   Sand-colored box with centered form
+   -------------------------------------------------------------------------- */
+.let-subscribe-box {
+  padding: var(--let-space-8);
+  padding-top: var(--let-space-24);
+  padding-bottom: var(--let-space-24);
+  text-align: center;
+  border-radius: var(--let-radius-xl);
+  background: var(--let-sand-100);
+}
+
+/* --------------------------------------------------------------------------
+   TESTIMONIAL (Large Quote)
+   -------------------------------------------------------------------------- */
+.let-testimonial {
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.let-testimonial__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--let-space-2);
+  margin-top: var(--let-space-8);
+  color: var(--let-base-500);
+  font-family: var(--let-font-sans);
+  font-size: 1rem;
+  text-decoration: none;
+  transition: color var(--let-duration) var(--let-easing);
+}
+
+.let-testimonial__cta:hover {
+  color: var(--let-accent-500);
+}
+
+.let-testimonial__cta svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--let-duration) ease-out;
+}
+
+.let-testimonial__cta:hover svg {
+  transform: translateX(8px);
+}
+
+/* --------------------------------------------------------------------------
+   SECTION DIVIDER
+   The distinctive dashed top border between sections
+   -------------------------------------------------------------------------- */
+.let-section-divider {
+  border-top: 1px var(--let-border-style) var(--let-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   BLOG CARD
+   Image + date + title + description (clipped to 2 lines)
+   -------------------------------------------------------------------------- */
+.let-blog-card {
+  position: relative;
+}
+
+.let-blog-card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.let-blog-card__image {
+  width: 100%;
+  aspect-ratio: 12 / 8;
+  object-fit: cover;
+  border-radius: var(--let-radius-xl);
+}
+
+.let-blog-card__date {
+  margin-top: var(--let-space-4);
+  font-family: var(--let-font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--let-base-500);
+}
+
+.let-blog-card__title {
+  margin-top: var(--let-space-4);
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  font-weight: var(--let-weight-medium);
+  color: var(--let-base-900);
+}
+
+.let-blog-card__desc {
+  margin-top: var(--let-space-2);
+  font-family: var(--let-font-sans);
+  font-size: 0.875rem;
+  color: var(--let-base-500);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   HORIZON NATIVE SECTION OVERRIDES
+   Restyle Horizon's built-in sections to match the Brightlight design language.
+   Scoped under #MainContent to avoid affecting the theme editor.
+   -------------------------------------------------------------------------- */
+#MainContent {
+  font-family: var(--let-font-sans);
+}
+
+/* Override Horizon's native heading styles */
+#MainContent h1,
+#MainContent h2,
+#MainContent h3 {
+  font-family: var(--let-font-serif);
+  font-weight: var(--let-weight-medium);
+  letter-spacing: -0.025em;
+}
+
+/* Override Horizon's native body text */
+#MainContent p,
+#MainContent li {
+  font-family: var(--let-font-sans);
+  color: var(--let-base-500);
+}
+
+/* Override Horizon's native link colors */
+#MainContent a:not(.let-btn):not([class*="button"]) {
+  color: var(--let-accent-500);
+  transition: color var(--let-duration) var(--let-easing);
+}
+
+#MainContent a:not(.let-btn):not([class*="button"]):hover {
+  color: var(--let-accent-600);
+}
+
+/* --------------------------------------------------------------------------
+   HEADER OVERRIDES
+   Restyle Horizon's native header to match Brightlight: clean, dashed bottom
+   border, sans-serif nav links, accent hover.
+   -------------------------------------------------------------------------- */
+#header-group {
+  font-family: var(--let-font-sans);
+}
+
+#header-group .header-section {
+  border-bottom: 1px dashed var(--let-base-200);
+}
+
+/* Nav links */
+#header-group a {
+  font-family: var(--let-font-sans);
+  transition: color var(--let-duration) var(--let-easing);
+}
+
+#header-group a:hover {
+  color: var(--let-accent-500);
+}
+
+/* Announcement bar */
+.header-announcements {
+  font-family: var(--let-font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER OVERRIDES
+   Restyle Horizon's native footer: dashed top border, sans-serif links,
+   muted text colors, accent hover.
+   -------------------------------------------------------------------------- */
+.footer {
+  font-family: var(--let-font-sans);
+  border-top: 1px dashed var(--let-base-200);
+}
+
+.footer h3,
+.footer h4,
+.footer .footer-block__heading {
+  font-family: var(--let-font-sans);
+  font-weight: var(--let-weight-medium);
+  color: var(--let-base-900);
+}
+
+.footer a {
+  font-family: var(--let-font-sans);
+  color: var(--let-base-500);
+  transition: color var(--let-duration) var(--let-easing);
+}
+
+.footer a:hover {
+  color: var(--let-accent-500);
+}
+
+/* --------------------------------------------------------------------------
+   PRODUCT CARD OVERRIDES
+   Restyle Horizon's native product cards: serif titles, rounded images,
+   accent price color.
+   -------------------------------------------------------------------------- */
+.product-card-info a {
+  font-family: var(--let-font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   B2B BASIC FORM
+   Basic contact form styling for hospitality/weddings pages.
+   Limitation: Shopify's native form only supports name/email/message.
+   Custom fields (venue type dropdown, quantity, date picker) need a
+   third-party form app.
+   -------------------------------------------------------------------------- */
+.let-b2b-form {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.let-b2b-form .let-input {
+  margin-bottom: var(--let-space-4);
+}
+
+.let-b2b-form textarea.let-input {
+  height: auto;
+  min-height: 120px;
+  padding-top: var(--let-space-2);
+}
+
+.let-b2b-form__note {
+  margin-top: var(--let-space-4);
+  font-size: 0.75rem;
+  color: var(--let-base-400);
+  font-family: var(--let-font-sans);
+}

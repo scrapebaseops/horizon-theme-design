@@ -31,7 +31,7 @@ This prefix carries forward into all subsequent phases.
 **Instructions:**
 
 1. Examine the reference design source (could be Figma, images, live website, etc.)
-2. List every unique page type:
+2. Enumerate EVERY DISTINCT page in the reference design. If two product pages have different layouts, catalog both. Count the total and record it. No exceptions.
    - Homepage
    - About page
    - Contact page
@@ -110,7 +110,9 @@ This prefix carries forward into all subsequent phases.
    - Mobile navigation open state: `header-mobile-nav-390.png`
    - Footer: `footer-{viewport}.png`
 
-**Note:** If the reference is a live website, use your available screenshot tooling — prefer built-in browser tools if available, otherwise use Playwright/Puppeteer (see `docs/workflows/skills/visual-comparison/SKILL.md` for setup). If the reference is a Figma file or images, ensure you have exports at each breakpoint.
+**Count validation:** Screenshots must equal: page_count × 3 viewports. Run `ls THEME_ROOT/.workflow/reference-screenshots/*.png | wc -l` and verify. Do NOT proceed to Step 3 until the count matches.
+
+**Required reading:** Before taking any screenshots, read `docs/workflows/skills/visual-comparison/SKILL.md` completely. Your viewport sizes and methodology MUST match that skill exactly. If the reference is a live website, use your available screenshot tooling — prefer built-in browser tools if available, otherwise use Playwright/Puppeteer (see the visual comparison skill for setup). If the reference is a Figma file or images, ensure you have exports at each breakpoint.
 
 ### Step 3: Extract Design Tokens
 
@@ -245,6 +247,8 @@ This prefix carries forward into all subsequent phases.
    - **Key properties:** Colors, sizing, spacing, typography
    - **Status:** "Reference Only" (for now)
 
+   **Variant enumeration:** For each component, document EVERY distinct visual state visible in the reference: default, hover, active, disabled, loading, focused, empty, error, selected. Do not guess — only document states you actually observe. If a button appears in 3 color variants and 4 sizes, document all 12 combinations.
+
 4. **Example structure:**
    ```
    ## Button — Primary
@@ -275,9 +279,24 @@ This prefix carries forward into all subsequent phases.
 
 ## Part B: Page Cloning
 
+### COMPLETION GATE — Part A
+
+**Before proceeding to Part B, verify ALL of the following exist:**
+
+- [ ] `THEME_ROOT/.workflow/reference-pages-catalog.md` — lists every page in the reference
+- [ ] `THEME_ROOT/.workflow/reference-screenshots/` — contains screenshots of EVERY page at 3 viewports
+- [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — all color, typography, spacing, border, shadow tokens
+- [ ] `THEME_ROOT/.workflow/component-inventory.md` — every component cataloged
+
+**Count check:** The number of pages in the reference catalog must match the number of screenshot sets (each page × 3 viewports). If the count doesn't match, go back and complete the missing work. Count unique page TEMPLATES (not instances). If the reference has one product-page layout used by many products, that's 1 template. But if there are 2 distinct product-page layouts, count both. Document your counting logic.
+
+**Do NOT proceed to Part B until every item above is confirmed.**
+
+---
+
 ### Step 5: Create Clone Page Templates
 
-**Objective:** Build Shopify page templates that replicate the reference pages.
+**Objective:** Build Shopify page templates that replicate the reference pages — ONE clone for EVERY page in the reference catalog. No exceptions. One clone template per unique page TEMPLATE TYPE. If two reference pages share identical layouts, one template suffices — but document which pages it covers and why they're identical.
 
 **Instructions:**
 
@@ -348,7 +367,9 @@ This prefix carries forward into all subsequent phases.
    - Store styles in `assets/` when shared across sections
    - Keep section-specific styles in the section file
 
-3. **Build one section at a time:**
+3. Each DISTINCT section design gets ONE section file. If 4 pages use the same hero layout, create 1 `clone-{prefix}hero.liquid` that serves all 4. Count your section files and compare against your component inventory — every major component type should have a corresponding section file.
+
+4. **Build one section at a time:**
    - Start with simple sections (hero, heading, text)
    - Progress to complex sections (product grid, collection listing)
    - Each section should have all settings needed for the template to configure it
@@ -417,7 +438,7 @@ This prefix carries forward into all subsequent phases.
    - Example: the `font-size`, `font-weight`, `color`, and `letter-spacing` of a button's text
    - Compare these exact values against the reference (use DevTools computed styles)
    - Fix any mismatches before moving outward
-   - Do this for: heading text, body text, button text, link text, caption text
+   - Do this for ALL text styles: H1, H2, H3, H4, H5, H6, body paragraph, small/caption text, button text, link text, label text, input placeholder text, badge/tag text, navigation text, footer text. Do not skip any text element type present in the reference.
 
 2. **Level 2: Complete Elements**
    - Zoom out to see the complete element (a full button, a full input field, a full heading)
@@ -468,6 +489,8 @@ This prefix carries forward into all subsequent phases.
    - Full page level: < 1.0% visual difference
    - Any difference above threshold requires investigation and fix
 
+   **Logging requirement:** Log EVERY comparison round (not just failures) to `THEME_ROOT/.workflow/visual-parity-log.md`. Use the template at `docs/workflows/workflow-2-design-replication/templates/visual-parity-log-template.md`. If a section has 0.2% difference, log it. Full transparency — the log is the evidence that comparison was done.
+
 9. **Comparison Checklist Per Section:**
    - [ ] Typography: sizes, weights, colors, line-height, letter-spacing
    - [ ] Colors: backgrounds, text, accents, borders
@@ -502,7 +525,15 @@ This prefix carries forward into all subsequent phases.
    - The template JSON for that page
    - Any section types that already exist
 
-3. **Sub-Agent Responsibilities:**
+3. **Sub-Agent Pre-Flight (MANDATORY before starting work):**
+   Before starting any clone work, the sub-agent MUST verify that Part A (Reference Audit) is complete:
+   - `THEME_ROOT/.workflow/reference-pages-catalog.md` exists and is populated
+   - `THEME_ROOT/.workflow/reference-screenshots/` contains the screenshots for the assigned page at all 3 viewports
+   - `THEME_ROOT/.workflow/design-tokens-map.md` exists and is populated
+   - `THEME_ROOT/.workflow/component-inventory.md` exists and is populated
+   If ANY of these is missing or empty, STOP and report to the main agent. Do NOT start cloning without these inputs.
+
+4. **Sub-Agent Responsibilities:**
    - Build any missing sections for their page
    - Run the visual comparison loop until pixel-perfect at all 3 viewports
    - Document any new design tokens discovered
@@ -529,6 +560,12 @@ This prefix carries forward into all subsequent phases.
    2. Follow visual comparison loop for each section
    3. Test all 3 viewports
    4. Report: files created, issues found
+
+   Rules for sub-agents:
+   (1) Header and footer are NOT cloned — override CSS only, never fork section files.
+   (2) Verify Part A is complete before starting — reference-pages-catalog.md,
+       reference-screenshots/, design-tokens-map.md, component-inventory.md must
+       all exist and be populated. If any is missing, STOP and report to main agent.
    ```
 
 5. **Monitoring Progress:**
@@ -571,6 +608,8 @@ A clone page is complete when:
    - Semantic HTML
    - Clean, readable Liquid
 
+**Placeholder content is acceptable** for clone pages (demo images, sample text). The clone proves LAYOUT and STYLING parity, not content. Real content comes in Phase 4. If the reference has images, use images from the reference theme's assets directory where possible.
+
 ### Step 10: Handle Dynamic Content
 
 **Objective:** Deal with content that changes per page (products, collections, etc.).
@@ -607,27 +646,53 @@ A clone page is complete when:
      - Placeholder used in clone for layout matching
      ```
 
+### COMPLETION GATE — Phase 1 (MANDATORY)
+
+**Do NOT proceed to Phase 2 until EVERY item below is confirmed. No exceptions.**
+
+**Count check:** Run these commands and verify the counts match:
+
+```bash
+# Count pages in reference catalog
+grep -c "^##\|^| " THEME_ROOT/.workflow/reference-pages-catalog.md
+
+# Count clone templates (must match number of clonable reference pages)
+ls templates/page.clone-*.json templates/*.clone-*.json 2>/dev/null | wc -l
+
+# Count reference screenshots (must be pages × 3 viewports)
+ls THEME_ROOT/.workflow/reference-screenshots/*.png | wc -l
+
+# Count clone screenshots (must match reference screenshot count)
+ls THEME_ROOT/.workflow/clone-screenshots/*.png | wc -l
+```
+
+If ANY count is wrong, go back and complete the missing work before proceeding.
+
+**Per-page verification:** For EVERY clone page, confirm visual parity at all 3 viewports. The count of visually verified pages must equal the count of clone templates. If any page was built but not visually verified, go back and verify it.
+
 ### Step 11: Deliverables Checklist
 
 **Objective:** Ensure all Phase 1 deliverables are complete.
 
-By the end of Phase 1, you should have:
+By the end of Phase 1, you MUST have ALL of the following (not some, ALL):
 
-- [ ] `THEME_ROOT/.workflow/reference-pages-catalog.md` — All reference pages documented
-- [ ] `THEME_ROOT/.workflow/reference-screenshots/` — All reference pages at 1440, 768, 390px
-- [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — Complete design tokens extracted
-- [ ] `THEME_ROOT/.workflow/component-inventory.md` — All components documented
-- [ ] `templates/page.clone-*.json` — Clone page templates created
-- [ ] `sections/clone-{prefix}*.liquid` — All clone sections built and styled
-- [ ] `THEME_ROOT/.workflow/clone-screenshots/` — Clone pages at all 3 viewports
-- [ ] All clone pages pass visual parity at all viewports
-- [ ] All code follows code-architecture skill conventions
+- [ ] `THEME_ROOT/.workflow/reference-pages-catalog.md` — EVERY reference page documented
+- [ ] `THEME_ROOT/.workflow/reference-screenshots/` — EVERY reference page at 1440, 768, 390px
+- [ ] `THEME_ROOT/.workflow/design-tokens-map.md` — ALL color, typography, spacing, border, shadow tokens
+- [ ] `THEME_ROOT/.workflow/component-inventory.md` — EVERY component documented
+- [ ] `templates/page.clone-*.json` — Clone templates for EVERY page in reference catalog
+- [ ] `sections/clone-{prefix}*.liquid` — ALL clone sections built and styled
+- [ ] `THEME_ROOT/.workflow/clone-screenshots/` — EVERY clone page at all 3 viewports
+- [ ] ALL clone pages pass visual parity at all viewports. Visual parity means: differences below the thresholds defined in `docs/workflows/skills/visual-comparison/SKILL.md` (< 0.5% at section level, < 1.0% at full page). If unsure, apply the most conservative threshold.
+- [ ] ALL code follows code-architecture skill conventions
 - [ ] Header CSS overrides complete and matching reference
 - [ ] Footer CSS overrides complete and matching reference
 - [ ] Header/footer screenshots at all 3 viewports
+
+**If you skipped any page because you judged it "redundant" or "covered by other clones" — go back and build it. The workflow requires ALL pages, not a representative sample.**
 
 ---
 
 ## Next Steps
 
-Once all deliverables are complete and all clone pages have visual parity with the reference, move to **Phase 2: Design System Extraction & Foundation**.
+Once ALL deliverables are complete and ALL clone pages have visual parity with the reference, move to **Phase 2: Design System Extraction & Foundation**.

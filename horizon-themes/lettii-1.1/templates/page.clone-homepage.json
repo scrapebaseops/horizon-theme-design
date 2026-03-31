@@ -1,0 +1,75 @@
+{
+  "sections": {
+    "hero": {
+      "type": "clone-let-hero",
+      "settings": {
+        "heading": "Email delivery that doesn't suck and won't vanish into the spam abyss",
+        "subheading": "Stop wondering if your transactional and marketing emails made it. Send at scale, hit inboxes, and skip the mystery."
+      }
+    },
+    "features": {
+      "type": "clone-let-features",
+      "settings": {
+        "heading": "Built by developers who were sick of broken email APIs",
+        "description": "We got tired of wrestling with clunky tools, so we built the email platform we always wanted — fast, clean, and actually works without swearing at your terminal."
+      },
+      "blocks": {
+        "feat-1": { "type": "feature", "settings": { "title": "Test Mode (aka Safe Chaos)", "description": "Blow things up without consequences. Simulate everything, send nothing. Perfect for testing, debugging, and not losing your job." } },
+        "feat-2": { "type": "feature", "settings": { "title": "Webhooks That Actually Work", "description": "We ping your server the second something happens — delivery, open, click, bounce. You'll know." } },
+        "feat-3": { "type": "feature", "settings": { "title": "Live Logs (Bring Popcorn)", "description": "Every request, every response, every oops — logged in real time. Less painful than tailing your server logs." } },
+        "feat-4": { "type": "feature", "settings": { "title": "Retry Logic That Babysits", "description": "Flaky internet? Broken SMTP? We've got auto-retries so you don't have to watch your queue like a hawk." } },
+        "feat-5": { "type": "feature", "settings": { "title": "Open & Click Tracking", "description": "Want to know who opened what and clicked where? Welcome to legally acceptable email surveillance." } },
+        "feat-6": { "type": "feature", "settings": { "title": "Markup Freedom", "description": "Markdown, MJML, raw HTML — whatever you write, we'll render it without crying over inline styles." } },
+        "feat-7": { "type": "feature", "settings": { "title": "Inbox Previews", "description": "Preview your masterpiece before it hits the inbox. Yes, even in Outlook. Especially in Outlook." } },
+        "feat-8": { "type": "feature", "settings": { "title": "Custom Domains", "description": "Send from your own domain and stop looking like a scammer." } }
+      },
+      "block_order": ["feat-1", "feat-2", "feat-3", "feat-4", "feat-5", "feat-6", "feat-7", "feat-8"]
+    },
+    "cta": {
+      "type": "clone-let-cta",
+      "settings": {
+        "heading": "Email, But Actually Good",
+        "description": "No setup rituals. No DNS sorcery. Just emails that send, land, and look damn good doing it. — Available now. Because why wait?",
+        "cta_text": "Get full access"
+      }
+    },
+    "testimonial": {
+      "type": "clone-let-testimonial",
+      "settings": {
+        "quote": "Sendstack's approach to email infrastructure is what convinced us to switch. The deliverability rates alone made it worth it — but the developer experience sealed the deal.",
+        "attribution": "Read the full story"
+      }
+    },
+    "faq": {
+      "type": "clone-let-faq",
+      "settings": {
+        "heading": "Frequently asked questions",
+        "description": "Answers to commonly asked questions about our platform"
+      },
+      "blocks": {
+        "faq-1": { "type": "question", "settings": { "question": "How do you make sure emails actually land?", "answer": "We don't believe in sending emails into the void. With clean IPs, smart routing, and obsessive deliverability practices, your emails show up where they're supposed to — not in spam purgatory." } },
+        "faq-2": { "type": "question", "settings": { "question": "Can I schedule emails to go out later?", "answer": "Absolutely. Queue them up for next week, next month, or when Mercury's in retrograde. We'll send them when you say so — no manual midnight sends required." } },
+        "faq-3": { "type": "question", "settings": { "question": "Do you support multiple environments?", "answer": "Yep. You can keep your test sends from leaking into the wild, and your production emails from hitting staging by mistake." } },
+        "faq-4": { "type": "question", "settings": { "question": "Is there a limit to how many emails I can send?", "answer": "Only if you're on a free plan. Otherwise, we scale with you — up to millions of emails a month." } },
+        "faq-5": { "type": "question", "settings": { "question": "Can I export my data if I decide to leave?", "answer": "Yes — and we won't guilt-trip you about it. Export everything with a click. Your data's not trapped in a walled garden." } }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5"]
+    },
+    "subscribe": {
+      "type": "clone-let-subscribe",
+      "settings": {
+        "heading": "Stay in the loop",
+        "description": "Get product updates, engineering insights, and the occasional meme. No spam, ever.",
+        "button_text": "Subscribe"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "features",
+    "cta",
+    "testimonial",
+    "faq",
+    "subscribe"
+  ]
+}

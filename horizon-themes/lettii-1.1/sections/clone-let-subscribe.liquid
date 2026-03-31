@@ -1,0 +1,74 @@
+{{ 'clone-let-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="clone-let-section clone-let-divider-top">
+  <div class="clone-let-wrapper clone-let-py-4">
+    <div class="clone-let-subscribe-box">
+      <h2 class="clone-let-display-sm clone-let-text-base-900 clone-let-text-balance">
+        {{ section.settings.heading | default: 'Email, But Actually Good' }}
+      </h2>
+      <p class="clone-let-text-base clone-let-text-base-500 clone-let-mt-2 clone-let-text-balance">
+        {{ section.settings.description | default: 'No setup rituals. No DNS sorcery. Just emails that send, land, and look damn good doing it.' }}
+      </p>
+
+      <form class="clone-let-max-w-md clone-let-mx-auto clone-let-mt-10 clone-let-space-y-4">
+        <div>
+          <label for="clone-email" class="clone-let-input-label">
+            {{ section.settings.label | default: 'Email Address' }}
+          </label>
+          <input
+            id="clone-email"
+            name="email"
+            type="email"
+            placeholder="{{ section.settings.placeholder | default: 'you@example.com' }}"
+            class="clone-let-input"
+          >
+        </div>
+        <button type="submit" class="clone-let-btn clone-let-btn--base clone-let-btn--accent">
+          {{ section.settings.button_text | default: 'Send Message' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Clone: Subscribe",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Email, But Actually Good"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Input label",
+      "default": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Send Message"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clone: Subscribe"
+    }
+  ]
+}
+{% endschema %}

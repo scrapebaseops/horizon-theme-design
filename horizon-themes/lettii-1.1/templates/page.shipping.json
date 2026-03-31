@@ -1,0 +1,145 @@
+{
+  "sections": {
+    "intro": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Shipping & Delivery</h1>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Everything you need to know about getting your Lettii lamp to your door.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["heading", "body"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 32
+      }
+    },
+    "shipping_table": {
+      "type": "section",
+      "blocks": {
+        "table": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Standard Shipping (Free over £50)</strong></p><p>Orders over £50: Free · Orders under £50: £3.95 · 2–4 business days · Royal Mail / Evri</p><p><strong>Express / Next Day</strong></p><p>£5.95 · Next working day (order by 2pm) · Royal Mail Tracked 24 / DPD</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["table"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 32
+      }
+    },
+    "free_shipping_callout": {
+      "type": "section",
+      "blocks": {
+        "callout": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Free UK shipping on all orders over £50.</h3><p>Most of our bundles and sets qualify for free shipping automatically. Single lamps start at £39 — add a second and you'll be well over the threshold.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["callout"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-3",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    },
+    "details": {
+      "type": "section",
+      "blocks": {
+        "content": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Dispatch</h3><p>All orders placed before 2pm on a business day are dispatched the same day. Orders placed after 2pm or on weekends ship the next business day.</p><h3>Tracking</h3><p>Every order includes tracking. You'll receive a shipping confirmation email with a tracking link once your order is dispatched. You can also check your order status in your account.</p><h3>UK Delivery Only</h3><p>We currently deliver to all UK mainland addresses. Scottish Highlands, Northern Ireland, and offshore islands may take an additional 1-2 business days.</p><p>International shipping is coming soon. Sign up for our newsletter in the footer to be first to know.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["content"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    },
+    "returns_link": {
+      "type": "clone-let-cta",
+      "settings": {
+        "heading": "Returns & Guarantee",
+        "description": "Every Lettii lamp comes with a 30-day money-back guarantee. Free return shipping, no questions asked, full refund within 5 business days.",
+        "cta_text": "Read our full returns policy in the FAQ",
+        "cta_url": "/pages/faq"
+      }
+    },
+    "contact_cta": {
+      "type": "clone-let-cta",
+      "settings": {
+        "heading": "Question about a delivery?",
+        "description": "Email us at hello@lettii.co.uk with your order number. We reply within 12 hours.",
+        "cta_text": "Contact Us",
+        "cta_url": "/pages/contact"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "shipping_table",
+    "free_shipping_callout",
+    "details",
+    "returns_link",
+    "contact_cta"
+  ]
+}

@@ -1,0 +1,122 @@
+<section class="let-collection-hero" style="{% if section.settings.background_color != blank %}background-color: {{ section.settings.background_color }};{% endif %}">
+  {% if section.settings.image != blank %}
+    <img
+      src="{{ section.settings.image | image_url: width: 1920 }}"
+      alt="{{ section.settings.image.alt | default: collection.title }}"
+      class="let-collection-hero__image"
+      width="1920"
+      height="auto"
+      loading="eager"
+    >
+    <div class="let-collection-hero__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  {% elsif collection.image %}
+    <img
+      src="{{ collection.image | image_url: width: 1920 }}"
+      alt="{{ collection.image.alt | default: collection.title }}"
+      class="let-collection-hero__image"
+      width="1920"
+      height="auto"
+      loading="eager"
+    >
+    <div class="let-collection-hero__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  {% endif %}
+  <div class="let-collection-hero__content let-wrapper">
+    <h1 class="let-display-lg let-text-white">
+      {{ section.settings.heading | default: collection.title }}
+    </h1>
+    {% if section.settings.description != blank or collection.description != blank %}
+      <p class="let-text-lg let-collection-hero__desc">
+        {{ section.settings.description | default: collection.description | strip_html | truncate: 200 }}
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .let-collection-hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 300px;
+    overflow: hidden;
+    background-color: var(--let-base-900);
+    border-radius: var(--let-radius-xl);
+    margin: var(--let-space-4) auto;
+    max-width: var(--let-max-width);
+  }
+  @media (min-width: 768px) {
+    .let-collection-hero { min-height: 400px; }
+  }
+  @media (min-width: 1536px) {
+    .let-collection-hero { max-width: var(--let-max-width-wide); }
+  }
+  .let-collection-hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .let-collection-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+  }
+  .let-collection-hero__content {
+    position: relative;
+    z-index: 1;
+    padding: var(--let-space-8);
+    border-left: none;
+    border-right: none;
+  }
+  .let-collection-hero__desc {
+    margin-top: var(--let-space-2);
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use collection title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "info": "Leave blank to use collection description"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Leave blank to use collection image. Recommended: 1920×600px"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fallback background color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Hero"
+    }
+  ]
+}
+{% endschema %}

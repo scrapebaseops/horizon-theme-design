@@ -1,0 +1,186 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>We wanted the glow. You know the one.</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>That warm light on every table in every restaurant you love. We couldn't find it for home. So we made it.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading"],
+      "settings": {
+        "media_type_1": "image",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "medium",
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000040",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "frustration": {
+      "type": "section",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Real candles drip wax on your table, burn out halfway through dinner, and you can't use them outside when the wind picks up. Wired lamps need a plug — which means cables across floors and no chance on the patio. Cheap LED alternatives look like they belong in a student flat, not on your dining table.</p><p>Meanwhile, every boutique hotel and neighbourhood restaurant has this beautiful, warm, wireless glow on every table. Why couldn't we have that at home?</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-primary--family)"
+          }
+        }
+      },
+      "block_order": ["text"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "lifestyle_break": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Lettii is the lamp you've seen on every boutique hotel table — redesigned, rechargeable, and finally yours.</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>That glow isn't magic. It's just good design: the right light temperature, the right diffusion, no cord in sight. The only thing keeping it in restaurants was a price tag north of £100 and a \"trade only\" minimum order.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            }
+          },
+          "block_order": ["heading", "body"]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "wide",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "values": {
+      "type": "clone-let-features",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "title": "12-hour battery", "description": "One charge lasts a full evening. Low brightness stretches even longer. USB-C, like your phone." } },
+        "f2": { "type": "feature", "settings": { "title": "IP54 waterproof", "description": "Rain, splashes, garden sprinklers. Take it outside without thinking twice." } },
+        "f3": { "type": "feature", "settings": { "title": "Touch to dim", "description": "Stepless dimming. Tap to turn on. Touch and hold to find your level. No app, no remote." } },
+        "f4": { "type": "feature", "settings": { "title": "Designed to be seen", "description": "Not a gadget. A lamp. Premium materials, warm light, the kind of design you'd choose even if it had a cord." } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": {
+        "heading": "What We Got Right",
+        "description": ""
+      }
+    },
+    "guarantee_text": {
+      "type": "section",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We don't think lighting should be complicated. One lamp. Every setting. Restaurant to bedside to garden party.</p><p>We're a small UK brand. We answer our own emails. We ship fast, we make returns painless, and we stand behind every lamp with a 30-day money-back guarantee.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["text"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 24
+      }
+    },
+    "guarantee_cta": {
+      "type": "clone-let-cta",
+      "settings": {
+        "heading": "30-day guarantee. No questions asked.",
+        "description": "Try Lettii in your space. If it doesn't change the room, send it back — free returns, full refund within 5 business days. We'd rather you tried it and returned it than never tried it at all.",
+        "cta_text": "Shop the Collection",
+        "cta_url": "/collections/all-lamps"
+      }
+    },
+    "newsletter": {
+      "type": "clone-let-subscribe",
+      "settings": {
+        "heading": "Stay in the glow.",
+        "description": "Styling ideas, new lamp drops, and the occasional offer — straight to your inbox. Plus 10% off your first order.",
+        "label": "Email Address",
+        "placeholder": "Your email address",
+        "button_text": "Subscribe"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "frustration",
+    "lifestyle_break",
+    "values",
+    "guarantee_text",
+    "guarantee_cta",
+    "newsletter"
+  ]
+}

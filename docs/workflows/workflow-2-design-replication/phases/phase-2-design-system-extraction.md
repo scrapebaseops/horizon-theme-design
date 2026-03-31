@@ -12,6 +12,12 @@ By the end of this phase, you will have:
 - A design system reference page showcasing all components
 - Clone pages refactored to use the design system (with maintained visual parity)
 
+### First Action: Generate Working Checklist
+
+**Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-2-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, you cannot proceed to Phase 3.
+
+The checklist must explicitly list: every token category (colors by palette, font families, font sizes, font weights, line heights, spacing values, border radii, shadows, transitions), every primitive component from the component inventory, the DS reference page with every component shown, header/footer CSS overrides, and clone page refactoring verification. Generate this BEFORE writing any CSS.
+
 ### Naming Convention
 
 All files and CSS classes created in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. Examples below use `{prefix}` as a placeholder — replace with your actual prefix (e.g., `lxn-`).
@@ -42,6 +48,8 @@ All files and CSS classes created in this phase use the project prefix from `THE
    - Only add new settings for tokens that Horizon doesn't already cover
    - If Horizon has a setting that's close but not exact (e.g., it has "Body font" but you need more granular control), extend rather than duplicate
    - Document which Horizon settings you're reusing vs. which are new additions
+
+   If Horizon has a setting that partially matches (e.g., 'Body Font' exists but you need additional body-text variants), use Horizon's setting as the base and add supplements. Document the mapping in `THEME_ROOT/.workflow/horizon-token-mapping.md` showing: | Reference Token | Horizon Setting | Action (reuse/supplement/new) |
 
    **Color Schemes vs. Flat Colors**
 
@@ -1540,12 +1548,33 @@ section.{prefix}section-large {
 - [ ] Design system reference page displays all components correctly
 - [ ] All clone pages have been refactored to use design system
 - [ ] All clone pages still match their reference screenshots at all 3 viewports
+- [ ] **Component count check:** Count components in `THEME_ROOT/.workflow/component-inventory.md`. Count CSS class blocks in `assets/{prefix}primitives.css`. Every inventory component must have corresponding CSS. If inventory has 38 components and CSS has 20, 18 are missing — go back and build them.
 - [ ] Code follows code-architecture skill (no CSS in wrong places)
 - [ ] Horizon section overrides are in place and working
 - [ ] Header CSS overrides match reference at all viewports
 - [ ] Footer CSS overrides match reference at all viewports
 - [ ] Header states work correctly (sticky, mobile nav, transparent)
 - [ ] Design system handoff brief created (`design-system-handoff.md`)
+
+---
+
+### COMPLETION GATE — Phase 2 (SELF-ENFORCING)
+
+**Before proceeding to Phase 3, verify ALL of the following. If any item is incomplete, go back and finish it. Do not ask for permission to skip — just do the work.**
+
+**Checklist file:** `THEME_ROOT/.workflow/checklists/phase-2-checklist.md` must exist and show all items as `[x]`.
+
+**Count checks:**
+- `snippets/{prefix}tokens.liquid` exists and contains CSS custom properties for colors, typography, spacing, borders, and shadows
+- `assets/{prefix}base.css` exists and contains typography, spacing, and layout utility styles
+- `assets/{prefix}primitives.css` exists and contains component styles (buttons, cards, forms, etc.)
+- `templates/page.design-system.json` exists and the DS reference page has at least one section per component category (typography, colors, buttons, cards, forms)
+- Every component listed in `THEME_ROOT/.workflow/component-inventory.md` has a corresponding class or rule in `{prefix}primitives.css`
+- Every clone page still renders correctly after refactoring — compare current screenshots against Phase 1 reference screenshots at all 3 viewports (1440px, 768px, 390px) with zero regressions
+- Clone page refactoring threshold: every clone page must still match the reference at all 3 viewports. Compare Phase 2 clone screenshots against Phase 1 reference screenshots. If ANY clone differs by more than 0.5% at section level, the refactoring broke something — fix before proceeding.
+- Design system handoff brief (`THEME_ROOT/.workflow/design-system-handoff.md`) exists and is under 3000 tokens
+
+**If ANY count is wrong or ANY checklist item is not `[x]`, loop back and complete the missing work. No exceptions.**
 
 ---
 

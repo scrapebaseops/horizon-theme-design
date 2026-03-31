@@ -10,6 +10,12 @@ By the end of this phase, you will have:
 - Complete documentation of the completed design system
 - A final report for stakeholders
 
+### First Action: Generate Working Checklist
+
+**Before doing ANY other work in this phase**, create the file `THEME_ROOT/.workflow/checklists/phase-5-checklist.md`. Populate it with every deliverable and verification item from this document, each as an unchecked `- [ ]` item. As you complete each item during the phase, update it to `- [x]`. This checklist is consumed by the Completion Gate at the end of this phase — if it does not exist or has unchecked items, the workflow is not complete.
+
+Checklist must separately cover: (1) Screenshot audit — every page at 3 viewports, (2) Clone regression — clone pages still match reference, (3) Code quality — theme-check, CSS validation, Liquid formatting, (4) Interactive states — every button, link, input, accordion, modal tested, (5) Responsive — all breakpoints verified, (6) Accessibility — keyboard nav, focus states, alt text, (7) Documentation — final report, deviations, store-readiness.
+
 ### Naming Convention
 
 All file references in this phase use the project prefix from `THEME_ROOT/.workflow/prefix.txt`. Replace `{prefix}` with your actual prefix (e.g., `lxn-`).
@@ -24,9 +30,11 @@ All file references in this phase use the project prefix from `THEME_ROOT/.workf
 
 **Instructions:**
 
-1. Create directory: `THEME_ROOT/.workflow/final-screenshots/`
+1. First, create `THEME_ROOT/.workflow/qa-page-list.md` enumerating EVERY page in the theme: list every `templates/*.json`, every page route, every clone page. Use this list to drive screenshot capture. Screenshot count must equal: pages_in_list × 3 viewports.
 
-2. For EVERY page in the theme (real pages, clone pages, design system), capture:
+2. Create directory: `THEME_ROOT/.workflow/final-screenshots/`
+
+3. For EVERY page in the theme (real pages, clone pages, design system), capture:
    - 1440px viewport screenshot
    - 768px viewport screenshot
    - 390px viewport screenshot
@@ -1138,7 +1146,24 @@ Create `THEME_ROOT/.workflow/executive-summary.md`:
 
 ---
 
-## Workflow 2 Complete ✅
+### COMPLETION GATE — Phase 5 (SELF-ENFORCING)
+
+**This is the final phase. Before declaring Workflow 2 complete, verify ALL of the following. If any item is incomplete, go back and finish it. Do not ask for permission to skip — just do the work.**
+
+**Checklist file:** `THEME_ROOT/.workflow/checklists/phase-5-checklist.md` must exist and show all items as `[x]`.
+
+**Count checks:**
+- Every page (real pages, clone pages, design system page) has been screenshotted at all 3 viewports (1440px, 768px, 390px) — count the pages in `THEME_ROOT/.workflow/final-screenshots/index.md` and confirm 3 screenshots per page exist. Count source: `ls THEME_ROOT/templates/*.json | wc -l` for template count. Add DS reference page and any clone pages. Final screenshot count must equal: total_pages × 3.
+- `shopify theme check` passes with zero errors — warnings are acceptable per ENTRY.md Rule 4, but errors are not
+- All interactive states have been verified (hover, focus, active, disabled, loading, error, success) — the QA documents (`qa-real-pages.md`, `qa-design-system.md`) must confirm each state was tested. Interactive state verification must be documented in `THEME_ROOT/.workflow/qa-interactive-states.md` with a table: | Element | Page | Default | Hover | Focus | Active | Disabled | Notes |. Every row must have evidence (screenshot or 'N/A' if state doesn't apply). Empty cells are incomplete.
+- `THEME_ROOT/.workflow/final-report.md` exists and contains the complete project summary, deliverables checklist, and quality metrics
+- `THEME_ROOT/.workflow/deviations.md` exists — it either lists every intentional deviation from the reference design with justification, or explicitly states "None"
+
+**If ANY count is wrong or ANY checklist item is not `[x]`, loop back and complete the missing work. No exceptions.**
+
+---
+
+## Workflow 2 Complete
 
 The design replication workflow is complete. The theme now has:
 - A professional, consistent design system

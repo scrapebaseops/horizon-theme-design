@@ -1,0 +1,47 @@
+{{ 'clone-let-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="clone-let-section clone-let-divider-top">
+  <div class="clone-let-wrapper clone-let-py-12 clone-let-lg-py-24">
+    <div class="clone-let-testimonial">
+      <blockquote class="clone-let-display-md clone-let-text-black clone-let-text-balance">
+        &ldquo;{{ section.settings.quote | default: "Sendstack's approach to email infrastructure is what convinced us to switch. The deliverability rates alone made it worth it — but the developer experience sealed the deal." }}&rdquo;
+      </blockquote>
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="clone-let-testimonial__cta">
+        {{ section.settings.attribution | default: 'Read the full story' }}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Clone: Testimonial",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote text",
+      "default": "Sendstack's approach to email infrastructure is what convinced us to switch. The deliverability rates alone made it worth it — but the developer experience sealed the deal."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution / CTA text",
+      "default": "Read the full story"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clone: Testimonial"
+    }
+  ]
+}
+{% endschema %}

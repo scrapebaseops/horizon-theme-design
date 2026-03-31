@@ -1,0 +1,6 @@
+{
+  "theme_url": "http://127.0.0.1:9292",
+  "reference_url": "http://localhost:4321",
+  "started_at": "2026-03-30T16:24:00Z",
+  "notes": "Theme: Shopify dev server (lettii-1.1). Reference: Astro dev server (brightlight_v6_A). Reference requires Node 22 via nvm."
+}

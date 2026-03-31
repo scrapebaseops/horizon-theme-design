@@ -1,0 +1,228 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>The detail that changes everything.</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "h1",
+            "font": "var(--font-primary--family)"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Warm, wireless light on every table. No candle mess, no cables, no compromise on the day that matters most.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte",
+            "padding-block-end": 16
+          }
+        },
+        "cta": {
+          "type": "button",
+          "settings": {
+            "label": "Plan Your Event",
+            "link": "#event-enquiry",
+            "style_class": "button"
+          }
+        }
+      },
+      "block_order": ["heading", "subheading", "cta"],
+      "settings": {
+        "media_type_1": "image",
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "full-width",
+        "section_height": "medium",
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000040",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "narrative": {
+      "type": "section",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Picture this. Every table at your reception glowing with warm, golden light. No wax dripping onto the linen. No cables snaking under chairs. No worrying about the wind if you're outside.</p><p>Your guests sit down and the first thing they notice — before the flowers, before the place settings — is the light. That's the difference a Lettii lamp makes.</p><p>Cordless. Rechargeable. Waterproof. And beautiful enough that people will ask where they're from.</p>",
+            "width": "100%",
+            "max_width": "narrow",
+            "alignment": "center",
+            "type_preset": "rte"
+          }
+        }
+      },
+      "block_order": ["text"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "benefits": {
+      "type": "clone-let-features",
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "title": "No fire risk", "description": "Venues with candle restrictions? Sorted. Marquees, barns, historic buildings — no open flame, no issues." } },
+        "f2": { "type": "feature", "settings": { "title": "Weather-ready", "description": "IP54 rated. If your ceremony moves outdoors, your lamps work anywhere the tables go." } },
+        "f3": { "type": "feature", "settings": { "title": "One charge, one event", "description": "12 hours per charge. Set them up in the morning, they'll still be glowing when the last guest leaves." } }
+      },
+      "block_order": ["f1", "f2", "f3"],
+      "settings": {
+        "heading": "Why event planners love Lettii",
+        "description": ""
+      }
+    },
+    "entertainer_pack": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center"
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Hosting a smaller event?</h2>",
+                "type_preset": "h3"
+              }
+            },
+            "body": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Our Entertainer Pack includes 4 lamps at a bundled price — perfect for an intimate dinner party, a birthday celebration, or a small garden gathering.</p>",
+                "type_preset": "rte",
+                "max_width": "narrow"
+              }
+            },
+            "cta": {
+              "type": "button",
+              "settings": {
+                "label": "Shop the Entertainer Pack",
+                "link": "/products/entertainer-pack",
+                "style_class": "button"
+              }
+            }
+          },
+          "block_order": ["heading", "body", "cta"]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "medium",
+        "media_height": "auto",
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "enquiry_form": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Let's plan your event lighting</h2>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "h3"
+          }
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tell us about your event and we'll come back with a recommendation and quote within 24 hours.</p>",
+            "width": "100%",
+            "alignment": "center",
+            "type_preset": "rte",
+            "padding-block-end": 16
+          }
+        },
+        "form": {
+          "type": "contact-form",
+          "settings": {
+            "width": "custom",
+            "custom_width": 50,
+            "width_mobile": "custom",
+            "custom_width_mobile": 100,
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
+              "settings": {
+                "label": "Send Enquiry",
+                "style_class": "button",
+                "width": "fit-content"
+              }
+            }
+          },
+          "block_order": []
+        }
+      },
+      "block_order": ["heading", "subheading", "form"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "faq": {
+      "type": "clone-let-faq",
+      "blocks": {
+        "q1": { "type": "question", "settings": { "question": "Can I rent lamps instead of buying?", "answer": "We don't currently offer rental. For one-off events, many customers buy and then resell or gift the lamps after — they're a genuinely useful item to keep." } },
+        "q2": { "type": "question", "settings": { "question": "How far in advance should I order?", "answer": "We recommend 3-4 weeks before your event for standard orders. If you need 50+ lamps, 6 weeks gives us plenty of time. Rush orders may be possible — mention your date in the enquiry." } },
+        "q3": { "type": "question", "settings": { "question": "Can I test one before ordering for my full event?", "answer": "Yes. Order a single lamp from our shop at retail price to test. If you then place a bulk order, we'll credit the cost." } },
+        "q4": { "type": "question", "settings": { "question": "Do you offer event styling advice?", "answer": "We can recommend quantities and suggest which designs suit your venue and theme. Tell us about your event in the enquiry form and we'll include suggestions." } },
+        "q5": { "type": "question", "settings": { "question": "What if I order too many?", "answer": "Our 30-day money-back guarantee applies. Return any unused lamps in their original packaging for a full refund." } },
+        "q6": { "type": "question", "settings": { "question": "Do the lamps come pre-charged?", "answer": "They arrive with a partial charge — enough to test. For your event, we recommend a full charge the day before (4-5 hours from flat to full)." } }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6"],
+      "settings": {
+        "heading": "Common event questions",
+        "description": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "narrative",
+    "benefits",
+    "entertainer_pack",
+    "enquiry_form",
+    "faq"
+  ]
+}

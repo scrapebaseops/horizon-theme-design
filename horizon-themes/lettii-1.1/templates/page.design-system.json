@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "ds-showcase": {
+      "type": "let-ds-showcase",
+      "settings": {}
+    }
+  },
+  "order": ["ds-showcase"]
+}

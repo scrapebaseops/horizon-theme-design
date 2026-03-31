@@ -1,0 +1,56 @@
+{{ 'clone-let-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="clone-let-section clone-let-divider-top">
+  <div class="clone-let-wrapper clone-let-py-4">
+    <div class="clone-let-cta-banner">
+      <div class="clone-let-text-balance">
+        <h2 class="clone-let-display-lg clone-let-text-white">
+          {{ section.settings.heading | default: 'Email, But Actually Good' }}
+        </h2>
+        <p class="clone-let-text-lg clone-let-text-white-80 clone-let-mt-2">
+          {{ section.settings.description | default: 'No setup rituals. No DNS sorcery. Just emails that send, land, and look damn good doing it. — Available now. Because why wait?' }}
+        </p>
+      </div>
+      <div style="display: flex; justify-content: center; margin-top: 32px;">
+        <a href="{{ section.settings.cta_url | default: '#' }}" class="clone-let-btn clone-let-btn--base clone-let-btn--muted">
+          {{ section.settings.cta_text | default: 'Get full access' }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Clone: CTA Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Email, But Actually Good"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get full access"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clone: CTA Banner"
+    }
+  ]
+}
+{% endschema %}
